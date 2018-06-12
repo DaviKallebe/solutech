@@ -1,8 +1,10 @@
 import Sequelize from 'sequelize';
 import { pbkdf2, pbkdf2Sync, randomBytes } from 'crypto';
 import { sequelize } from "../mysql";
+import { UserPlace } from "../models/UserPlace"
+import { UserProfile } from "../models/UserProfile";
 
-export const User = sequelize.define('user', {
+export const User = sequelize.define('usuario', {
     id_user: {
         type: Sequelize.BIGINT(10).UNSIGNED,
         autoIncrement: true,
@@ -13,6 +15,10 @@ export const User = sequelize.define('user', {
         type: Sequelize.STRING(20),
         unique: true
     },
+    email: {
+        type: Sequelize.STRING(30),
+        unique: true
+    },
     password: {
         type: Sequelize.STRING(512)
     },
@@ -21,6 +27,10 @@ export const User = sequelize.define('user', {
     },
     facebook_id: {
         type: Sequelize.BIGINT.UNSIGNED,
+        unique: true
+    },
+    facebook_email: {
+        type: Sequelize.STRING(30),
         unique: true
     },
     account_creation: {
@@ -51,9 +61,23 @@ export const User = sequelize.define('user', {
 });
 
 User.prototype.checkPassword = function (password) {
-    return this.password === pbkdf2Sync(password, this.salt, 1, 256, 'sha512').toString('hex');
+    var pass = new Buffer(password, 'binary');
+    return this.password === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
 }
 
-User.sync({force: true}).then(() => {
+User.sync({force: false}).then(() => {
     //Table created
+    User.hasOne(UserPlace, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    UserPlace.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+
+    UserPlace.sync({force: false}).then(() => {
+        //Table created
+    });
+    //
+    User.hasOne(UserProfile, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    UserProfile.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+
+    UserProfile.sync({force: false}).then(() => {
+        //Table created
+    });
 });

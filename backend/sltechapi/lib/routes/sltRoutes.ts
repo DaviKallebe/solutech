@@ -1,8 +1,10 @@
-import { Request, Response } from "express";
-import { UserController } from "../controllers/User"
+import { Request, Response } from 'express';
+import { UserController } from "../controllers/User";
+import { UserPlaceController } from "../controllers/UserPlace";
 
 export class Routes {
     public userControler: UserController = new UserController();
+    public userPlaceController: UserPlaceController = new UserPlaceController();
 
     public routes(app): void {
         app.route('/')
@@ -18,5 +20,22 @@ export class Routes {
 
         app.route('/createnormaluser')
             .post(this.userControler.createUserNormal)
+
+        //login facebook
+        app.route('/loginfacebook')
+            .get(this.userControler.loginFacebook);
+
+        //place
+        app.route('/place/:id_user')
+            .get(this.userPlaceController.getPlace);
+
+        app.route('/newplace')
+            .post(this.userPlaceController.setPlace);
+
+        app.route('/updateplace/:id_user')
+            .put(this.userPlaceController.updatePlace);
+
+        app.route('/existplace/:id_user')
+            .get(this.userPlaceController.existPlace);
     }
 }

@@ -2,9 +2,7 @@
 const sequelize_1 = require("sequelize");
 const crypto_1 = require("crypto");
 const mysql_1 = require("../mysql");
-const UserPlace_1 = require("../models/UserPlace");
-const UserProfile_1 = require("../models/UserProfile");
-exports.User = mysql_1.sequelize.define('usuario', {
+exports.User = mysql_1.sequelize.define('user', {
     id_user: {
         type: sequelize_1.default.BIGINT(10).UNSIGNED,
         autoIncrement: true,
@@ -61,17 +59,8 @@ exports.User = mysql_1.sequelize.define('usuario', {
     }
 });
 exports.User.prototype.checkPassword = function (password) {
-    var pass = new Buffer(password, 'binary');
-    return this.password === crypto_1.pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
+    return this.password === crypto_1.pbkdf2Sync(password, this.salt, 1, 256, 'sha512').toString('hex');
 };
 exports.User.sync({ force: false }).then(() => {
-    exports.User.hasOne(UserPlace_1.UserPlace, { foreignKeyConstraint: true, foreignKey: 'id_user' });
-    UserPlace_1.UserPlace.belongsTo(exports.User, { foreignKeyConstraint: true, foreignKey: 'id_user' });
-    UserPlace_1.UserPlace.sync({ force: false }).then(() => {
-    });
-    exports.User.hasOne(UserProfile_1.UserProfile, { foreignKeyConstraint: true, foreignKey: 'id_user' });
-    UserProfile_1.UserProfile.belongsTo(exports.User, { foreignKeyConstraint: true, foreignKey: 'id_user' });
-    UserProfile_1.UserProfile.sync({ force: false }).then(() => {
-    });
 });
-//# sourceMappingURL=User.js.map
+//# sourceMappingURL=Usuario.js.map

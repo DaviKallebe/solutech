@@ -1,5 +1,5 @@
 import {config} from "../config";
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export let sequelize = new Sequelize("", config.development.username, config.development.password, {
     dialect: "mysql"
