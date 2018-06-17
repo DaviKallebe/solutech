@@ -2,13 +2,29 @@ import Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 import { User } from "./User";
 
-export const UserProfile = sequelize.define('usuario_perfil', {
-    nome: {
+export const UserProfile = sequelize.define('perfil', {
+    primeiroNome: {
         type: Sequelize.STRING(20),
         allowNull: false
     },
-    idade: {
-        type: Sequelize.INTEGER.UNSIGNED
+    ultimoNome: {
+        type: Sequelize.STRING(20),
+        allowNull: false
+    },
+    documento: {
+        type: Sequelize.STRING(20),
+        allowNull: false
+    },
+    orgaoEmissor: {
+        type: Sequelize.STRING(20),
+        allowNull: false
+    },
+    cpf: {
+        type: Sequelize.STRING(15),
+        allowNull: false
+    },
+    nascimento: {
+        type: Sequelize.DATE
     },
     telefone: {
         type: Sequelize.STRING(15)

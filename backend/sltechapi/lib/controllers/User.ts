@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 export class UserController {
     public loginNormal(req: Request, res: Response) {
         User.findOne({
-            attributes: ['email', 'id_user', 'salt', 'password'],
+            attributes: ['email', 'id_user', 'salt', 'pword'],
             where: {
                 email: req.query.email
             },
@@ -41,7 +41,10 @@ export class UserController {
                     email: user.email,
                     id_user: user.id_user,
                     nome: profile.nome,
-                    idade: profile.idade,
+                    nascimento: profile.nascimento,
+                    documento: profile.documento,
+                    orgaoEmissor: profile.orgaoEmissor,
+                    cpf: profile.orgaoEmissor,
                     telefone: profile.telefone,
                     descricao: profile.descricao,
                     imagem: profile.imagem
@@ -51,19 +54,19 @@ export class UserController {
                 res.status(500).send(err);
             });
         }, err => {
-            res.send(err);
+            res.status(500).send(err);
         });
     }
 
     public loginFacebook(req: Request, res: Response) {
         User.findOne({
             where: {
-                facebook_id: req.query.facebook_id
+                facebookId: req.query.facebookId
             }
         }).then(user => {
-            if (user) res.json(user);
+            if (user) res.status(200).json(user);
         }, err => {
-            res.send(err);
+            res.status(500).send(err);
         });
     }
 }

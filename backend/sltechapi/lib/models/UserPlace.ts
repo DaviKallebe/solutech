@@ -2,31 +2,27 @@ import Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 import { User } from "./User";
 
-export const UserPlace = sequelize.define('usuario_lugar', {
+export const UserPlace = sequelize.define('logradouro', {
     id_lugar: {
         type: Sequelize.BIGINT(10).UNSIGNED,
         autoIncrement: true,
 		allowNull: false,
 		primaryKey: true
     },
-    descricao: {
-        type: Sequelize.TEXT('tiny'),
-        allowsNull: false
-    },
     cep: {
         type: Sequelize.STRING(10)
     },
-    logradouro: {
-        type: Sequelize.STRING(40)
+    rua: {
+        type: Sequelize.STRING(30)
     },
     estado: {
         type: Sequelize.STRING(20)
     },
     cidade: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING(30)
     },
     bairro: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(15)
     },
     numero: {
         type: Sequelize.INTEGER.UNSIGNED
@@ -34,10 +30,20 @@ export const UserPlace = sequelize.define('usuario_lugar', {
     complemento: {
         type: Sequelize.STRING(15)
     },
+    logradouro: {
+        type: Sequelize.STRING(40)
+    },
     latitude: {
         type: Sequelize.DECIMAL(10, 8)
     },
     longitude: {
         type: Sequelize.DECIMAL(11, 8)
+    },
+    descricao: {
+        type: Sequelize.TEXT("tiny"),
+        allowsNull: false
+    },
+    imagem: {
+        type: Sequelize.TEXT("tiny"),
     }
 });

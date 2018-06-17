@@ -3,6 +3,8 @@ import { pbkdf2, pbkdf2Sync, randomBytes } from 'crypto';
 import { sequelize } from "../mysql";
 import { UserPlace } from "../models/UserPlace"
 import { UserProfile } from "../models/UserProfile";
+import { UserHost } from "../models/UserHost";
+import { Pet } from "../models/Pet";
 
 export const User = sequelize.define('usuario', {
     id_user: {
@@ -19,18 +21,14 @@ export const User = sequelize.define('usuario', {
         type: Sequelize.STRING(30),
         unique: true
     },
-    password: {
+    pword: {
         type: Sequelize.STRING(512)
     },
     salt: {
         type: Sequelize.STRING(512)
     },
-    facebook_id: {
+    facebookId: {
         type: Sequelize.BIGINT.UNSIGNED,
-        unique: true
-    },
-    facebook_email: {
-        type: Sequelize.STRING(30),
         unique: true
     },
     account_creation: {
@@ -39,13 +37,13 @@ export const User = sequelize.define('usuario', {
 }, {
     hooks: {
         afterCreate: (user, options) => {
-            if (user.password && user.password != ""){
+            if (user.pword && user.pword != ""){
                 randomBytes(256, (err, buf) => {
                     if (err) throw err;
 
-                    pbkdf2(user.password, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+                    pbkdf2(user.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
                         if (err) throw err;
-                        user.password = derivedKey.toString('hex');
+                        user.pword = derivedKey.toString('hex');
                         user.account_creation = 1;
                         user.salt = buf.toString('hex');
                         user.save();
@@ -62,7 +60,7 @@ export const User = sequelize.define('usuario', {
 
 User.prototype.checkPassword = function (password) {
     var pass = new Buffer(password, 'binary');
-    return this.password === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
+    return this.pword === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
 }
 
 User.sync({force: false}).then(() => {
@@ -78,6 +76,20 @@ User.sync({force: false}).then(() => {
     UserProfile.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
 
     UserProfile.sync({force: false}).then(() => {
+        //Table created
+    });
+    //
+    User.hasOne(UserHost, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    UserHost.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+
+    UserHost.sync({force: false}).then(() => {
+        //Table created
+    });
+    //
+    User.hasMany(Pet, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    Pet.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+
+    Pet.sync({force: false}).then(() => {
         //Table created
     });
 });
