@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_user"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".Cadastro">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@android:drawable/ic_menu_myplaces" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:text="Escolher Imagem de Perfil"
+    />
+
+    <EditText
+        android:id="@+id/editMail"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="172dp"
+        android:enabled="true"
+        android:hint="Email"
+        android:singleLine="true"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editPass1"
+        android:layout_width="167dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/editMail"
+        android:editable="true"
+        android:enabled="true"
+        android:hint="Senha"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_alignLeft="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editPass2"
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editMail"
+        android:layout_below="@+id/editMail"
+        android:editable="true"
+        android:enabled="true"
+        android:hint="Confirme a Senha"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:textSize="14sp" />
+
+
+    <EditText
+        android:id="@+id/editNome2"
+        android:layout_width="167dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView"
+        android:layout_below="@+id/editPass1"
+        android:editable="true"
+        android:enabled="true"
+        android:hint="Primeiro Nome"
+        android:singleLine="true"
+        android:textSize="14sp"
+        android:layout_alignRight="@+id/textView" />
+
+
+    <EditText
+        android:id="@+id/editNome"
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editMail"
+        android:layout_centerVertical="true"
+        android:editable="true"
+        android:enabled="true"
+        android:hint="Último Nome"
+        android:singleLine="true"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/btnCadastro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:onClick="cadastrarr"
+        android:text="Cadastrar" />
+
+    <EditText
+        android:id="@+id/editNascimento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView"
+        android:layout_below="@+id/editNome"
+        android:ems="10"
+        android:hint="Data de Nascimento"
+        android:inputType="date"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editTelefone"
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editMail"
+        android:layout_below="@+id/editNome"
+        android:ems="10"
+        android:hint="Telefone"
+        android:inputType="phone"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/editDescricao"
+        android:layout_width="354dp"
+        android:layout_height="64dp"
+        android:layout_below="@+id/editNascimento"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Sobre Você"
+        android:inputType="textMultiLine"
+        android:textSize="14sp" />
+
+
+
+</RelativeLayout>
