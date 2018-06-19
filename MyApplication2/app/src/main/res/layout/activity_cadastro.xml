@@ -74,12 +74,13 @@
         android:layout_width="164dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editPass1"
+        android:layout_alignStart="@+id/editMail"
         android:editable="true"
         android:enabled="true"
         android:hint="Primeiro Nome"
         android:singleLine="true"
         android:textSize="14sp"
-    />
+        android:layout_alignLeft="@+id/editMail" />
 
 
     <EditText
@@ -100,7 +101,7 @@
         android:id="@+id/editNascimento"
         android:layout_width="164dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView"
+        android:layout_alignStart="@+id/editNome2"
         android:layout_below="@+id/editNome"
         android:ems="10"
         android:hint="Data de Nascimento"
