@@ -141,6 +141,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="68dp"
+        android:background="@android:color/transparent"
         android:onClick="salvar"
         android:text="SALVAR ALTERAÇÕES"
         app:layout_constraintBottom_toBottomOf="parent"

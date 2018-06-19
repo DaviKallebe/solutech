@@ -96,6 +96,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="68dp"
+        android:background="@android:color/transparent"
         android:onClick="editarPerfil"
         android:text="EDITAR INFORMAÇÕES"
         app:layout_constraintBottom_toBottomOf="parent"

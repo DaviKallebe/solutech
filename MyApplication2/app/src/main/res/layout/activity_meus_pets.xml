@@ -23,6 +23,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
+        android:background="@android:color/transparent"
         android:onClick="cadastrar"
         android:text="Cadastrar Novo"
         app:layout_constraintBottom_toBottomOf="parent"
