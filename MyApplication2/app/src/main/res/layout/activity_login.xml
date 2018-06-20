@@ -77,4 +77,14 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="18dp" />
+
 </RelativeLayout>

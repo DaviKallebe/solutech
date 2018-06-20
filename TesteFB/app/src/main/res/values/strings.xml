@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">TesteFB</string>
-    <string name="action_settings">Settings</string>
-    <string name="facebook_app_id">224438155013790</string>
-    <string name="fb_login_protocol_scheme">fb224438155013790</string>
-    <string name="cancel_login">Falhou</string>
-    <string name="title_activity_login_ok">LoginOK</string>
-</resources>
