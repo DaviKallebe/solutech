@@ -37,5 +37,8 @@ export class Routes {
 
         app.route('/existplace/:id_user')
             .get(this.userPlaceController.existPlace);
+
+        app.route('/user/list_all')
+            .get(this.userControler.listUsers);
     }
 }

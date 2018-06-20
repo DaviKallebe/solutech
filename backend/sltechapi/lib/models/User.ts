@@ -18,7 +18,7 @@ export const User = sequelize.define('usuario', {
         unique: true
     },
     email: {
-        type: Sequelize.STRING(30),
+        type: Sequelize.STRING(255),
         unique: true
     },
     pword: {
@@ -59,6 +59,7 @@ export const User = sequelize.define('usuario', {
 });
 
 User.prototype.checkPassword = function (password) {
+    console.log('password ' + password)
     var pass = new Buffer(password, 'binary');
     return this.pword === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
 }

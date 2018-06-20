@@ -13,16 +13,16 @@ export const UserPlace = sequelize.define('logradouro', {
         type: Sequelize.STRING(10)
     },
     rua: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(50)
     },
     estado: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING(25)
     },
     cidade: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(40)
     },
     bairro: {
-        type: Sequelize.STRING(15)
+        type: Sequelize.STRING(25)
     },
     numero: {
         type: Sequelize.INTEGER.UNSIGNED
@@ -31,7 +31,7 @@ export const UserPlace = sequelize.define('logradouro', {
         type: Sequelize.STRING(15)
     },
     logradouro: {
-        type: Sequelize.STRING(40)
+        type: Sequelize.STRING(100)
     },
     latitude: {
         type: Sequelize.DECIMAL(10, 8)

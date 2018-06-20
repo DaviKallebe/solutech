@@ -8,31 +8,35 @@ export const UserProfile = sequelize.define('perfil', {
         allowNull: false
     },
     ultimoNome: {
-        type: Sequelize.STRING(20),
+        type: Sequelize.STRING(40),
         allowNull: false
     },
     documento: {
         type: Sequelize.STRING(20),
-        allowNull: false
+        allowNull: true
     },
     orgaoEmissor: {
         type: Sequelize.STRING(20),
-        allowNull: false
+        allowNull: true
     },
     cpf: {
         type: Sequelize.STRING(15),
-        allowNull: false
+        allowNull: true
     },
     nascimento: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: true
     },
     telefone: {
-        type: Sequelize.STRING(15)
+        type: Sequelize.STRING(15),
+        allowNull: true
     },
     descricao: {
-        type: Sequelize.TEXT('tiny')
+        type: Sequelize.TEXT('tiny'),
+        allowNull: true
     },
     imagem: {
-        type: Sequelize.STRING(255)
+        type: Sequelize.STRING(255),
+        allowNull: true
     }
 });

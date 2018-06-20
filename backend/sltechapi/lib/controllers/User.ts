@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import { UserProfile } from "../models/UserProfile"
+import { UserPlace } from "../models/UserPlace"
 import { Request, Response } from 'express';
 
 export class UserController {
@@ -11,18 +12,22 @@ export class UserController {
             },
             include: [{
                 model: UserProfile,
-                attributes: ['nome', 'idade', 'telefone', 'descricao', 'imagem']
+                attributes: ['primeiroNome', 'ultimoNome', 'telefone']
             }]
         }).then(user => {
-            if (user && user.checkPassword(req.query.password)){
+            if (user && user.checkPassword(req.query.pword)){
                 let result = {
                     email: user.email,
                     id_user: user.id_user,
-                    nome: user.usuario_perfil.nome,
-                    idade: user.usuario_perfil.idade,
-                    telefone: user.usuario_perfil.telefone,
-                    descricao: user.usuario_perfil.descricao,
-                    imagem: user.usuario_perfil.imagem
+                    primeiroNome: user.perfil.primeiroNome,
+                    ultimoNome: user.perfil.ultimoNome,
+                    telefone: user.perfil.telefone/*,
+                    nascimento: user.perfil.nascimento,
+                    documento: user.perfil.documento,
+                    orgaoEmissor: user.perfil.orgaoEmissor,
+                    cpf: user.perfil.orgaoEmissor,
+                    descricao: user.perfil.descricao,
+                    imagem: user.perfil.imagem*/
                 }
 
                 res.status(200).json(result);
@@ -40,7 +45,8 @@ export class UserController {
                 let result = {
                     email: user.email,
                     id_user: user.id_user,
-                    nome: profile.nome,
+                    primeiroNome: profile.primeiroNome,
+                    ultimoNome: profile.ultimoNome,
                     nascimento: profile.nascimento,
                     documento: profile.documento,
                     orgaoEmissor: profile.orgaoEmissor,
@@ -65,6 +71,15 @@ export class UserController {
             }
         }).then(user => {
             if (user) res.status(200).json(user);
+        }, err => {
+            res.status(500).send(err);
+        });
+    }
+
+    public listUsers(req: Request, res: Response) {
+        UserProfile.findAll({
+        }).then(profile => {
+            res.status(200).send(profile);
         }, err => {
             res.status(500).send(err);
         });
