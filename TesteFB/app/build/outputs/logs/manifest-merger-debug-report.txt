@@ -1,0 +1,311 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+MERGED from [com.android.support:design:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\design-28.0.0-alpha3.aar\4ca4e05abeb5e2c21607f79cd62f1027\AndroidManifest.xml:17:1-24:12
+MERGED from [com.facebook.android:facebook-android-sdk:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-android-sdk-4.34.0.aar\5030eb485ff735d51aad67d09bd47e9d\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-login:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-login-4.34.0.aar\71a681d4de8a49de7307b73d75f7b01a\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-share:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-share-4.34.0.aar\823695b8fb3de228d90c52efe6196901\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:21:1-37:12
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0-alpha3.aar\fc68d3bc6eb9df51f2260fee73999482\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\9eaae915c422ff90767ab2a9af0d9285\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:transition:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-alpha3.aar\c6d2544389a5d1e7f163aa4ea2d8a884\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-alpha3.aar\b3414be0d90e6ce98372460462540a69\AndroidManifest.xml:17:1-22:12
+MERGED from [com.facebook.android:facebook-places:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-places-4.34.0.aar\9936c20f17a923f956651927659dc81b\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-applinks:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-applinks-4.34.0.aar\844875a6b05f3caf86ee5414c2a53aac\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-messenger:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-messenger-4.34.0.aar\3888eea0920266dd7fd2a5ea6e346621\AndroidManifest.xml:21:1-31:12
+MERGED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:21:1-35:12
+MERGED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:21:1-53:12
+MERGED from [com.android.support:customtabs:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\customtabs-27.0.2.aar\0dbfaa4847b7338c6e095d15f23e0fc6\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-v4:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-v4-27.0.2.aar\06a3a9c8a28c9f6de054b3001b6ab536\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.0.2.aar\4510e592a85244fce0dae3809a71c084\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0-alpha3.aar\32583cb8e5154013ff3b19e77dbea5dc\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0-alpha3.aar\811ef47986b98dbe114922e6d2af50b5\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0-alpha3.aar\19c1be59c40116672280f5958f9371e7\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0-alpha3.aar\3136fc1fd24edbdb4654e3592b73d041\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0-alpha3.aar\95ee11193527254d859d3b2fc51bc99e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\loader-28.0.0-alpha3.aar\54045bbd98a8f0a3d04a44e940077c40\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0-alpha3.aar\1714740f8c91cfbcf42c3ab52d0ebaea\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\print-28.0.0-alpha3.aar\4db6eaea7d65f4626e854f494f8163fb\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\c09b1a3cf070ae0c7a573c45e0d14c09\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\9d7fa11403496a492f14462dba50daa8\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0-alpha3.aar\28e4842226906e2d8d80623f236706f6\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0-alpha3.aar\15004c8db6e374fc746915d4bf471972\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0-alpha3.aar\07e54aecb764dcd64770965fe1175930\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0-alpha3.aar\b4bee185d4dbce12a5bd9ce0be3a6e23\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0-alpha3.aar\0e8f08454aa5931d266b2aaf5b291982\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\customview-28.0.0-alpha3.aar\cc9d3473b5d3170eb1685c49b0265803\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0-alpha3.aar\24e0a6ceea022eff9665ae6456070f84\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0-alpha3.aar\5b1fe76afc894039dbd48ee2fabdcf13\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0-alpha3.aar\aef432c47c92ca6bafb75232594008c2\AndroidManifest.xml:17:1-24:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\6b980199755ac2f9f521f4f09b600bd1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\049d26f1f445df744858d992d655878e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0-alpha3.aar\5fda8fde83d7efa3ab7013c0ad26219f\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-alpha3.aar\756d1992e3b474e5777aaba13633142e\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0-alpha3.aar\313d5341ccb4d1e4a8273b7e00cdbc8f\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0-alpha3.aar\96e9efde9ca16e2008e432435f41f474\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+	package
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:3:5-40
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:1-51:12
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:5:5-67
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:5:22-64
+application
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:7:5-49:19
+MERGED from [com.android.support:design:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\design-28.0.0-alpha3.aar\4ca4e05abeb5e2c21607f79cd62f1027\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\design-28.0.0-alpha3.aar\4ca4e05abeb5e2c21607f79cd62f1027\AndroidManifest.xml:22:5-20
+MERGED from [com.facebook.android:facebook-android-sdk:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-android-sdk-4.34.0.aar\5030eb485ff735d51aad67d09bd47e9d\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-android-sdk:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-android-sdk-4.34.0.aar\5030eb485ff735d51aad67d09bd47e9d\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-login:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-login-4.34.0.aar\71a681d4de8a49de7307b73d75f7b01a\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-login:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-login-4.34.0.aar\71a681d4de8a49de7307b73d75f7b01a\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-share:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-share-4.34.0.aar\823695b8fb3de228d90c52efe6196901\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-share:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-share-4.34.0.aar\823695b8fb3de228d90c52efe6196901\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:28:5-35:19
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:28:5-35:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\9eaae915c422ff90767ab2a9af0d9285\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\9eaae915c422ff90767ab2a9af0d9285\AndroidManifest.xml:9:5-20
+MERGED from [com.facebook.android:facebook-places:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-places-4.34.0.aar\9936c20f17a923f956651927659dc81b\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-places:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-places-4.34.0.aar\9936c20f17a923f956651927659dc81b\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-applinks:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-applinks-4.34.0.aar\844875a6b05f3caf86ee5414c2a53aac\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-applinks:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-applinks-4.34.0.aar\844875a6b05f3caf86ee5414c2a53aac\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-messenger:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-messenger-4.34.0.aar\3888eea0920266dd7fd2a5ea6e346621\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-messenger:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-messenger-4.34.0.aar\3888eea0920266dd7fd2a5ea6e346621\AndroidManifest.xml:28:5-29:19
+MERGED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:28:5-33:19
+MERGED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:28:5-33:19
+MERGED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:28:5-51:19
+MERGED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:28:5-51:19
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0-alpha3.aar\aef432c47c92ca6bafb75232594008c2\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0-alpha3.aar\aef432c47c92ca6bafb75232594008c2\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0-alpha3.aar\313d5341ccb4d1e4a8273b7e00cdbc8f\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0-alpha3.aar\313d5341ccb4d1e4a8273b7e00cdbc8f\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0-alpha3.aar\aef432c47c92ca6bafb75232594008c2\AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:12:9-35
+	android:label
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:10:9-41
+	android:roundIcon
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:11:9-54
+	android:icon
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:9:9-43
+	android:allowBackup
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:8:9-35
+	android:theme
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:13:9-40
+activity#com.example.bruno.testefb.MainActivity
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:14:9-23:20
+	android:label
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:16:13-45
+	android:theme
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:17:13-56
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:15:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:18:13-22:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:19:17-69
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:19:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:21:17-77
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:21:27-74
+meta-data#com.facebook.sdk.ApplicationId
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:25:9-27:55
+	android:value
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:27:13-52
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:26:13-58
+activity#com.facebook.FacebookActivity
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:29:9-32:48
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:29:9-32:66
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:29:9-32:66
+	android:label
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:32:13-45
+	android:configChanges
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:31:13-96
+	android:theme
+		ADDED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:32:13-63
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:30:13-57
+activity#com.facebook.CustomTabActivity
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:33:9-44:20
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:34:9-67
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:34:9-67
+	android:exported
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:35:13-36
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:34:13-58
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:@string/fb_login_protocol_scheme
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:36:13-43:29
+action#android.intent.action.VIEW
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:37:17-69
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:37:25-66
+category#android.intent.category.DEFAULT
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:39:17-76
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:39:27-73
+category#android.intent.category.BROWSABLE
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:40:17-78
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:40:27-75
+data
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:42:17-75
+	android:scheme
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:42:23-72
+activity#com.example.bruno.testefb.LoginOK
+ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:45:9-48:68
+	android:label
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:47:13-60
+	android:theme
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:48:13-56
+	android:name
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml:46:13-36
+uses-sdk
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+MERGED from [com.android.support:design:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\design-28.0.0-alpha3.aar\4ca4e05abeb5e2c21607f79cd62f1027\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\design-28.0.0-alpha3.aar\4ca4e05abeb5e2c21607f79cd62f1027\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.android:facebook-android-sdk:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-android-sdk-4.34.0.aar\5030eb485ff735d51aad67d09bd47e9d\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-android-sdk:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-android-sdk-4.34.0.aar\5030eb485ff735d51aad67d09bd47e9d\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-login:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-login-4.34.0.aar\71a681d4de8a49de7307b73d75f7b01a\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-login:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-login-4.34.0.aar\71a681d4de8a49de7307b73d75f7b01a\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-share:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-share-4.34.0.aar\823695b8fb3de228d90c52efe6196901\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-share:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-share-4.34.0.aar\823695b8fb3de228d90c52efe6196901\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0-alpha3.aar\fc68d3bc6eb9df51f2260fee73999482\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\appcompat-v7-28.0.0-alpha3.aar\fc68d3bc6eb9df51f2260fee73999482\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\9eaae915c422ff90767ab2a9af0d9285\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.1.2.aar\9eaae915c422ff90767ab2a9af0d9285\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:transition:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-alpha3.aar\c6d2544389a5d1e7f163aa4ea2d8a884\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\transition-28.0.0-alpha3.aar\c6d2544389a5d1e7f163aa4ea2d8a884\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-alpha3.aar\b3414be0d90e6ce98372460462540a69\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-28.0.0-alpha3.aar\b3414be0d90e6ce98372460462540a69\AndroidManifest.xml:20:5-44
+MERGED from [com.facebook.android:facebook-places:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-places-4.34.0.aar\9936c20f17a923f956651927659dc81b\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-places:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-places-4.34.0.aar\9936c20f17a923f956651927659dc81b\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-applinks:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-applinks-4.34.0.aar\844875a6b05f3caf86ee5414c2a53aac\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-applinks:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-applinks-4.34.0.aar\844875a6b05f3caf86ee5414c2a53aac\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-messenger:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-messenger-4.34.0.aar\3888eea0920266dd7fd2a5ea6e346621\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-messenger:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-messenger-4.34.0.aar\3888eea0920266dd7fd2a5ea6e346621\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:24:5-26:41
+MERGED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:customtabs:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\customtabs-27.0.2.aar\0dbfaa4847b7338c6e095d15f23e0fc6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customtabs:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\customtabs-27.0.2.aar\0dbfaa4847b7338c6e095d15f23e0fc6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-v4-27.0.2.aar\06a3a9c8a28c9f6de054b3001b6ab536\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-v4-27.0.2.aar\06a3a9c8a28c9f6de054b3001b6ab536\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.0.2.aar\4510e592a85244fce0dae3809a71c084\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.0.2] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-media-compat-27.0.2.aar\4510e592a85244fce0dae3809a71c084\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0-alpha3.aar\32583cb8e5154013ff3b19e77dbea5dc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-28.0.0-alpha3.aar\32583cb8e5154013ff3b19e77dbea5dc\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0-alpha3.aar\811ef47986b98dbe114922e6d2af50b5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-fragment-28.0.0-alpha3.aar\811ef47986b98dbe114922e6d2af50b5\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0-alpha3.aar\19c1be59c40116672280f5958f9371e7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-core-ui-28.0.0-alpha3.aar\19c1be59c40116672280f5958f9371e7\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0-alpha3.aar\3136fc1fd24edbdb4654e3592b73d041\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-core-utils-28.0.0-alpha3.aar\3136fc1fd24edbdb4654e3592b73d041\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0-alpha3.aar\95ee11193527254d859d3b2fc51bc99e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\documentfile-28.0.0-alpha3.aar\95ee11193527254d859d3b2fc51bc99e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\loader-28.0.0-alpha3.aar\54045bbd98a8f0a3d04a44e940077c40\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\loader-28.0.0-alpha3.aar\54045bbd98a8f0a3d04a44e940077c40\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0-alpha3.aar\1714740f8c91cfbcf42c3ab52d0ebaea\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-28.0.0-alpha3.aar\1714740f8c91cfbcf42c3ab52d0ebaea\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\print-28.0.0-alpha3.aar\4db6eaea7d65f4626e854f494f8163fb\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\print-28.0.0-alpha3.aar\4db6eaea7d65f4626e854f494f8163fb\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\c09b1a3cf070ae0c7a573c45e0d14c09\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\viewmodel-1.1.1.aar\c09b1a3cf070ae0c7a573c45e0d14c09\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\9d7fa11403496a492f14462dba50daa8\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\livedata-core-1.1.1.aar\9d7fa11403496a492f14462dba50daa8\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0-alpha3.aar\28e4842226906e2d8d80623f236706f6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-28.0.0-alpha3.aar\28e4842226906e2d8d80623f236706f6\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0-alpha3.aar\15004c8db6e374fc746915d4bf471972\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\viewpager-28.0.0-alpha3.aar\15004c8db6e374fc746915d4bf471972\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0-alpha3.aar\07e54aecb764dcd64770965fe1175930\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-28.0.0-alpha3.aar\07e54aecb764dcd64770965fe1175930\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0-alpha3.aar\b4bee185d4dbce12a5bd9ce0be3a6e23\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\drawerlayout-28.0.0-alpha3.aar\b4bee185d4dbce12a5bd9ce0be3a6e23\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0-alpha3.aar\0e8f08454aa5931d266b2aaf5b291982\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-28.0.0-alpha3.aar\0e8f08454aa5931d266b2aaf5b291982\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\customview-28.0.0-alpha3.aar\cc9d3473b5d3170eb1685c49b0265803\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\customview-28.0.0-alpha3.aar\cc9d3473b5d3170eb1685c49b0265803\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0-alpha3.aar\24e0a6ceea022eff9665ae6456070f84\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-28.0.0-alpha3.aar\24e0a6ceea022eff9665ae6456070f84\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0-alpha3.aar\5b1fe76afc894039dbd48ee2fabdcf13\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-28.0.0-alpha3.aar\5b1fe76afc894039dbd48ee2fabdcf13\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0-alpha3.aar\aef432c47c92ca6bafb75232594008c2\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\support-compat-28.0.0-alpha3.aar\aef432c47c92ca6bafb75232594008c2\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\6b980199755ac2f9f521f4f09b600bd1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\6b980199755ac2f9f521f4f09b600bd1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\049d26f1f445df744858d992d655878e\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\runtime-1.1.1.aar\049d26f1f445df744858d992d655878e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0-alpha3.aar\5fda8fde83d7efa3ab7013c0ad26219f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\cursoradapter-28.0.0-alpha3.aar\5fda8fde83d7efa3ab7013c0ad26219f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-alpha3.aar\756d1992e3b474e5777aaba13633142e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\cardview-v7-28.0.0-alpha3.aar\756d1992e3b474e5777aaba13633142e\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0-alpha3.aar\313d5341ccb4d1e4a8273b7e00cdbc8f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\versionedparcelable-28.0.0-alpha3.aar\313d5341ccb4d1e4a8273b7e00cdbc8f\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0-alpha3.aar\96e9efde9ca16e2008e432435f41f474\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\interpolator-28.0.0-alpha3.aar\96e9efde9ca16e2008e432435f41f474\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\bruno\Documents\GitHub\solutech\TesteFB\app\src\main\AndroidManifest.xml
+activity#com.facebook.CustomTabMainActivity
+ADDED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:33:9-71
+	android:name
+		ADDED from [com.facebook.android:facebook-common:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-common-4.34.0.aar\0c72804d8d0a984e779a051baf3a5e0d\AndroidManifest.xml:33:19-68
+provider#com.facebook.marketing.internal.MarketingInitProvider
+ADDED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:29:9-32:40
+	android:authorities
+		ADDED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:31:13-73
+	android:exported
+		ADDED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.facebook.android:facebook-marketing:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-marketing-4.34.0.aar\5c58152698589f936240398aafca2b54\AndroidManifest.xml:30:13-81
+provider#com.facebook.internal.FacebookInitProvider
+ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:39:9-42:40
+	android:authorities
+		ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:41:13-72
+	android:exported
+		ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:42:13-37
+	android:name
+		ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:40:13-70
+receiver#com.facebook.CurrentAccessTokenExpirationBroadcastReceiver
+ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:44:9-50:20
+	android:exported
+		ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:46:13-37
+	android:name
+		ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:45:13-86
+intent-filter#action:name:com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED
+ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:47:13-49:29
+action#com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED
+ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:48:17-95
+	android:name
+		ADDED from [com.facebook.android:facebook-core:4.34.0] C:\Users\bruno\.gradle\caches\transforms-1\files-1.1\facebook-core-4.34.0.aar\2cddc621981b88ff4b4e6e2c78aa9269\AndroidManifest.xml:48:25-92
