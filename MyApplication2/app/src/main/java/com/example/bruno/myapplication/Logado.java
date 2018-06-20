@@ -1,43 +1,108 @@
 package com.example.bruno.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.bruno.myapplication.retrofit.RetrofitConfig;
+import com.example.bruno.myapplication.retrofit.Usuario;
 
-public class Logado extends AppCompatActivity {
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
+public class Logado extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logado);
 
+        Toolbar toolbar = findViewById(R.id.logado_toolbar);
+        setSupportActionBar(toolbar);
         //
         Intent it = this.getIntent();
 
-        //Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
-        //setSupportActionBar(myToolbar);
+        ListView listView = findViewById(R.id.listViewGeral);
+        listView.setOnItemClickListener(this);
 
+        Call<List<Usuario>> call = new RetrofitConfig().getUsuarioService().listUsers();
+        call.enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                if (response.code() == 200) {
+                    ListView listViewGeral = findViewById(R.id.listViewGeral);
+                    listViewGeral.setAdapter(new CustomAdapter(response.body()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+                Log.d("ERROU", t.getMessage());
+                Snackbar.make(findViewById(R.id.activity_novo_usuario), "Não foi possível realizar o cadastro!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
-    public void verPerfil(View view){
-        Intent intent = new Intent(this, Perfil.class);
-        Intent it = this.getIntent();
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ListView listView = (ListView) parent;
+        Usuario user = (Usuario)listView.getAdapter().getItem(position);
 
-        intent.putExtra("email", it.getStringExtra("email"));
-        intent.putExtra("nome", it.getStringExtra("nome"));
-        intent.putExtra("idade", it.getIntExtra("idade", 0));
-        intent.putExtra("telefone", it.getStringExtra("telefone"));
-        intent.putExtra("descricao", it.getStringExtra("descricao"));
-        intent.putExtra("id_user", it.getIntExtra("id_user", 0));
+        //verPerfil(view, (Usuario)listView.getItemAtPosition(position));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void verPerfil(View view, Usuario user){
+        Intent intent = new Intent(this, Perfil.class);
+
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("primeiroNome", user.getPrimeiroNome());
+        intent.putExtra("ultimoNome", user.getUltimoNome());
+        intent.putExtra("nome", user.getFullName());
+        intent.putExtra("nascimento", user.getNascimento());
+        intent.putExtra("telefone", user.getTelefone());
+        intent.putExtra("descricao", user.getDescricao());
+        intent.putExtra("id_user", user.getId_user());
 
         startActivity(intent);
     }
@@ -53,55 +118,72 @@ public class Logado extends AppCompatActivity {
         System.exit(0);
     }
 
+    static class ViewHolder {
+        ImageView imageView;
+        TextView textViewNome;
+        TextView textViewDesc;
+        TextView textViewBairro;
+        TextView textViewPontos;
+        TextView textViewComent;
+
+        ViewHolder(View view) {
+            imageView = view.findViewById(R.id.imageViewH);
+            textViewNome = view.findViewById(R.id.textViewNomeH);
+            textViewDesc = view.findViewById(R.id.textViewDescricaoH);
+            //textViewBairro = view.findViewById(R.id.textViewBairro);
+            //textViewPontos = view.findViewById(R.id.textViewPontos);
+            //textViewComent = view.findViewById(R.id.textViewComent);
+        }
+    }
+
     class CustomAdapter extends BaseAdapter {
+
+        private List<Usuario> usuarios;
+
+        public CustomAdapter(List<Usuario> usuarios) {
+            this.usuarios = usuarios;
+        }
 
         @Override
         //numero de pets(?)
         public int getCount() {
-            return 0;
+            return this.usuarios.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return this.usuarios.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return this.usuarios.get(position).getId_user();
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            view = getLayoutInflater().inflate(R.layout.customlayouthosp,null);
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewHolder viewHolder;
+            Usuario user = usuarios.get(position);
 
-            //carregar imagem
-            ImageView imageView = (ImageView)view.findViewById(R.id.imageViewH);
-            //imageView.setImageResource(imagem);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.customlayouthosp, parent, false);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            /*
+            LayoutInflater inflater = (LayoutInflater)   mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+            View view = inflater.inflate(R.layout.customlayouthosp, parent, false);*/
 
-            //carregar nome
-            TextView textViewNome = (TextView)view.findViewById(R.id.textViewNomeH);
-            //textViewNome.setText(nome);
+            //viewHolder.imageView.setImageResource(imagem);
+            viewHolder.textViewNome.setText(user.getFullName());
+            viewHolder.textViewDesc.setText(user.getDescricao());
+            //viewHolder.textViewBairro.setText(user.get);
+            //viewHolder.textViewPontos.setText(pontos);
+            //viewHolder.textViewComent.setText(coment);
 
-            //carregar descricao
-            TextView textViewDesc = (TextView)view.findViewById(R.id.textViewDescricaoH);
-            //textViewDesc.setText(desc);
-
-            //carregar bairro
-            TextView textViewBairro = (TextView)view.findViewById(R.id.textViewBairro);
-            //textViewBairro.setText(bairro);
-
-            //carregar pontos
-            TextView textViewPontos = (TextView)view.findViewById(R.id.textViewPontos);
-            //textViewPontos.setText(pontos);
-
-            //carregar comentario
-            TextView textViewComent = (TextView)view.findViewById(R.id.textViewComent);
-            //textViewComent.setText(coment);
-
-
-            return view;
+            return convertView;
         }
     }
-
 }

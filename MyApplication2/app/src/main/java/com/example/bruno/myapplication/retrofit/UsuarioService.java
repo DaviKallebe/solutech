@@ -1,5 +1,7 @@
 package com.example.bruno.myapplication.retrofit;
 
+import java.util.List;
+
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -13,7 +15,9 @@ public interface UsuarioService {
         Call<Usuario> doNormalLogin(@Query("email") String email,
                                     @Query("pword") String password);
 
-
         @POST("/createnormaluser")
         Call<Usuario> createNewUser(@Body RequestBody object);
+
+        @GET("/user/list_all")
+        Call<List<Usuario>> listUsers();
 }

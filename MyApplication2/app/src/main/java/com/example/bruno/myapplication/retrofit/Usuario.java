@@ -1,7 +1,10 @@
 package com.example.bruno.myapplication.retrofit;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties({"id", "createdAt", "updatedAt"})
 public class Usuario {
 
     Integer id_user;
@@ -102,5 +105,9 @@ public class Usuario {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getFullName() {
+        return primeiroNome + ' ' + ultimoNome;
     }
 }

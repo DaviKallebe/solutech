@@ -2,86 +2,86 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageViewH"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        app:srcCompat="@mipmap/ic_launcher_foreground"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:shape="ring"
+        app:srcCompat="@drawable/mob_user_175" />
 
     <TextView
-        android:id="@+id/textViewNomeH"
-        android:layout_width="276dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/imageViewH"
-        android:layout_marginEnd="28dp"
-        android:text="Nome"
-        android:textSize="24sp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="28dp" />
-
-    <TextView
-        android:id="@+id/textViewDescricaoH"
-        android:layout_width="276dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textViewNomeH"
-        android:layout_alignLeft="@+id/textViewNomeH"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignStart="@+id/textViewNomeH"
-        android:layout_below="@+id/textViewNomeH"
-        android:layout_marginBottom="-33dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:text="Descricao"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/textViewBairro"
-        android:layout_width="276dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
+        android:id="@+id/textViewImageLike"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/imageViewH"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:layout_toEndOf="@+id/imageViewH"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:drawableLeft="@drawable/heart"
+        android:drawableStart="@drawable/heart"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:drawablePadding="5dp"
+        android:text="0"
+        android:maxLines="1"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textViewImageDislike"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@+id/imageViewH"
+        android:layout_toRightOf="@+id/textViewImageLike"
+        android:layout_toEndOf="@+id/textViewImageLike"
+        android:drawableLeft="@drawable/sad"
+        android:drawableStart="@drawable/sad"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:drawablePadding="5dp"
+        android:text="0"
+        android:maxLines="1"
+        android:textSize="18sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_toRightOf="@+id/imageViewH"
-        android:text="Bairro"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textViewPontos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewBairro"
         android:layout_toEndOf="@+id/imageViewH"
-        android:text="Pontuação: 0"
-        android:textSize="16sp"
-        android:layout_toRightOf="@+id/imageViewH" />
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp" >
 
-    <TextView
-        android:id="@+id/textViewComent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textViewNomeH"
-        android:layout_alignLeft="@+id/imageViewH"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignStart="@+id/imageViewH"
-        android:layout_below="@+id/textViewPontos"
-        android:layout_marginBottom="-94dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
-        android:maxLines="2"
-        android:textSize="20dp"
-        android:text="UltimoComentario" />
+        <TextView
+            android:id="@+id/textViewNomeH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:text="Nome"
+            android:maxLines="1"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/textViewDescricaoH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewNomeH"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:text="Descricao"
+            android:textSize="12sp"
+            android:textStyle="italic"/>
+    </RelativeLayout>
+
 </RelativeLayout>
