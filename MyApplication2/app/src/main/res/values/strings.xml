@@ -5,9 +5,11 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Senha (opcional)</string>
+    <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Entre ou registre-se</string>
     <string name="action_sign_in_short">Registrar</string>
+    <string name="prompt_repassword">Confirme a senha</string>
+    <string name="action_sign_up">Não tem conta? Registre-se</string>
     <string name="error_invalid_email">Email inválido</string>
     <string name="error_invalid_password">A senha muito curta</string>
     <string name="error_incorrect_password">Senha incorreta</string>
@@ -15,4 +17,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Strings related to  usuario -->
+    <string name="activity_cadastro_usuario">Cadastro</string>
+    <string name="prompt_phone">Número (92) 00000-0000</string>
+    <string name="prompt_first_name">Primeiro nome</string>
+    <string name="prompt_last_name">Ultimo nome</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

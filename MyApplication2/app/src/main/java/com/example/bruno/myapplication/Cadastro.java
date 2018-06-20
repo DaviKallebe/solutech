@@ -73,8 +73,8 @@ public class Cadastro extends AppCompatActivity {
 
                     Intent intent = new Intent(Cadastro.this, Logado.class);
                     intent.putExtra("email", user.getEmail());
-                    intent.putExtra("nome", user.getNome());
-                    intent.putExtra("idade", user.getIdade());
+                    //intent.putExtra("nome", user.getNome());
+                    //intent.putExtra("idade", user.getIdade());
                     intent.putExtra("telefone", user.getTelefone());
                     intent.putExtra("descricao", user.getDescricao());
                     intent.putExtra("id_user", user.getId_user());

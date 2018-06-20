@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,11 +21,8 @@ public class Logado extends AppCompatActivity {
         //
         Intent it = this.getIntent();
 
-        TextView labelNome = findViewById(R.id.labelNome);
-        labelNome.setText(String.format("Bem vindo %s!", it.getStringExtra("nome")));
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
-        setSupportActionBar(myToolbar);
+        //Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar2);
+        //setSupportActionBar(myToolbar);
 
     }
 
@@ -73,7 +71,7 @@ public class Logado extends AppCompatActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup parent) {
-            view = getLayoutInflater().inflate(R.layout.customlayoutHosp,null);
+            view = getLayoutInflater().inflate(R.layout.customlayouthosp,null);
 
             //carregar imagem
             ImageView imageView = (ImageView)view.findViewById(R.id.imageViewH);

@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -8,55 +7,74 @@
     android:background="#ffffffff">
 
     <ImageView
-        android:id="@+id/imageViewlogin"
-        android:layout_width="368dp"
-        android:layout_height="290dp"
+        android:id="@+id/imageLogo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:alpha="1"
-        android:src="@mipmap/ic_launcher_foreground"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher_foreground" />
 
     <EditText
         android:id="@+id/editMail"
         android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/imageViewlogin"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imageLogo"
         android:layout_centerHorizontal="true"
-        android:hint="Email"
+        android:layout_marginTop="45dp"
+        android:hint="@string/prompt_email"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:nextFocusForward="@+id/editPass"
+        android:singleLine="true"
+        android:inputType="textEmailAddress"
+        android:drawableLeft="@drawable/ic_text_icon_email" />
 
     <EditText
         android:id="@+id/editPass"
         android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
+        android:layout_height="50dp"
         android:layout_below="@+id/editMail"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="Senha"
+        android:hint="@string/prompt_password"
         android:inputType="textPassword"
         android:singleLine="true"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:drawableLeft="@drawable/ic_text_icon_password" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textSignup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button2"
+        android:layout_marginBottom="50dp"
         android:clickable="true"
+        android:focusable="true"
         android:onClick="cadastrar"
-        android:text="Não tem conta? Registre-se"
+        android:text="@string/action_sign_up"
         android:textColor="@color/colorPrimaryDark"
         android:visibility="visible" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/textSignup"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/editPass"
+        android:layout_marginBottom="10dp"
         android:onClick="entrar"
+        android:radius="50dp"
         android:text="Login!" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

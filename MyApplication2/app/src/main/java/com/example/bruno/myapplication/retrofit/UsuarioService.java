@@ -11,7 +11,7 @@ public interface UsuarioService {
 
         @GET("/login")
         Call<Usuario> doNormalLogin(@Query("email") String email,
-                                    @Query("password") String password);
+                                    @Query("pword") String password);
 
 
         @POST("/createnormaluser")

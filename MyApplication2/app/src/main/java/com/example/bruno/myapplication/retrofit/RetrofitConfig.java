@@ -8,7 +8,7 @@ public class RetrofitConfig {
     private final Retrofit retrofit;
 
     public RetrofitConfig() {
-        this.retrofit = new Retrofit.Builder().baseUrl("http://192.168.43.5:3000/")
+        this.retrofit = new Retrofit.Builder().baseUrl("http://192.168.1.10:3000/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }

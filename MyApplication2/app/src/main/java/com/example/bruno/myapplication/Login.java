@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
@@ -21,12 +24,18 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        EditText mail = findViewById(R.id.editMail);
+        mail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
     }
 
     public void entrar(View view){
         EditText mail = findViewById(R.id.editMail);
         EditText pass = findViewById(R.id.editPass);
+
+        //
         final int viewId = view.getId();
+        final ProgressBar mProgressBar = findViewById(R.id.progressBar);
 
         if (mail.getText().toString().equals("") || pass.getText().toString().equals("")) {
             Snackbar.make(view, "Não deixe os campos vazios!", Snackbar.LENGTH_LONG)
@@ -38,6 +47,11 @@ public class Login extends AppCompatActivity {
         Call<Usuario> call = new RetrofitConfig().getUsuarioService().doNormalLogin(
                 mail.getText().toString(), pass.getText().toString());
 
+        mProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -47,8 +61,8 @@ public class Login extends AppCompatActivity {
 
                     Intent intent = new Intent(Login.this, Logado.class);
                     intent.putExtra("email", user.getEmail());
-                    intent.putExtra("nome", user.getNome());
-                    intent.putExtra("idade", user.getIdade());
+                    intent.putExtra("primeiroNome", user.getPrimeiroNome());
+                    intent.putExtra("ultimoNOme", user.getUltimoNome());
                     intent.putExtra("telefone", user.getTelefone());
                     intent.putExtra("descricao", user.getDescricao());
                     intent.putExtra("id_user", user.getId_user());
@@ -60,19 +74,26 @@ public class Login extends AppCompatActivity {
                     Snackbar.make(view, "Email ou senha não encontrados!", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
+
+                mProgressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 View view = findViewById(viewId);
-                Snackbar.make(view, "Email ou senha não encontrados.", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Erro, verifique sua coxenão.", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                mProgressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });
     }
 
     public void cadastrar(View view){
-        Intent intent = new Intent(this, Cadastro.class);
+
+        Intent intent = new Intent(this, NovoUsuarioActivity.class);
         startActivity(intent);
     }
 
