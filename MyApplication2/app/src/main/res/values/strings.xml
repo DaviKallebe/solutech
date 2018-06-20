@@ -24,6 +24,10 @@
     <string name="prompt_first_name">Primeiro nome</string>
     <string name="prompt_last_name">Ultimo nome</string>
 
+    <!-- Strings related to facebook login -->
+    <string name="facebook_app_id">678714429187142</string>
+    <string name="fb_login_protocol_scheme">fb678714429187142</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
