@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,15 +95,15 @@ public class NovoUsuarioPasso2 extends Fragment implements View.OnClickListener 
             final String phoneText = editPhone.getText().toString();
             final String firstName = editFirstName.getText().toString();
             final String lastName = editLastName.getText().toString();
-            /*
+
             if (phoneText.equals("") || firstName.equals("") || lastName.equals("")) {
                 Snackbar.make(view, "Os campos são obrigatórios!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 return;
             }
-            mListener.NovoUsuarioPasso2SaveToActivity(phoneText, firstName, lastName);*/
-            mListener.NovoUsuarioPasso2SaveToActivity("000000000", "OMEGA", "LUL");
+            mListener.NovoUsuarioPasso2SaveToActivity(phoneText, firstName, lastName);
+            //mListener.NovoUsuarioPasso2SaveToActivity("000000000", "OMEGA", "LUL");
 
         }
     }

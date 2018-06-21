@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewH"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -13,8 +13,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
-        android:shape="ring"
-        app:srcCompat="@drawable/mob_user_175" />
+        android:src="@drawable/mob_user_175"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp" />
 
     <TextView
         android:id="@+id/textViewImageLike"

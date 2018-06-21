@@ -1,11 +1,13 @@
 package com.example.bruno.myapplication;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +39,7 @@ public class Logado extends AppCompatActivity implements AdapterView.OnItemClick
 
         Toolbar toolbar = findViewById(R.id.logado_toolbar);
         setSupportActionBar(toolbar);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         //
         Intent it = this.getIntent();
 
@@ -55,7 +58,6 @@ public class Logado extends AppCompatActivity implements AdapterView.OnItemClick
 
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
-                Log.d("ERROU", t.getMessage());
                 Snackbar.make(findViewById(R.id.activity_novo_usuario), "Não foi possível realizar o cadastro!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -66,6 +68,14 @@ public class Logado extends AppCompatActivity implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ListView listView = (ListView) parent;
         Usuario user = (Usuario)listView.getAdapter().getItem(position);
+        Intent intent = new Intent(Logado.this, UsuarioDetalheActivity.class);
+        intent.putExtra("nome", user.getFullName());
+        intent.putExtra("id_user", user.getId_user());
+        intent.putExtra("telefone", user.getTelefone());
+        intent.putExtra("descricao", user.getDescricao());
+        intent.putExtra("primeiroNome", user.getPrimeiroNome());
+        intent.putExtra("ultimoNome", user.getUltimoNome());
+        startActivity(intent);
 
         //verPerfil(view, (Usuario)listView.getItemAtPosition(position));
     }
@@ -74,7 +84,19 @@ public class Logado extends AppCompatActivity implements AdapterView.OnItemClick
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) Logado.this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(Logado.this.getComponentName()));
+        }
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -85,7 +107,11 @@ public class Logado extends AppCompatActivity implements AdapterView.OnItemClick
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_perfil) {
+            return true;
+        }
+        else
+        if (id == R.id.action_search) {
             return true;
         }
 
@@ -122,17 +148,11 @@ public class Logado extends AppCompatActivity implements AdapterView.OnItemClick
         ImageView imageView;
         TextView textViewNome;
         TextView textViewDesc;
-        TextView textViewBairro;
-        TextView textViewPontos;
-        TextView textViewComent;
 
         ViewHolder(View view) {
             imageView = view.findViewById(R.id.imageViewH);
             textViewNome = view.findViewById(R.id.textViewNomeH);
-            textViewDesc = view.findViewById(R.id.textViewDescricaoH);
-            //textViewBairro = view.findViewById(R.id.textViewBairro);
-            //textViewPontos = view.findViewById(R.id.textViewPontos);
-            //textViewComent = view.findViewById(R.id.textViewComent);
+            textViewDesc = view.findViewById(R.id.textViewDescricaoH);;
         }
     }
 

@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UsuarioService {
@@ -20,4 +21,7 @@ public interface UsuarioService {
 
         @GET("/user/list_all")
         Call<List<Usuario>> listUsers();
+
+        @GET("/user/get_comments/{id_user}")
+        Call<List<Comentario>> getComments(@Path("id_user") Integer id_user);
 }

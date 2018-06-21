@@ -1,7 +1,5 @@
 package com.example.bruno.myapplication;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -96,7 +94,7 @@ public class NovoUsuarioPasso1 extends Fragment implements View.OnClickListener 
             final String emailText = editEmail.getText().toString();
             final String pass1Text = editPass1.getText().toString();
             final String pass2Text = editPass2.getText().toString();
-            /*
+
             if (emailText.equals("") || pass1Text.equals("") || pass2Text.equals("")) {
                 Snackbar.make(view, "Os campos email e senha são obrigatórios!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
@@ -112,9 +110,9 @@ public class NovoUsuarioPasso1 extends Fragment implements View.OnClickListener 
 
                 return;
             }
-            mListener.NovoUsuarioPasso1SaveToActivity(emailText, pass1Text);*/
+            mListener.NovoUsuarioPasso1SaveToActivity(emailText, pass1Text);
 
-            mListener.NovoUsuarioPasso1SaveToActivity("myemail", "mypass");
+            //mListener.NovoUsuarioPasso1SaveToActivity("myemail", "mypass");
         }
 
     }
