@@ -1,6 +1,6 @@
 export const config = {
 	port: 3006,
-    force: true,
+    force: false,
 	development: {
 		host: 'localhost',
 		username: 'root',

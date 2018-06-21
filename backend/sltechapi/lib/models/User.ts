@@ -4,6 +4,7 @@ import { sequelize } from "../mysql";
 import { UserPlace } from "../models/UserPlace"
 import { UserProfile } from "../models/UserProfile";
 import { UserHost } from "../models/UserHost";
+import { Comment } from "../models/Comment"
 import { Pet } from "../models/Pet";
 
 export const User = sequelize.define('usuario', {
@@ -91,6 +92,16 @@ User.sync({force: false}).then(() => {
     Pet.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
 
     Pet.sync({force: false}).then(() => {
+        //Table created
+    });
+    /*
+    User.hasMany(Comment, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    Comment.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'destinatario'});
+
+    User.hasMany(Comment, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    Comment.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'remetente'});*/
+
+    Comment.sync({force: false}).then(() => {
         //Table created
     });
 });

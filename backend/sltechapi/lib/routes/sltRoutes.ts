@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { UserController } from "../controllers/User";
+import { CommentController } from "../controllers/Comment";
 import { UserPlaceController } from "../controllers/UserPlace";
 
 export class Routes {
     public userControler: UserController = new UserController();
     public userPlaceController: UserPlaceController = new UserPlaceController();
+    public commentController: CommentController = new CommentController();
 
     public routes(app): void {
         app.route('/')
@@ -40,5 +42,8 @@ export class Routes {
 
         app.route('/user/list_all')
             .get(this.userControler.listUsers);
+
+        app.route('/user/get_comments/:id_user')
+            .get(this.commentController.getComments);
     }
 }
