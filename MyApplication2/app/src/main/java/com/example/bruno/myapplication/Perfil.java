@@ -15,8 +15,6 @@ public class Perfil extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         //
         Intent it = this.getIntent();
-
-        Log.d("NAME", it.getStringExtra("email"));
         
         ((TextView)findViewById(R.id.labelNome2)).setText("Email: " + it.getStringExtra("email"));
         ((TextView)findViewById(R.id.labelNome)).setText("Nome: " +it.getStringExtra("nome"));

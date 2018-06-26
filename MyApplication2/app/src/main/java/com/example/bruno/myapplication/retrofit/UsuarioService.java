@@ -24,4 +24,7 @@ public interface UsuarioService {
 
         @GET("/user/get_comments/{id_user}")
         Call<List<Comentario>> getComments(@Path("id_user") Integer id_user);
+
+        @GET("/user/get_messages/{id_user}")
+        Call<List<Mensagem>> getMessages(@Path("id_user") Integer id_user);
 }

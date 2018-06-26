@@ -48,7 +48,6 @@ public class NovoUsuarioActivity extends Activity
                 "ultimoNome", this.lastName,
                 "telefone", this.phone);
 
-        Log.d("JSON", json);
         final ProgressBar mProgressBar = findViewById(R.id.progressBarNovo);
 
         mProgressBar.setVisibility(View.VISIBLE);
@@ -101,9 +100,6 @@ public class NovoUsuarioActivity extends Activity
         this.email = email;
         this.pword = pass;
 
-        Log.d("EMAIL", email);
-        Log.d("PASS", pass);
-
         novoPasso2 = new NovoUsuarioPasso2();
         getFragmentManager().beginTransaction()
                 .replace(R.id.activity_novo_usuario, novoPasso2, novoPasso2.getClass().getSimpleName()).addToBackStack(null).commit();
@@ -114,9 +110,6 @@ public class NovoUsuarioActivity extends Activity
         this.phone = phone;
         this.firstName = firstName;
         this.lastName = lastName;
-
-        Log.d("PHONE", phone);
-        Log.d("NAME", firstName);
 
         createNewUser();
     }

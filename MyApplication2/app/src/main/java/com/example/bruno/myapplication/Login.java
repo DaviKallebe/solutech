@@ -111,7 +111,6 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                Log.d("code", Integer.toString(response.code()));
                 if (response.code() == 200){
                     Usuario user = response.body();
 

@@ -60,14 +60,12 @@ public class Cadastro extends AppCompatActivity {
                                     "descricao", editDescricao.getText().toString());
 
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
-        Log.d("json", json);
 
         Call<Usuario> call = new RetrofitConfig().getUsuarioService().createNewUser(body);
 
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                Log.d("code", Integer.toString(response.code()));
                 if (response.code() == 200){
                     Usuario user = response.body();
 
