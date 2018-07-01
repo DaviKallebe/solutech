@@ -10,18 +10,16 @@ class UserController {
             },
             include: [{
                     model: UserProfile_1.UserProfile,
-                    attributes: ['nome', 'idade', 'telefone', 'descricao', 'imagem']
+                    attributes: ['primeiroNome', 'ultimoNome', 'telefone']
                 }]
         }).then(user => {
-            if (user && user.checkPassword(req.query.password)) {
+            if (user && user.checkPassword(req.query.pword)) {
                 let result = {
                     email: user.email,
                     id_user: user.id_user,
-                    nome: user.usuario_perfil.nome,
-                    idade: user.usuario_perfil.idade,
-                    telefone: user.usuario_perfil.telefone,
-                    descricao: user.usuario_perfil.descricao,
-                    imagem: user.usuario_perfil.imagem
+                    primeiroNome: user.perfil.primeiroNome,
+                    ultimoNome: user.perfil.ultimoNome,
+                    telefone: user.perfil.telefone
                 };
                 res.status(200).json(result);
             }
@@ -37,7 +35,8 @@ class UserController {
                 let result = {
                     email: user.email,
                     id_user: user.id_user,
-                    nome: profile.nome,
+                    primeiroNome: profile.primeiroNome,
+                    ultimoNome: profile.ultimoNome,
                     nascimento: profile.nascimento,
                     documento: profile.documento,
                     orgaoEmissor: profile.orgaoEmissor,
@@ -62,6 +61,27 @@ class UserController {
         }).then(user => {
             if (user)
                 res.status(200).json(user);
+        }, err => {
+            res.status(500).send(err);
+        });
+    }
+    listUsers(req, res) {
+        UserProfile_1.UserProfile.findAll({}).then(profile => {
+            res.status(200).send(profile);
+        }, err => {
+            res.status(500).send(err);
+        });
+    }
+    generateHashes(req, res) {
+        User_1.User.findAll({
+            where: {
+                salt: null
+            }
+        }).then(user_list => {
+            user_list.forEach(user => {
+                user.generateHash();
+            });
+            res.status(200).send(true);
         }, err => {
             res.status(500).send(err);
         });

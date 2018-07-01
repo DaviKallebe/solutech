@@ -5,6 +5,8 @@ const mysql_1 = require("../mysql");
 const UserPlace_1 = require("../models/UserPlace");
 const UserProfile_1 = require("../models/UserProfile");
 const UserHost_1 = require("../models/UserHost");
+const Comment_1 = require("../models/Comment");
+const Message_1 = require("../models/Message");
 const Pet_1 = require("../models/Pet");
 exports.User = mysql_1.sequelize.define('usuario', {
     id_user: {
@@ -18,7 +20,7 @@ exports.User = mysql_1.sequelize.define('usuario', {
         unique: true
     },
     email: {
-        type: sequelize_1.default.STRING(30),
+        type: sequelize_1.default.STRING(255),
         unique: true
     },
     pword: {
@@ -62,6 +64,20 @@ exports.User.prototype.checkPassword = function (password) {
     var pass = new Buffer(password, 'binary');
     return this.pword === crypto_1.pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
 };
+exports.User.prototype.generateHash = function () {
+    crypto_1.randomBytes(256, (err, buf) => {
+        if (err)
+            throw err;
+        crypto_1.pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+            if (err)
+                throw err;
+            this.pword = derivedKey.toString('hex');
+            this.account_creation = 1;
+            this.salt = buf.toString('hex');
+            this.save();
+        });
+    });
+};
 exports.User.sync({ force: false }).then(() => {
     exports.User.hasOne(UserPlace_1.UserPlace, { foreignKeyConstraint: true, foreignKey: 'id_user' });
     UserPlace_1.UserPlace.belongsTo(exports.User, { foreignKeyConstraint: true, foreignKey: 'id_user' });
@@ -78,6 +94,10 @@ exports.User.sync({ force: false }).then(() => {
     exports.User.hasMany(Pet_1.Pet, { foreignKeyConstraint: true, foreignKey: 'id_user' });
     Pet_1.Pet.belongsTo(exports.User, { foreignKeyConstraint: true, foreignKey: 'id_user' });
     Pet_1.Pet.sync({ force: false }).then(() => {
+    });
+    Comment_1.Comment.sync({ force: false }).then(() => {
+    });
+    Message_1.Message.sync({ force: false }).then(() => {
     });
 });
 //# sourceMappingURL=User.js.map

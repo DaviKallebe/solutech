@@ -4,7 +4,8 @@ import { sequelize } from "../mysql";
 import { UserPlace } from "../models/UserPlace"
 import { UserProfile } from "../models/UserProfile";
 import { UserHost } from "../models/UserHost";
-import { Comment } from "../models/Comment"
+import { Comment } from "../models/Comment";
+import { Message } from "../models/Message";
 import { Pet } from "../models/Pet";
 
 export const User = sequelize.define('usuario', {
@@ -60,9 +61,22 @@ export const User = sequelize.define('usuario', {
 });
 
 User.prototype.checkPassword = function (password) {
-    console.log('password ' + password)
     var pass = new Buffer(password, 'binary');
     return this.pword === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
+}
+
+User.prototype.generateHash = function() {
+    randomBytes(256, (err, buf) => {
+        if (err) throw err;
+
+        pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+            if (err) throw err;
+            this.pword = derivedKey.toString('hex');
+            this.account_creation = 1;
+            this.salt = buf.toString('hex');
+            this.save();
+        });
+    });
 }
 
 User.sync({force: false}).then(() => {
@@ -102,6 +116,10 @@ User.sync({force: false}).then(() => {
     Comment.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'remetente'});*/
 
     Comment.sync({force: false}).then(() => {
+        //Table created
+    });
+
+    Message.sync({force: false}).then(() => {
         //Table created
     });
 });

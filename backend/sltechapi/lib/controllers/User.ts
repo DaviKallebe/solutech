@@ -84,4 +84,19 @@ export class UserController {
             res.status(500).send(err);
         });
     }
+
+    public generateHashes(req: Request, res: Response) {
+        User.findAll({
+            where: {
+                salt: null
+            }
+        }).then(user_list => {
+            user_list.forEach(user => {
+                user.generateHash();
+            });
+            res.status(200).send(true);
+        }, err => {
+            res.status(500).send(err);
+        })
+    }
 }
