@@ -1,20 +1,20 @@
 package com.example.bruno.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
+import com.example.bruno.myapplication.adapter.HospedadorListagemAdapter;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
 
@@ -33,7 +33,7 @@ import retrofit2.Response;
  * Use the {@link HospedadorListagemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HospedadorListagemFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class HospedadorListagemFragment extends Fragment implements HospedadorListagemAdapter.OnItemClicked, Callback<List<Usuario>> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,6 +44,9 @@ public class HospedadorListagemFragment extends Fragment implements AdapterView.
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public HospedadorListagemFragment() {
         // Required empty public constructor
@@ -83,27 +86,12 @@ public class HospedadorListagemFragment extends Fragment implements AdapterView.
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_hospedador_listagem, container, false);
 
-        final ViewGroup finalView = rootView;
-
-        ListView listView = rootView.findViewById(R.id.listViewGeral);
-        listView.setOnItemClickListener(this);
+        mRecyclerView = rootView.findViewById(R.id.hospedador_listagem_recycler);
+        mLayoutManager = new LinearLayoutManager(this.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         Call<List<Usuario>> call = new RetrofitConfig().getUsuarioService().listUsers();
-        call.enqueue(new Callback<List<Usuario>>() {
-            @Override
-            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
-                if (response.code() == 200) {
-                    ListView listViewGeral = getView().findViewById(R.id.listViewGeral);
-                    listViewGeral.setAdapter(new CustomAdapter(response.body()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Usuario>> call, Throwable t) {
-                Snackbar.make(finalView, "Verifique sua conexão!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        call.enqueue(this);
 
         return rootView;
     }
@@ -132,81 +120,31 @@ public class HospedadorListagemFragment extends Fragment implements AdapterView.
         mListener = null;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ListView listView = (ListView) parent;
-        Usuario user = (Usuario)listView.getAdapter().getItem(position);
-
-        mListener.verUsuarioDetalhes(user);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         public void verUsuarioDetalhes(Usuario user);
     }
 
-    static class ViewHolder {
-        ImageView imageView;
-        TextView textViewNome;
-        TextView textViewDesc;
-
-        ViewHolder(View view) {
-            imageView = view.findViewById(R.id.imageViewH);
-            textViewNome = view.findViewById(R.id.textViewNomeH);
-            textViewDesc = view.findViewById(R.id.textViewDescricaoH);;
+    @Override
+    public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+        if (response.code() == 200) {
+            mAdapter = new HospedadorListagemAdapter(response.body(), this.getContext(), this);
+            mRecyclerView.setAdapter(mAdapter);
         }
     }
 
-    class CustomAdapter extends BaseAdapter {
+    @Override
+    public void onFailure(Call<List<Usuario>> call, Throwable t) {
+        View view = getView();
 
-        private List<Usuario> usuarios;
+        if (view != null)
+            Snackbar.make(view, "Problemas de comunicação!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+    }
 
-        public CustomAdapter(List<Usuario> usuarios) {
-            this.usuarios = usuarios;
-        }
+    @Override
+    public void onItemClick(View view, int position) {
+        Usuario user = ((HospedadorListagemAdapter)mAdapter).getItem(position);
 
-        @Override
-        public int getCount() {
-            return this.usuarios.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return this.usuarios.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return this.usuarios.get(position).getId_user();
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-            Usuario user = usuarios.get(position);
-
-            if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.customlayouthosp, parent, false);
-                viewHolder = new ViewHolder(convertView);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            //viewHolder.imageView.setImageResource(imagem);
-            viewHolder.textViewNome.setText(user.getFullName());
-            viewHolder.textViewDesc.setText(user.getDescricao());
-
-            return convertView;
-        }
+        mListener.verUsuarioDetalhes(user);
     }
 }

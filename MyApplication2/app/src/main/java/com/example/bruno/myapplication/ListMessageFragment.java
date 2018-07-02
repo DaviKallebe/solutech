@@ -143,7 +143,6 @@ public class ListMessageFragment extends Fragment implements AdapterView.OnItemC
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        call.cancel();
     }
 
     /**
