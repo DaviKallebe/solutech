@@ -83,6 +83,8 @@ public class HospedadorListagemFragment extends Fragment implements AdapterView.
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_hospedador_listagem, container, false);
 
+        final ViewGroup finalView = rootView;
+
         ListView listView = rootView.findViewById(R.id.listViewGeral);
         listView.setOnItemClickListener(this);
 
@@ -98,7 +100,7 @@ public class HospedadorListagemFragment extends Fragment implements AdapterView.
 
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
-                Snackbar.make(getView().findViewById(R.id.fragment_hospedador_listagem), "Verifique sua conexão!", Snackbar.LENGTH_LONG)
+                Snackbar.make(finalView, "Verifique sua conexão!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

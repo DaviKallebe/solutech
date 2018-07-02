@@ -38,7 +38,7 @@ import retrofit2.Response;
  * Use the {@link ListMessageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListMessageFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ListMessageFragment extends Fragment implements AdapterView.OnItemClickListener, Callback<List<Mensagem>> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +47,7 @@ public class ListMessageFragment extends Fragment implements AdapterView.OnItemC
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private Call<List<Mensagem>> call;
 
     private OnFragmentInteractionListener mListener;
 
@@ -91,27 +92,28 @@ public class ListMessageFragment extends Fragment implements AdapterView.OnItemC
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
-            final ListView listView = rootView.findViewById(R.id.listViewLogadoMessage);
+            ListView listView = rootView.findViewById(R.id.listViewLogadoMessage);
             listView.setOnItemClickListener(this);
 
-            Call<List<Mensagem>> call = new RetrofitConfig().getUsuarioService().getMessages(bundle.getInt("id_user"));
-            call.enqueue(new Callback<List<Mensagem>>() {
-                @Override
-                public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
-                    if (response.code() == 200) {
-                        listView.setAdapter(new CustomAdapter(response.body()));
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<Mensagem>> call, Throwable t) {
-                    Snackbar.make(getView().findViewById(R.id.fragment_List_message), "Verifique sua conexão!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
-            });
+            call = new RetrofitConfig().getUsuarioService().getMessages(bundle.getInt("id_user"));
+            call.enqueue(this);
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
+        if (response.code() == 200) {
+            ListView listView = getView().findViewById(R.id.listViewLogadoMessage);
+            listView.setAdapter(new CustomAdapter(response.body()));
+        }
+    }
+
+    @Override
+    public void onFailure(Call<List<Mensagem>> call, Throwable t) {
+        Snackbar.make(getView().findViewById(R.id.fragment_List_message), "Verifique sua conexão!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @Override
@@ -141,6 +143,7 @@ public class ListMessageFragment extends Fragment implements AdapterView.OnItemC
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        call.cancel();
     }
 
     /**

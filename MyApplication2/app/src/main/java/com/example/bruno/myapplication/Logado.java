@@ -13,12 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.bruno.myapplication.retrofit.Usuario;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Logado extends AppCompatActivity implements HospedadorListagemFragment.OnFragmentInteractionListener,
@@ -70,15 +71,23 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_perfil) {
             return true;
-        } else if (id == R.id.action_search) {
+        } else if (id == R.id.action_deslogar) {
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+
+            Intent it = new Intent(Logado.this, Login.class);
+            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            startActivity(it);
+
+            return true;
+        }
+        else if (id == R.id.action_search) {
             return true;
         }
 

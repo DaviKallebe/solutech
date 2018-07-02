@@ -1,6 +1,7 @@
 package com.example.bruno.myapplication;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,16 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,45 +40,127 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
-    private LoginButton loginButton;
     private CallbackManager callbackManager;
-
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mAuth = FirebaseAuth.getInstance();
+        callbackManager = CallbackManager.Factory.create();
 
-        if(AccessToken.getCurrentAccessToken() != null){
-            goTelaLogado();
-        }else {
+        LoginButton loginButton = findViewById(R.id.login_button);
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
 
-            callbackManager = CallbackManager.Factory.create();
+            @Override
+            public void onCancel() {
+                Toast.makeText(getApplicationContext(), "Facebook Login Cancelado", Toast.LENGTH_SHORT).show();
+            }
 
-            loginButton = (LoginButton) findViewById(R.id.login_button);
-            
-            loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    goTelaLogado();
-                }
-
-                @Override
-                public void onCancel() {
-                    Toast.makeText(getApplicationContext(), "Facebook Login Cancelado", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Toast.makeText(getApplicationContext(), "Facebook Login Erro", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
+            @Override
+            public void onError(FacebookException error) {
+                Log.d("onError", error.getMessage());
+                Toast.makeText(getApplicationContext(), "Facebook Login Erro", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         EditText mail = findViewById(R.id.editMail);
         mail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        final ProgressBar mProgressBar = findViewById(R.id.progressBar);
+
+        mProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            String userName[] = user.getDisplayName().split(" ", 2);
+
+                            Intent intent = new Intent(Login.this, Logado.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.putExtra("email", user.getEmail());
+                            intent.putExtra("nome", user.getDisplayName());
+                            intent.putExtra("primeiroNome", userName[0]);
+                            intent.putExtra("ultimoNOme", userName[1]);
+                            intent.putExtra("telefone", user.getPhoneNumber());
+                            //intent.putExtra("id_user", user.getId_user());
+
+                            startActivity(intent);
+
+                            mProgressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                            goTelaLogado();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Autenticação falhou.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser != null) {
+            currentUser.reload().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (e instanceof FirebaseAuthInvalidUserException) {
+                        //createUser();
+                    }
+                }
+            });
+
+            currentUser.reload().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+
+                    String userName[] = user.getDisplayName().split(" ", 2);
+
+                    Intent intent = new Intent(Login.this, Logado.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("email", user.getEmail());
+                    intent.putExtra("nome", user.getDisplayName());
+                    intent.putExtra("primeiroNome", userName[0]);
+                    intent.putExtra("ultimoNOme", userName[1]);
+                    intent.putExtra("telefone", user.getPhoneNumber());
+                    //intent.putExtra("id_user", user.getId_user());
+
+                    startActivity(intent);
+
+                }
+            });
+        }
+
+
+        //updateUI(currentUser);
     }
 
     private void goTelaLogado() {
@@ -76,14 +169,6 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
 
     }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-
-    }
-
-
 
     public void entrar(View view){
         EditText mail = findViewById(R.id.editMail);
@@ -115,6 +200,7 @@ public class Login extends AppCompatActivity {
                     Usuario user = response.body();
 
                     Intent intent = new Intent(Login.this, Logado.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("email", user.getEmail());
                     intent.putExtra("primeiroNome", user.getPrimeiroNome());
                     intent.putExtra("ultimoNOme", user.getUltimoNome());
