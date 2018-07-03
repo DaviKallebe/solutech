@@ -60,7 +60,7 @@ public class NovoUsuarioActivity extends Activity
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (response.code() == 200){
+                if (response.code() == 201){
                     Usuario user = response.body();
 
                     Intent intent = new Intent(NovoUsuarioActivity.this, Logado.class);
@@ -85,7 +85,6 @@ public class NovoUsuarioActivity extends Activity
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                Log.e("retrofit", t.getMessage());
                 Snackbar.make(findViewById(R.id.activity_novo_usuario), "Não foi possível realizar o cadastro!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 

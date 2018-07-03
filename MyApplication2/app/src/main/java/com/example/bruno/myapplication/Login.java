@@ -19,6 +19,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,11 +32,17 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 
 public class Login extends AppCompatActivity {
@@ -48,10 +55,16 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        EditText mail = findViewById(R.id.editMail);
+        mail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
         mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton loginButton = findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -60,21 +73,17 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(), "Facebook Login Cancelado", Toast.LENGTH_SHORT).show();
+                //
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.d("onError", error.getMessage());
-                Toast.makeText(getApplicationContext(), "Facebook Login Erro", Toast.LENGTH_SHORT).show();
+                //
             }
         });
-
-        EditText mail = findViewById(R.id.editMail);
-        mail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         //
@@ -83,6 +92,7 @@ public class Login extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken token) {
         final ProgressBar mProgressBar = findViewById(R.id.progressBar);
+        final AccessToken givenToken = token;
 
         mProgressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -96,25 +106,9 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            String userName[] = user.getDisplayName().split(" ", 2);
-
-                            Intent intent = new Intent(Login.this, Logado.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            intent.putExtra("email", user.getEmail());
-                            intent.putExtra("nome", user.getDisplayName());
-                            intent.putExtra("primeiroNome", userName[0]);
-                            intent.putExtra("ultimoNOme", userName[1]);
-                            intent.putExtra("telefone", user.getPhoneNumber());
-                            //intent.putExtra("id_user", user.getId_user());
-
-                            startActivity(intent);
-
-                            mProgressBar.setVisibility(View.GONE);
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-                            goTelaLogado();
+                            createOrLoginWithFacebook(user, mProgressBar);
                         } else {
-                            Toast.makeText(getApplicationContext(), "Autenticação falhou.",
+                            Toast.makeText(Login.this, "Autenticação falhou.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -124,16 +118,14 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
             currentUser.reload().addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    if (e instanceof FirebaseAuthInvalidUserException) {
-                        //createUser();
-                    }
+                    LoginManager.getInstance().logOut();
                 }
             });
 
@@ -142,35 +134,13 @@ public class Login extends AppCompatActivity {
                 public void onSuccess(Void aVoid) {
                     FirebaseUser user = mAuth.getCurrentUser();
 
-                    String userName[] = user.getDisplayName().split(" ", 2);
-
-                    Intent intent = new Intent(Login.this, Logado.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("email", user.getEmail());
-                    intent.putExtra("nome", user.getDisplayName());
-                    intent.putExtra("primeiroNome", userName[0]);
-                    intent.putExtra("ultimoNOme", userName[1]);
-                    intent.putExtra("telefone", user.getPhoneNumber());
-                    //intent.putExtra("id_user", user.getId_user());
-
-                    startActivity(intent);
-
+                    createOrLoginWithFacebook(user, null);
                 }
             });
         }
-
-
-        //updateUI(currentUser);
     }
 
-    private void goTelaLogado() {
-        Intent intent = new Intent (this, Logado.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-    }
-
-    public void entrar(View view){
+    public void entrar(View view) {
         EditText mail = findViewById(R.id.editMail);
         EditText pass = findViewById(R.id.editPass);
 
@@ -185,6 +155,7 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+
         Call<Usuario> call = new RetrofitConfig().getUsuarioService().doNormalLogin(
                 mail.getText().toString(), pass.getText().toString());
 
@@ -196,20 +167,10 @@ public class Login extends AppCompatActivity {
         call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (response.code() == 200){
-                    Usuario user = response.body();
-
-                    Intent intent = new Intent(Login.this, Logado.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("email", user.getEmail());
-                    intent.putExtra("primeiroNome", user.getPrimeiroNome());
-                    intent.putExtra("ultimoNOme", user.getUltimoNome());
-                    intent.putExtra("telefone", user.getTelefone());
-                    intent.putExtra("descricao", user.getDescricao());
-                    intent.putExtra("id_user", user.getId_user());
-
-                    startActivity(intent);
+                if (response.code() == 200) {
+                    goMainActicity(response.body());
                 }
+                else
                 if (response.code() == 401) {
                     View view = findViewById(viewId);
                     Snackbar.make(view, "Email ou senha não encontrados!", Snackbar.LENGTH_LONG)
@@ -232,9 +193,71 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    public void cadastrar(View view){
-
+    public void cadastrar(View view) {
         Intent intent = new Intent(this, NovoUsuarioActivity.class);
+        startActivity(intent);
+    }
+
+    public void createOrLoginWithFacebook(FirebaseUser user, final ProgressBar mProgressBar) {
+        String userName[] = user.getDisplayName().split(" ", 2);
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("email", user.getEmail());
+            json.put("primeiroNome", userName[0]);
+            json.put("ultimoNome", userName[1]);
+            json.put("facebookId", user.getUid());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json.toString());
+        Call<Usuario> call = new RetrofitConfig().getUsuarioService().createNewFacebookUser(body);
+
+        call.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                if (mProgressBar != null) {
+                    mProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                }
+
+                if (response.code() == 201 || response.code() == 200){
+                    goMainActicity(response.body());
+                }
+                else
+                    Log.d("ERROU", response.errorBody().toString());
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                if (mProgressBar != null) {
+                    mProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                }
+
+                Log.d("ERROU", t.getMessage());
+
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+
+                Toast.makeText(Login.this, "Autenticação falhou, tente novamente mais tarde.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void goMainActicity(Usuario user) {
+        Intent intent = new Intent(Login.this, Logado.class);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("primeiroNome", user.getPrimeiroNome());
+        intent.putExtra("ultimoNome", user.getUltimoNome());
+        //intent.putExtra("telefone", user.getTelefone());
+        intent.putExtra("id_user", user.getId_user());
+        intent.putExtra("nome", user.getPrimeiroNome() + ' ' + user.getUltimoNome());
+
         startActivity(intent);
     }
 

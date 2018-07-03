@@ -12,19 +12,25 @@ import retrofit2.http.Query;
 
 public interface UsuarioService {
 
-        @GET("/login")
+        @GET("login")
         Call<Usuario> doNormalLogin(@Query("email") String email,
                                     @Query("pword") String password);
 
-        @POST("/createnormaluser")
+        @GET("loginfacebook")
+        Call<Usuario> doFacebookLogin(@Query("facebookId") String facebookId);
+
+        @POST("createnormaluser")
         Call<Usuario> createNewUser(@Body RequestBody object);
 
-        @GET("/user/list_all")
+        @POST("createfacebookuser")
+        Call<Usuario> createNewFacebookUser(@Body RequestBody object);
+
+        @GET("user/list_all")
         Call<List<Usuario>> listUsers();
 
-        @GET("/user/get_comments/{id_user}")
+        @GET("user/get_comments/{id_user}")
         Call<List<Comentario>> getComments(@Path("id_user") Integer id_user);
 
-        @GET("/user/get_messages/{id_user}")
+        @GET("user/get_messages/{id_user}")
         Call<List<Mensagem>> getMessages(@Path("id_user") Integer id_user);
 }

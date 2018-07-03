@@ -89,8 +89,6 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
 
             if (onClick != null)
                 onClick.onItemClick(view, position);
-            else
-                Log.d("onClick", "FAIL");
         }
     }
 }

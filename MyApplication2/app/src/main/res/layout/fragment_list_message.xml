@@ -6,9 +6,9 @@
     tools:context=".ListMessageFragment"
     android:id="@+id/fragment_List_message">
 
-    <ListView
-        android:id="@+id/listViewLogadoMessage"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mensagem_listagem_recycler"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 </FrameLayout>
