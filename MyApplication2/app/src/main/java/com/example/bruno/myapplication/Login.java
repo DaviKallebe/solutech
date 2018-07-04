@@ -23,32 +23,40 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class Login extends AppCompatActivity {
 
+    private ProgressBar mProgressBar;
     private CallbackManager callbackManager;
     private FirebaseAuth mAuth;
+    private CompositeDisposable compositeDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +66,10 @@ public class Login extends AppCompatActivity {
         EditText mail = findViewById(R.id.editMail);
         mail.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
+        mProgressBar = findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
+        compositeDisposable = new CompositeDisposable();
 
         LoginButton loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList(
@@ -91,26 +101,18 @@ public class Login extends AppCompatActivity {
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-        final ProgressBar mProgressBar = findViewById(R.id.progressBar);
-        final AccessToken givenToken = token;
-
-        mProgressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        showProgressBar();
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, (Task<AuthResult> task) -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
 
-                            createOrLoginWithFacebook(user, mProgressBar);
-                        } else {
-                            Toast.makeText(Login.this, "Autenticação falhou.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                        createOrLoginWithFacebook(user);
+                    } else {
+                        Toast.makeText(Login.this, "Autenticação falhou.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -118,79 +120,54 @@ public class Login extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+    }
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-        if (currentUser != null) {
-            currentUser.reload().addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    LoginManager.getInstance().logOut();
-                }
-            });
-
-            currentUser.reload().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    FirebaseUser user = mAuth.getCurrentUser();
-
-                    createOrLoginWithFacebook(user, null);
-                }
-            });
-        }
+        if (compositeDisposable != null)
+            compositeDisposable.dispose();
     }
 
     public void entrar(View view) {
-        EditText mail = findViewById(R.id.editMail);
-        EditText pass = findViewById(R.id.editPass);
+        EditText edtMail = findViewById(R.id.editMail);
+        EditText edtPass = findViewById(R.id.editPass);
 
-        //
-        final int viewId = view.getId();
-        final ProgressBar mProgressBar = findViewById(R.id.progressBar);
+        String email = edtMail.getText().toString();
+        String password = edtPass.getText().toString();
 
-        if (mail.getText().toString().equals("") || pass.getText().toString().equals("")) {
+        if (email.equals("") || password.equals("")) {
             Snackbar.make(view, "Não deixe os campos vazios!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 
             return;
         }
 
+        showProgressBar();
 
-        Call<Usuario> call = new RetrofitConfig().getUsuarioService().doNormalLogin(
-                mail.getText().toString(), pass.getText().toString());
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, (Task<AuthResult> task) -> {
+                    closeProgressBar();
 
-        mProgressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if (task.isSuccessful()) {
+                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
+                        Single<Usuario> backendUser = new RetrofitConfig()
+                                .getObservableUsuarioService()
+                                .doFirebaseLogin(firebaseUser.getUid());
 
-        call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (response.code() == 200) {
-                    goMainActicity(response.body());
-                }
-                else
-                if (response.code() == 401) {
-                    View view = findViewById(viewId);
-                    Snackbar.make(view, "Email ou senha não encontrados!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-                }
+                        Disposable disposable = backendUser.subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(this::goMainActicity, this::handleLoginError);
 
-                mProgressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
+                        compositeDisposable.add(disposable);
+                    } else {
+                        Toast.makeText(Login.this, "Authentication falhou.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                View view = findViewById(viewId);
-                Snackbar.make(view, "Erro, verifique sua coxenão.", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                mProgressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
-        });
+                });
     }
 
     public void cadastrar(View view) {
@@ -198,53 +175,31 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void createOrLoginWithFacebook(FirebaseUser user, final ProgressBar mProgressBar) {
-        String userName[] = user.getDisplayName().split(" ", 2);
+    public void createOrLoginWithFacebook(FirebaseUser firebaseUser) {
+        String userName[] = firebaseUser.getDisplayName().split(" ", 2);
         JSONObject json = new JSONObject();
 
         try {
-            json.put("email", user.getEmail());
+            json.put("email", firebaseUser.getEmail());
             json.put("primeiroNome", userName[0]);
             json.put("ultimoNome", userName[1]);
-            json.put("facebookId", user.getUid());
+            json.put("firebaseUid", firebaseUser.getUid());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json.toString());
-        Call<Usuario> call = new RetrofitConfig().getUsuarioService().createNewFacebookUser(body);
+        RequestBody body = RequestBody
+                .create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json.toString());
 
-        call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (mProgressBar != null) {
-                    mProgressBar.setVisibility(View.GONE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                }
+        Single<Usuario> backendUser = new RetrofitConfig()
+                .getObservableUsuarioService()
+                .doFirebaseCreateUser(firebaseUser.getUid(), body);
 
-                if (response.code() == 201 || response.code() == 200){
-                    goMainActicity(response.body());
-                }
-                else
-                    Log.d("ERROU", response.errorBody().toString());
-            }
+        Disposable disposable = backendUser.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::goMainActicity, this::handleNewUserError);
 
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                if (mProgressBar != null) {
-                    mProgressBar.setVisibility(View.GONE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                }
-
-                Log.d("ERROU", t.getMessage());
-
-                FirebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
-
-                Toast.makeText(Login.this, "Autenticação falhou, tente novamente mais tarde.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        compositeDisposable.add(disposable);
     }
 
     public void goMainActicity(Usuario user) {
@@ -254,11 +209,73 @@ public class Login extends AppCompatActivity {
         intent.putExtra("email", user.getEmail());
         intent.putExtra("primeiroNome", user.getPrimeiroNome());
         intent.putExtra("ultimoNome", user.getUltimoNome());
-        //intent.putExtra("telefone", user.getTelefone());
         intent.putExtra("id_user", user.getId_user());
         intent.putExtra("nome", user.getPrimeiroNome() + ' ' + user.getUltimoNome());
 
+        closeProgressBar();
         startActivity(intent);
     }
 
+    public void handleNewUserError(Throwable e) {
+        closeProgressBar();
+
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+
+        if (e instanceof IOException) {
+            Toast.makeText(Login.this,
+                    "Não foi possível conectar ao servidor, tente novamente mais tarde!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        //
+        if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
+
+            Toast.makeText(Login.this,
+                    "Opa! Aconteceu algo que não deveria.",
+                    Toast.LENGTH_SHORT).show();
+
+            if (httpException.code() == 500) {
+                //
+            }
+        }
+    }
+
+    public void handleLoginError(Throwable e) {
+        closeProgressBar();
+
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+
+        if (e instanceof IOException) {
+            Toast.makeText(Login.this,
+                    "Não foi possível conectar ao servidor, tente novamente mais tarde!",
+                    Toast.LENGTH_SHORT).show();
+        }
+        //
+        if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
+
+            if (httpException.code() == 401) {
+                Toast.makeText(Login.this,
+                        "Usuário ou senha inválidos!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void showProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+    }
+
+    public void closeProgressBar() {
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        }
+    }
 }
