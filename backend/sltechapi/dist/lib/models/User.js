@@ -21,7 +21,8 @@ exports.User = mysql_1.sequelize.define('usuario', {
     },
     email: {
         type: sequelize_1.default.STRING(255),
-        unique: true
+        unique: true,
+        allowNull: false
     },
     pword: {
         type: sequelize_1.default.STRING(512)
@@ -29,8 +30,8 @@ exports.User = mysql_1.sequelize.define('usuario', {
     salt: {
         type: sequelize_1.default.STRING(512)
     },
-    facebookId: {
-        type: sequelize_1.default.BIGINT.UNSIGNED,
+    firebaseUid: {
+        type: sequelize_1.default.STRING(50),
         unique: true
     },
     account_creation: {
@@ -65,18 +66,24 @@ exports.User.prototype.checkPassword = function (password) {
     return this.pword === crypto_1.pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
 };
 exports.User.prototype.generateHash = function () {
-    crypto_1.randomBytes(256, (err, buf) => {
-        if (err)
-            throw err;
-        crypto_1.pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+    if (this.facebookId == null) {
+        crypto_1.randomBytes(256, (err, buf) => {
             if (err)
                 throw err;
-            this.pword = derivedKey.toString('hex');
-            this.account_creation = 1;
-            this.salt = buf.toString('hex');
-            this.save();
+            crypto_1.pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+                if (err)
+                    throw err;
+                this.pword = derivedKey.toString('hex');
+                this.account_creation = 1;
+                this.salt = buf.toString('hex');
+                this.save();
+            });
         });
-    });
+    }
+    else {
+        this.account_creation = 2;
+        this.save();
+    }
 };
 exports.User.sync({ force: false }).then(() => {
     exports.User.hasOne(UserPlace_1.UserPlace, { foreignKeyConstraint: true, foreignKey: 'id_user' });

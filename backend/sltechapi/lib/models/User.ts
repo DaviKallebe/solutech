@@ -21,7 +21,8 @@ export const User = sequelize.define('usuario', {
     },
     email: {
         type: Sequelize.STRING(255),
-        unique: true
+        unique: true,
+        allowNull: false
     },
     pword: {
         type: Sequelize.STRING(512)
@@ -29,8 +30,8 @@ export const User = sequelize.define('usuario', {
     salt: {
         type: Sequelize.STRING(512)
     },
-    facebookId: {
-        type: Sequelize.BIGINT.UNSIGNED,
+    firebaseUid: {
+        type: Sequelize.STRING(50),
         unique: true
     },
     account_creation: {
@@ -66,17 +67,23 @@ User.prototype.checkPassword = function (password) {
 }
 
 User.prototype.generateHash = function() {
-    randomBytes(256, (err, buf) => {
-        if (err) throw err;
-
-        pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+    if (this.facebookId == null) {
+        randomBytes(256, (err, buf) => {
             if (err) throw err;
-            this.pword = derivedKey.toString('hex');
-            this.account_creation = 1;
-            this.salt = buf.toString('hex');
-            this.save();
+
+            pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+                if (err) throw err;
+                this.pword = derivedKey.toString('hex');
+                this.account_creation = 1;
+                this.salt = buf.toString('hex');
+                this.save();
+            });
         });
-    });
+    }
+    else {
+        this.account_creation = 2;
+        this.save();
+    }
 }
 
 User.sync({force: false}).then(() => {

@@ -23,6 +23,12 @@ class Routes {
             .post(this.userControler.createUserNormal);
         app.route('/loginfacebook')
             .get(this.userControler.loginFacebook);
+        app.route('/createfacebookuser')
+            .post(this.userControler.createUserFacebook);
+        app.route('/firebaselogin')
+            .get(this.userControler.loginWithFirebase);
+        app.route('/createfirebaseuser')
+            .post(this.userControler.createUserWithFirebase);
         app.route('/place/:id_user')
             .get(this.userPlaceController.getPlace);
         app.route('/newplace')

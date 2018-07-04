@@ -23,11 +23,21 @@ export class Routes {
             .get(this.userControler.loginNormal);
 
         app.route('/createnormaluser')
-            .post(this.userControler.createUserNormal)
+            .post(this.userControler.createUserNormal);
 
         //login facebook
         app.route('/loginfacebook')
             .get(this.userControler.loginFacebook);
+
+        app.route('/createfacebookuser')
+            .post(this.userControler.createUserFacebook);
+
+        //firebase
+        app.route('/firebaselogin')
+            .get(this.userControler.loginWithFirebase);
+
+        app.route('/createfirebaseuser')
+            .post(this.userControler.createUserWithFirebase);
 
         //place
         app.route('/place/:id_user')
