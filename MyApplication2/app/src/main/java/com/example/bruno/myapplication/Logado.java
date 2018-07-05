@@ -21,6 +21,20 @@ import com.example.bruno.myapplication.retrofit.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import co.chatsdk.core.session.ChatSDK;
+import co.chatsdk.core.session.Configuration;
+import co.chatsdk.core.session.NM;
+import co.chatsdk.core.types.AccountDetails;
+import co.chatsdk.firebase.FirebaseModule;
+import co.chatsdk.firebase.file_storage.FirebaseFileStorageModule;
+import co.chatsdk.ui.login.LoginActivity;
+import co.chatsdk.ui.manager.InterfaceManager;
+import co.chatsdk.ui.manager.UserInterfaceModule;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 
 public class Logado extends AppCompatActivity implements HospedadorListagemFragment.OnFragmentInteractionListener,
         ListMessageFragment.OnFragmentInteractionListener {
@@ -48,6 +62,27 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
         tabLayout.setupWithViewPager(mPager);
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        Context context = getApplicationContext();
+
+        // Create a new configuration
+        Configuration.Builder builder = new Configuration.Builder(context);
+
+        // Perform any configuration steps (optional)
+        builder.firebaseRootPath("prod");
+
+        // Initialize the Chat SDK
+        ChatSDK.initialize(builder.build());
+        UserInterfaceModule.activate(context);
+
+        // Activate the Firebase module
+        FirebaseModule.activate();
+
+        // File storage is needed for profile image upload and image messages
+        FirebaseFileStorageModule.activate();
+
+        // Activate any other modules you need.
+        // ...
     }
 
     @Override
@@ -80,10 +115,26 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
 
-            Intent it = new Intent(Logado.this, Login.class);
-            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            NM.auth().logout()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                        Intent intent = new Intent(Logado.this, Login.class);
 
-            startActivity(it);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                        startActivity(intent);
+                    }, throwable -> {
+                        //
+                    });
+
+            return true;
+        }
+        else if (id == R.id.action_chat) {
+            Intent it = getIntent();
+            LoginActivity loginActivity = new LoginActivity();
+            loginActivity.passwordLogin(it.getStringExtra("email"),
+                    it.getStringExtra("password"),
+                    getApplicationContext());
 
             return true;
         }

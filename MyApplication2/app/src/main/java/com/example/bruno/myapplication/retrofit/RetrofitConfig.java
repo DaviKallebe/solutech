@@ -14,7 +14,7 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.10:3000/")
+                .baseUrl("http://10.241.194.59:3000/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 

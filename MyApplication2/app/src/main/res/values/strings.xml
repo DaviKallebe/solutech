@@ -36,4 +36,5 @@
     <!-- menu -->
     <string name="menu_perfil">Perfil</string>
     <string name="menu_deslogar">Deslogar</string>
+    <string name="menu_chat">Chat</string>
 </resources>

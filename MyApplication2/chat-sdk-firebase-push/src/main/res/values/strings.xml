@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Chat SDK</string>
+    <string name="push_channel_name">Message Notifications</string>
+</resources>

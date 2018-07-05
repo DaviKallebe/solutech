@@ -57,6 +57,8 @@ public class Login extends AppCompatActivity {
     private CallbackManager callbackManager;
     private FirebaseAuth mAuth;
     private CompositeDisposable compositeDisposable;
+    private String myEmail;
+    private String myPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,10 +136,10 @@ public class Login extends AppCompatActivity {
         EditText edtMail = findViewById(R.id.editMail);
         EditText edtPass = findViewById(R.id.editPass);
 
-        String email = edtMail.getText().toString();
-        String password = edtPass.getText().toString();
+        myEmail = edtMail.getText().toString();
+        myPassword = edtPass.getText().toString();
 
-        if (email.equals("") || password.equals("")) {
+        if (myEmail.equals("") || myPassword.equals("")) {
             Snackbar.make(view, "Não deixe os campos vazios!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 
@@ -146,7 +148,7 @@ public class Login extends AppCompatActivity {
 
         showProgressBar();
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(myEmail, myPassword)
                 .addOnCompleteListener(this, (Task<AuthResult> task) -> {
                     closeProgressBar();
 
@@ -211,6 +213,11 @@ public class Login extends AppCompatActivity {
         intent.putExtra("ultimoNome", user.getUltimoNome());
         intent.putExtra("id_user", user.getId_user());
         intent.putExtra("nome", user.getPrimeiroNome() + ' ' + user.getUltimoNome());
+
+        if (myPassword != null && !myPassword.equals(""))
+            intent.putExtra("password", myPassword);
+        else
+            intent.putExtra("password", "");
 
         closeProgressBar();
         startActivity(intent);
