@@ -18,28 +18,14 @@ export class Routes {
                 })
             })
 
-        //login normal
-        app.route('/login')
-            .get(this.userControler.loginNormal);
-
-        app.route('/createnormaluser')
-            .post(this.userControler.createUserNormal);
-
-        //login facebook
-        app.route('/loginfacebook')
-            .get(this.userControler.loginFacebook);
-
-        app.route('/createfacebookuser')
-            .post(this.userControler.createUserFacebook);
-
-        //firebase
+        //firebase authentication
         app.route('/firebaselogin')
             .get(this.userControler.loginWithFirebase);
 
         app.route('/createfirebaseuser')
             .post(this.userControler.createUserWithFirebase);
 
-        //place
+        //user related routes
         app.route('/place/:id_user')
             .get(this.userPlaceController.getPlace);
 
@@ -48,9 +34,10 @@ export class Routes {
 
         app.route('/updateplace/:id_user')
             .put(this.userPlaceController.updatePlace);
-
+        
+            /*
         app.route('/existplace/:id_user')
-            .get(this.userPlaceController.existPlace);
+            .get(this.userPlaceController.existPlace);*/
 
         app.route('/user/list_all')
             .get(this.userControler.listUsers);

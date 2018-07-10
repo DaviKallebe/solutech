@@ -1,7 +1,4 @@
-import { Comment } from "../models/Comment"
-import { UserProfile } from "../models/UserProfile"
 import { Request, Response } from 'express';
-import Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 
 export class CommentController {

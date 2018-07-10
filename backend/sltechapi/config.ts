@@ -1,6 +1,9 @@
 export const config = {
 	port: 3006,
-    force: false,
+	serverIP: "192.168.1.10",
+	serverPort: "3000",
+	force: false,
+	image_upload_folder: 'images/',
 	development: {
 		host: 'localhost',
 		username: 'root',

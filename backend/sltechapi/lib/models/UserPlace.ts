@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 import { User } from "./User";
 
@@ -41,7 +41,7 @@ export const UserPlace = sequelize.define('logradouro', {
     },
     descricao: {
         type: Sequelize.TEXT("tiny"),
-        allowsNull: false
+        allowNull: false
     },
     imagem: {
         type: Sequelize.TEXT("tiny"),

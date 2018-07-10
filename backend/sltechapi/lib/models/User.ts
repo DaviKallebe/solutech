@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import * as Sequelize from 'sequelize';
 import { pbkdf2, pbkdf2Sync, randomBytes } from 'crypto';
 import { sequelize } from "../mysql";
 import { UserPlace } from "../models/UserPlace"
@@ -10,7 +10,7 @@ import { Pet } from "../models/Pet";
 
 export const User = sequelize.define('usuario', {
     id_user: {
-        type: Sequelize.BIGINT(10).UNSIGNED,
+        type: Sequelize.BIGINT,
         autoIncrement: true,
 		allowNull: false,
 		primaryKey: true
@@ -37,54 +37,33 @@ export const User = sequelize.define('usuario', {
     account_creation: {
         type: Sequelize.INTEGER.UNSIGNED
     }
-}, {
-    hooks: {
-        afterCreate: (user, options) => {
-            if (user.pword && user.pword != ""){
-                randomBytes(256, (err, buf) => {
-                    if (err) throw err;
-
-                    pbkdf2(user.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
-                        if (err) throw err;
-                        user.pword = derivedKey.toString('hex');
-                        user.account_creation = 1;
-                        user.salt = buf.toString('hex');
-                        user.save();
-                    });
-                });
-            }
-            else {
-                user.account_creation = 2;
-                user.save();
-            }
-        }
-    }
 });
 
-User.prototype.checkPassword = function (password) {
-    var pass = new Buffer(password, 'binary');
-    return this.pword === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
-}
-
-User.prototype.generateHash = function() {
-    if (this.facebookId == null) {
+User.addHook('afterCreate', 'generateHash', (userInfo, option) => {
+    if (userInfo.pword && userInfo.pword != ""){
         randomBytes(256, (err, buf) => {
             if (err) throw err;
 
-            pbkdf2(this.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
+            pbkdf2(userInfo.pword, buf.toString('hex'), 1, 256, 'sha512', (err, derivedKey) => {
                 if (err) throw err;
-                this.pword = derivedKey.toString('hex');
-                this.account_creation = 1;
-                this.salt = buf.toString('hex');
-                this.save();
+                userInfo.pword = derivedKey.toString('hex');
+                userInfo.account_creation = 1;
+                userInfo.salt = buf.toString('hex');
+                userInfo.save();
             });
         });
     }
     else {
-        this.account_creation = 2;
-        this.save();
+        userInfo.account_creation = 2;
+        userInfo.save();
     }
-}
+})
+
+/*
+User.prototype.checkPassword = function (password) {
+    var pass = new Buffer(password, 'binary');
+    return this.pword === pbkdf2Sync(pass, this.salt, 1, 256, 'sha512').toString('hex');
+}*/
 
 User.sync({force: false}).then(() => {
     //Table created

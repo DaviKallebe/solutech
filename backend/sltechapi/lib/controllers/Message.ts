@@ -1,7 +1,4 @@
-import { Message } from "../models/Message"
-import { UserProfile } from "../models/UserProfile"
 import { Request, Response } from 'express';
-import Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 
 export class MessageController {

@@ -34,7 +34,7 @@ export class UserPlaceController {
             res.send(err)
         );
     }
-
+    /*
     public existPlace(req: Request, res: Response) {
         UserPlace.findOne({
             where: {
@@ -49,5 +49,5 @@ export class UserPlaceController {
                 res.json(result);
             }
         })
-    }
+    }*/
 }

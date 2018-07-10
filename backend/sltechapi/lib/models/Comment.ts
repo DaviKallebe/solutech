@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 
 export const Comment = sequelize.define('comentarios', {

@@ -1,7 +1,7 @@
 import { User } from "../models/User";
 import { UserProfile } from "../models/UserProfile"
-import { UserPlace } from "../models/UserPlace"
 import { Request, Response } from 'express';
+import { config } from '../../config'
 
 export class UserController {
     public createUser(req: Request, res: Response) {
@@ -264,11 +264,60 @@ export class UserController {
             }
         }).then(user_list => {
             user_list.forEach(user => {
-                user.generateHash();
+                //user.generateHash();
             });
             res.status(200).send(true);
         }, err => {
             res.status(500).send(err);
         })
+    }
+
+    public getUserProfile(req: Request, res: Response) {        
+        UserProfile.findOne({
+            where: { 
+                id_user: req.params.id_user
+            }
+        })
+        .then(profile => {
+            if (profile){                
+                if (profile.imagem != null)
+                    profile.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + profile.imagem.replace(/\\/gi, "/");
+                if (profile.updatedAt == req.query.updatedAt)
+                    res.status(200).json(profile);
+                else
+                    res.status(200).json(profile);
+            } else
+                res.status(404).end();
+        })
+        .catch(error => this.errorHandler(error, req, res));
+    }
+
+    public updateUserProfile(req: Request, res: Response) {
+        let data = req.body;
+
+        if (req.file.path)
+            data.imagem = req.file.path;
+
+        UserProfile.update(data, {
+            where: {
+                id_user: req.body.id_user
+            }
+        })
+        .then(profile => {
+            UserProfile.findOne({
+                where: {
+                    id_user: req.body.id_user
+                }
+            }).then(newProfile => {
+                if (newProfile.imagem != null)
+                    newProfile.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + newProfile.imagem.replace(/\\/gi, "/");
+                res.status(200).json(newProfile);
+            });
+        })
+        .catch(error => this.errorHandler(error, req, res));
+    }
+
+    public errorHandler(error, req: Request, res: Response) {
+        res.status(500).send(error);
     }
 }
