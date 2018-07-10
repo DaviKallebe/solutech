@@ -1,23 +1,69 @@
 package com.example.bruno.myapplication.retrofit;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
-@JsonIgnoreProperties({"id", "createdAt", "updatedAt"})
+
+@Entity
+//@JsonIgnoreProperties({"id", "error", "resource"})
 public class Usuario {
 
-    Integer id_user;
-    String email;
-    String primeiroNome;
-    String ultimoNome;
-    String telefone;
-    String descricao;
-    String imagem;
-    Date nascimento;
-    String documento;
-    String orgaoEmissor;
-    String cpf;
+    private Integer id;
+    @NonNull
+    @PrimaryKey
+    private Integer id_user;
+
+    private String email;
+    private String password;
+    private String primeiroNome;
+    private String ultimoNome;
+    private String telefone;
+    private String descricao;
+    private String imagem;
+    private String documento;
+    private String orgaoEmissor;
+    private String cpf;
+
+    private Date nascimento;
+    private Date createdAt;
+    private Date updatedAt;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public Integer getId_user() {
         return id_user;

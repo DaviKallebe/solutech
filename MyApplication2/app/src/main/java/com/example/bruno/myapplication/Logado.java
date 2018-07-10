@@ -1,8 +1,12 @@
 package com.example.bruno.myapplication;
 
 import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,26 +14,30 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.ByteArrayOutputStream;
+
 
 public class Logado extends AppCompatActivity implements HospedadorListagemFragment.OnFragmentInteractionListener,
-        ListMessageFragment.OnFragmentInteractionListener {
+        ListMessageFragment.OnFragmentInteractionListener,
+        UsuarioPerfilFragment.OnFragmentInteractionListener {
 
     private static final int NUM_PAGES = 3;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     private TabLayout tabLayout;
-
+    private LogadoViewModel mViewModel;
+    private Fragment usuarioPerfil;
+    private Integer id_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,25 +48,29 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
         setSupportActionBar(toolbar);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.viewPagerLogado);
+        mPager = findViewById(R.id.viewPagerLogado);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mPager);
+
+        mViewModel = ViewModelProviders.of(this).get(LogadoViewModel.class);
+
+        SharedPreferences prefs = getSharedPreferences("userfile", MODE_PRIVATE);
+        id_user = prefs.getInt("id_user", 0);
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) Logado.this.getSystemService(Context.SEARCH_SERVICE);
-
         SearchView searchView = null;
+
         if (searchItem != null) {
             searchView = (SearchView) searchItem.getActionView();
         }
@@ -73,8 +85,9 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_perfil) {
+            startPerfilFragment();
+
             return true;
         } else if (id == R.id.action_deslogar) {
             FirebaseAuth.getInstance().signOut();
@@ -94,30 +107,21 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
         return super.onOptionsItemSelected(item);
     }
 
-    public void verPerfil(View view, Usuario user) {
+    public void startPerfilActivity() {
         Intent intent = new Intent(this, Perfil.class);
-
-        intent.putExtra("email", user.getEmail());
-        intent.putExtra("primeiroNome", user.getPrimeiroNome());
-        intent.putExtra("ultimoNome", user.getUltimoNome());
-        intent.putExtra("nome", user.getFullName());
-        intent.putExtra("nascimento", user.getNascimento());
-        intent.putExtra("telefone", user.getTelefone());
-        intent.putExtra("descricao", user.getDescricao());
-        intent.putExtra("id_user", user.getId_user());
-
         startActivity(intent);
     }
 
-
-    public void meuspet(View view) {
-        Intent intent = new Intent(this, MeusPets.class);
-        startActivity(intent);
-    }
-
-    public void deslogar(View view) {
-        finish();
-        System.exit(0);
+    public void startPerfilFragment() {
+        usuarioPerfil = new UsuarioPerfilFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
+                .replace(R.id.activity_logado,
+                        usuarioPerfil,
+                        usuarioPerfil.getClass().getSimpleName())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -135,12 +139,23 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
-            // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+            if (mViewModel != null)
+                mViewModel.updateProfile(id_user, stream);
         }
     }
 

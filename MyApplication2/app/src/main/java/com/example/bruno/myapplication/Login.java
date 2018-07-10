@@ -1,12 +1,11 @@
 package com.example.bruno.myapplication;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -22,7 +21,6 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -37,18 +35,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.Arrays;
 
-import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 
 public class Login extends AppCompatActivity {
@@ -205,6 +197,8 @@ public class Login extends AppCompatActivity {
     public void goMainActicity(Usuario user) {
         Intent intent = new Intent(Login.this, Logado.class);
 
+        saveToPreferences(user);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("email", user.getEmail());
         intent.putExtra("primeiroNome", user.getPrimeiroNome());
@@ -214,6 +208,12 @@ public class Login extends AppCompatActivity {
 
         closeProgressBar();
         startActivity(intent);
+    }
+
+    public void saveToPreferences(Usuario user) {
+        SharedPreferences.Editor editor = getSharedPreferences("userfile", MODE_PRIVATE).edit();
+        editor.putInt("id_user", user.getId_user());
+        editor.apply();
     }
 
     public void handleNewUserError(Throwable e) {

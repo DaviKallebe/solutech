@@ -1,14 +1,24 @@
 package com.example.bruno.myapplication.retrofit;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -28,4 +38,20 @@ public interface ObservableUsarioService {
 
     @GET("user/get_messages/{id_user}")
     Observable<List<Mensagem>> getMessages(@Path("id_user") Integer id_user);
+
+    @GET("user/profile/get/{id_user}")
+    Observable<Usuario> getProfile(@Path("id_user") Integer id_user,
+                                   @Query("updatedAt") Date updatedAt);
+
+    @GET("user/profile/get/{id_user}")
+    Flowable<Response<Usuario>> getResponseProfile(@Path("id_user") Integer id_user,
+                                                   @Query("updatedAt") Date updatedAt);
+
+    @Multipart
+    @PUT("user/profile/update/")
+    Observable<Usuario> updateUserProfile(@PartMap Map<String, RequestBody> object,
+                                          @Part MultipartBody.Part image);
+
+    @PUT("user/profile/update/")
+    Observable<Usuario> updateUserProfile(@Body RequestBody object);
 }

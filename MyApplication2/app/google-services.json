@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "345767365707",
+    "firebase_url": "https://pethouztel.firebaseio.com",
+    "project_id": "pethouztel",
+    "storage_bucket": "pethouztel.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345767365707:android:0fe285b8e1fe25f7",
+        "android_client_info": {
+          "package_name": "com.example.bruno.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "345767365707-nrb8hu6gg5l9hnlmmmu4trj4cs634e7n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bruno.myapplication",
+            "certificate_hash": "d8c53e5a195aa81900c72dcc5eaf8bb1e1b681ed"
+          }
+        },
+        {
+          "client_id": "345767365707-56s5ttg848smrp0d5scetskclobnamu7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1HdRlGAxn9UO-3fSWfwY20mG3Y10pEIg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345767365707-56s5ttg848smrp0d5scetskclobnamu7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -22,8 +22,8 @@ public class RetrofitConfig {
 
         this.ObsRetrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.10:3000/")
-                .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(rxAdapter)
+                .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
 

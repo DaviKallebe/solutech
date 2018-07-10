@@ -108,8 +108,8 @@ public class ListMessageFragment extends Fragment implements ListMessageAdapter.
 
     @Override
     public void onFailure(Call<List<Mensagem>> call, Throwable t) {
-        Snackbar.make(getView().findViewById(R.id.fragment_List_message), "Verifique sua conexão!", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+        //Snackbar.make(getView().findViewById(R.id.fragment_List_message), "Verifique sua conexão!", Snackbar.LENGTH_LONG)
+        //        .setAction("Action", null).show();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

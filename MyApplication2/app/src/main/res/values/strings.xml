@@ -20,9 +20,9 @@
         completions."
     </string>
 
-    <!-- Strings related to  usuario -->
+    <!-- Strings related to usuario -->
     <string name="activity_cadastro_usuario">Cadastro</string>
-    <string name="prompt_phone">Número (92) 00000-0000</string>
+    <string name="prompt_phone">Número (92) 00000&#8211;0000</string>
     <string name="prompt_first_name">Primeiro nome</string>
     <string name="prompt_last_name">Ultimo nome</string>
 
@@ -30,10 +30,19 @@
     <string name="facebook_app_id">678714429187142</string>
     <string name="fb_login_protocol_scheme">fb678714429187142</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <!-- menu -->
+    <!-- Strings related to toolbars -->
     <string name="menu_perfil">Perfil</string>
     <string name="menu_deslogar">Deslogar</string>
+    <string name="action_menu_search">Procurar</string>
+
+    <!-- Strings related to pefil -->
+    <string name="texto">Texto</string>
+    <string name="primeiro_nome">Primeiro Nome</string>
+    <string name="ultimo_nome">Ultimo Nome</string>
+    <string name="data_nascimento">Data de Nascimento</string>
+    <string name="telefone">Telefone</string>
+    <string name="descricao">Descrição</string>
+
+    <!-- Strings related to fragment title -->
+    <string name="fragment_perfil">Perfil</string>
 </resources>

@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
+
+    <!-- TextView Colors  -->
+    <color name="colorTextViewLabel">#707C80</color>
+    <color name="colorTextViewField">#000000</color>
+    <color name="colorCameraBackground">#3F51B5</color>
+    <color name="recycler_horizontal_divider">#000000</color>
 </resources>
