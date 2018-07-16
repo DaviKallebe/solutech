@@ -7,6 +7,6 @@ export class UserProfileController {
             where: {
                 id_user: req.params.id_user
             }
-        })
+        });
     }
 }

@@ -1,8 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
-import { User } from "./User";
 
-export const UserProfile = sequelize.define('perfil', {
+export let UserProfile = sequelize.define('perfil', {
     primeiroNome: {
         type: Sequelize.STRING(20),
         allowNull: false

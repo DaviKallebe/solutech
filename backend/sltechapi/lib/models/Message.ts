@@ -3,11 +3,11 @@ import { sequelize } from "../mysql";
 
 export const Message = sequelize.define('mensagens', {
     remetente: {
-        type: Sequelize.BIGINT(10).UNSIGNED,
+        type: Sequelize.BIGINT.UNSIGNED,
 		allowNull: false
     },
     destinatario: {
-        type: Sequelize.BIGINT(10).UNSIGNED,
+        type: Sequelize.BIGINT.UNSIGNED,
 		allowNull: false
     },
     mensagem: {

@@ -10,7 +10,7 @@ import { Pet } from "../models/Pet";
 
 export const User = sequelize.define('usuario', {
     id_user: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
 		allowNull: false,
 		primaryKey: true

@@ -20,7 +20,5 @@
     "mysql2": "^1.5.3",
     "sequelize": "^4.37.10"
   },
-  "devDependencies": {
-    "@types/sequelize": "github:types/sequelize"
-  }
+  "devDependencies": {}
 }

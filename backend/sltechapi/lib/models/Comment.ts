@@ -3,11 +3,11 @@ import { sequelize } from "../mysql";
 
 export const Comment = sequelize.define('comentarios', {
     remetente: {
-        type: Sequelize.BIGINT(10).UNSIGNED,
+        type: Sequelize.BIGINT.UNSIGNED,
 		allowNull: false
     },
     destinatario: {
-        type: Sequelize.BIGINT(10).UNSIGNED,
+        type: Sequelize.BIGINT.UNSIGNED,
 		allowNull: false
     },
     comentario: {

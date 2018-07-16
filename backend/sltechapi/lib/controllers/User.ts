@@ -295,7 +295,7 @@ export class UserController {
     public updateUserProfile(req: Request, res: Response) {
         let data = req.body;
 
-        if (req.file.path)
+        if (req.file)
             data.imagem = req.file.path;
 
         UserProfile.update(data, {

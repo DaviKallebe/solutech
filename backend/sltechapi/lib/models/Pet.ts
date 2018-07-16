@@ -4,7 +4,7 @@ import { User } from "./User";
 
 export const Pet = sequelize.define('pet', {
     id_pet: {
-        type: Sequelize.BIGINT(10).UNSIGNED,
+        type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
 		allowNull: false,
 		primaryKey: true
