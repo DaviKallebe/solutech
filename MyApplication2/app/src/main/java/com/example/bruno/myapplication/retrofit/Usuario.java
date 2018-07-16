@@ -29,9 +29,9 @@ public class Usuario {
     private String orgaoEmissor;
     private String cpf;
 
-    private Date nascimento;
-    private Date createdAt;
-    private Date updatedAt;
+    private String nascimento;
+    private String createdAt;
+    private String updatedAt;
 
     public Integer getId() {
         return id;
@@ -47,22 +47,6 @@ public class Usuario {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public Integer getId_user() {
@@ -121,14 +105,6 @@ public class Usuario {
         this.primeiroNome = primeiroNome;
     }
 
-    public Date getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(Date nascimento) {
-        this.nascimento = nascimento;
-    }
-
     public String getDocumento() {
         return documento;
     }
@@ -155,5 +131,29 @@ public class Usuario {
 
     public String getFullName() {
         return primeiroNome + ' ' + ultimoNome;
+    }
+
+    public String getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(String nascimento) {
+        this.nascimento = nascimento;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

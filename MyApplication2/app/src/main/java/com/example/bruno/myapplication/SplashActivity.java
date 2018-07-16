@@ -1,9 +1,11 @@
 package com.example.bruno.myapplication;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -13,6 +15,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -26,6 +30,14 @@ public class SplashActivity extends AppCompatActivity {
 
         mProgressBar = findViewById(R.id.splashProgressBar);
         mAuth = FirebaseAuth.getInstance();
+
+        Resources res = getApplication().getResources();
+        // Change locale settings in the app.
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        //conf.setLocale(new Locale(language_code.toLowerCase())); // API 17+ only.
+        conf.locale = new Locale("pt", "BR");
+        res.updateConfiguration(conf, dm);
     }
 
     public void showProgressBar() {

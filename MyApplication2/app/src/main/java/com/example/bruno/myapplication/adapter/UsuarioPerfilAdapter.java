@@ -3,6 +3,7 @@ package com.example.bruno.myapplication.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +45,16 @@ public class UsuarioPerfilAdapter extends RecyclerView.Adapter<UsuarioPerfilAdap
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         PerfilOpcoes opt = opcoes.get(position);
+        String name = opt.getName();
+        String value = opt.getValueAsString();
 
-        holder.textViewLabel.setText(opt.getNome());
-        holder.textViewField.setText(opt.getValor());
+        holder.textViewLabel.setText(name);
+        holder.textViewField.setText(value);
+
+        if (opt.getTypeField() != null && opt.getTypeField() == 6) {
+            holder.textViewField.setSingleLine(false);
+            holder.textViewField.setLines(5);
+        }
     }
 
     @Override

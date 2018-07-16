@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -106,25 +107,28 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
             SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
             int id_user = prefs.getInt("id_user", 0);
 
-            mViewModel.getCurrentUser(id_user).observe(this, resource -> {
+            mViewModel.getCurrentUser().observe(this, resource -> {
                 if (resource != null && resource.status == Status.SUCCESS) {
                     List<PerfilOpcoes> opt = new ArrayList<>();
                     Usuario user = resource.data;
 
                     //1 - String, 2 - Integer, 3 - Real, 4 - Date, 5 - Phone
-                    opt.add(new PerfilOpcoes(getStr(R.string.primeiro_nome), user.getPrimeiroNome(), 1));
-                    opt.add(new PerfilOpcoes(getStr(R.string.ultimo_nome), user.getUltimoNome(), 1));
-                    opt.add(new PerfilOpcoes(getStr(R.string.data_nascimento), user.getNascimento(), 4));
-                    opt.add(new PerfilOpcoes(getStr(R.string.telefone), user.getTelefone(), 1));
-                    opt.add(new PerfilOpcoes(getStr(R.string.descricao), user.getDescricao(), 1));
+                    opt.add(new PerfilOpcoes<>(getStr(R.string.primeiro_nome),
+                            "primeiroNome", user.getPrimeiroNome(), 1));
+                    opt.add(new PerfilOpcoes<>(getStr(R.string.ultimo_nome),
+                            "ultimoNome", user.getUltimoNome(), 1));
+                    opt.add(new PerfilOpcoes<>(getStr(R.string.data_nascimento),
+                            "nascimento", user.getNascimento(), 4));
+                    opt.add(new PerfilOpcoes<>(getStr(R.string.telefone),
+                            "telefone", user.getTelefone(), 5));
+                    opt.add(new PerfilOpcoes<>(getStr(R.string.descricao),
+                            "descricao", user.getDescricao(), 6));
 
-                    mRecyclerView.setAdapter(new UsuarioPerfilAdapter(opt, context, this));
+                    mAdapter = new UsuarioPerfilAdapter(opt, context, this);
+
+                    mRecyclerView.setAdapter(mAdapter);
 
                     if (user.getImagem() != null) {
-                        Picasso.get().load(user.getImagem())
-                                .networkPolicy(NetworkPolicy.OFFLINE)
-                                .into(mImageView);
-
                         Picasso.get().load(user.getImagem())
                                 .into(mImageView);
                     }
@@ -147,16 +151,16 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     public List<PerfilOpcoes> defaultOptions() {
         List<PerfilOpcoes> opt = new ArrayList<>();
 
-        opt.add(new PerfilOpcoes(getStr(R.string.primeiro_nome),
-                getResources().getString(R.string.primeiro_nome), 1));
-        opt.add(new PerfilOpcoes(getStr(R.string.ultimo_nome),
-                getResources().getString(R.string.ultimo_nome), 1));
-        opt.add(new PerfilOpcoes(getStr(R.string.data_nascimento),
-                getResources().getString(R.string.data_nascimento), 1));
-        opt.add(new PerfilOpcoes(getStr(R.string.telefone),
-                getResources().getString(R.string.telefone), 1));
-        opt.add(new PerfilOpcoes(getStr(R.string.descricao),
-                getResources().getString(R.string.descricao), 1));
+        opt.add(new PerfilOpcoes<>(getStr(R.string.primeiro_nome),
+                getResources().getString(R.string.primeiro_nome)));
+        opt.add(new PerfilOpcoes<>(getStr(R.string.ultimo_nome),
+                getResources().getString(R.string.ultimo_nome)));
+        opt.add(new PerfilOpcoes<>(getStr(R.string.data_nascimento),
+                getResources().getString(R.string.data_nascimento)));
+        opt.add(new PerfilOpcoes<>(getStr(R.string.telefone),
+                getResources().getString(R.string.telefone)));
+        opt.add(new PerfilOpcoes<>(getStr(R.string.descricao),
+                getResources().getString(R.string.descricao)));
 
         return opt;
     }
@@ -177,8 +181,13 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+            ActionBar actionBar = activity.getSupportActionBar();
+
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayShowHomeEnabled(true);
+            }
+
             activity.setTitle(getResources().getString(R.string.fragment_perfil));
         }
 
@@ -187,15 +196,25 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        int menu_id = item.getItemId();
 
-        switch (item.getItemId()) {
+        switch (menu_id) {
             case android.R.id.home:
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
+                if (activity != null) {
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                    if (fragmentManager != null)
+                        fragmentManager.popBackStackImmediate();
+                }
+
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -217,8 +236,12 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
         if (activity != null) {
-            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            activity.getSupportActionBar().setDisplayShowHomeEnabled(false);
+            ActionBar actionBar = activity.getSupportActionBar();
+
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setDisplayShowHomeEnabled(false);
+            }
             activity.setTitle(getResources().getString(R.string.app_label));
         }
     }
@@ -226,32 +249,40 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     @Override
     public void onResume() {
         super.onResume();
-
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
-        ActionBar actionBar = activity.getSupportActionBar();
-
-        //if (actionBar != null) actionBar.hide();
     }
     @Override
     public void onStop() {
         super.onStop();
-
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
-        ActionBar actionBar = activity.getSupportActionBar();
-
-        //if (actionBar != null) actionBar.show();
     }
 
     public interface OnFragmentInteractionListener {
-        //
+        void changeValue(PerfilOpcoes opt);
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        if (mAdapter == null)
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        if (mAdapter == null || mListener == null || activity == null)
             return;
 
-        PerfilOpcoes opt = mAdapter.getItem(position);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        if (fragmentManager != null) {
+            PerfilOpcoes opt = mAdapter.getItem(position);
+            EditValueFragment editValueFragment = new EditValueFragment();
+
+            editValueFragment.setOption(opt);
+
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
+                    .replace(R.id.fragment_usuario_perfil,
+                            editValueFragment,
+                            editValueFragment.getClass().getSimpleName())
+                    .addToBackStack(null)
+                    .commit();
+        }
+
     }
 
     public String getStr(int id) {

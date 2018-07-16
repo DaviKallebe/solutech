@@ -21,6 +21,7 @@ public class LogadoViewModel extends AndroidViewModel {
 
     private AppDatabase appDatabase;
     private UsuarioRepository mUserRepository;
+    private LiveData<ResourceState<Usuario>> currentUser;
 
     public LogadoViewModel(@NonNull Application application) {
         super(application);
@@ -35,13 +36,20 @@ public class LogadoViewModel extends AndroidViewModel {
         mUserRepository = new UsuarioRepository(appDatabase);
     }
 
-    public LiveData<ResourceState<Usuario>> getCurrentUser(int id_user) {
+    public void loadCurrentUser(int id_user) {
+        this.currentUser = mUserRepository.getCurrentUser(id_user);
+    }
 
-        return mUserRepository.getCurrentUser(id_user);
+    public LiveData<ResourceState<Usuario>> getCurrentUser() {
+        return this.currentUser;
     }
 
     //image perfil
     public void updateProfile(int id_user, ByteArrayOutputStream image) {
         mUserRepository.updateProfile(id_user, "imagem", image);
+    }
+
+    public <T> void updateProfile(int id_user, String fieldName, T fieldValue) {
+        mUserRepository.updateProfile(id_user, fieldName, fieldValue);
     }
 }

@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.bruno.myapplication.commons.PerfilOpcoes;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,8 @@ import java.io.ByteArrayOutputStream;
 
 public class Logado extends AppCompatActivity implements HospedadorListagemFragment.OnFragmentInteractionListener,
         ListMessageFragment.OnFragmentInteractionListener,
-        UsuarioPerfilFragment.OnFragmentInteractionListener {
+        UsuarioPerfilFragment.OnFragmentInteractionListener,
+        EditValueFragment.OnFragmentInteractionListener {
 
     private static final int NUM_PAGES = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -55,10 +57,11 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
         tabLayout = findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mPager);
 
-        mViewModel = ViewModelProviders.of(this).get(LogadoViewModel.class);
-
         SharedPreferences prefs = getSharedPreferences("userfile", MODE_PRIVATE);
         id_user = prefs.getInt("id_user", 0);
+
+        mViewModel = ViewModelProviders.of(this).get(LogadoViewModel.class);
+        mViewModel.loadCurrentUser(id_user);
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
@@ -157,6 +160,26 @@ public class Logado extends AppCompatActivity implements HospedadorListagemFragm
             if (mViewModel != null)
                 mViewModel.updateProfile(id_user, stream);
         }
+    }
+
+    @Override
+    public void changeValue(PerfilOpcoes opt) {
+        EditValueFragment editValueFragment = new EditValueFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
+                .replace(R.id.activity_logado,
+                        editValueFragment,
+                        editValueFragment.getClass().getSimpleName())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public <T> void saveFieldOnBackend(String fieldName, T fieldValue) {
+        if (mViewModel != null)
+            mViewModel.updateProfile(id_user, fieldName, fieldValue);
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

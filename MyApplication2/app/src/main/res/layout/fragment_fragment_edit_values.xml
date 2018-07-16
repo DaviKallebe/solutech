@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".EditValueFragment"
+    android:background="@android:color/white">
+    
+    <TextView
+        android:id="@+id/fragment_edit_textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:textSize="22sp"
+        android:text="mytitle"/>
+
+    <RelativeLayout
+        android:id="@+id/fragment_edit_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/fragment_edit_textview_title">
+
+        <EditText
+            android:id="@+id/fragment_edit_edittext_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="top|start"
+            android:hint="" />
+
+        <DatePicker
+            android:id="@+id/fragment_edit_datePicker_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:spinnersShown="true"
+            android:visibility="gone">
+        </DatePicker>
+
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        
+        <Button
+            android:id="@+id/fragment_edit_button_cancel"
+            android:layout_width="0dp"
+            android:layout_weight="0.35"
+            android:layout_height="50dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/fragment_cancel_action"/>
+
+        <Button
+            android:id="@+id/fragment_edit_button_confirm"
+            android:layout_width="0dp"
+            android:layout_weight="0.35"
+            android:layout_height="50dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/fragment_confirm_action"/>
+    </LinearLayout>
+
+</RelativeLayout>
