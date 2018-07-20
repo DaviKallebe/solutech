@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import { UserProfile } from "../models/UserProfile"
+import { Pet } from "../models/Pet"
 import { Request, Response } from 'express';
 import { config } from '../../config'
 
@@ -313,6 +314,52 @@ export class UserController {
                     newProfile.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + newProfile.imagem.replace(/\\/gi, "/");
                 res.status(200).json(newProfile);
             });
+        })
+        .catch(error => this.errorHandler(error, req, res));
+    }
+
+    public createPet = (req: Request, res: Response) => {
+        Pet.create(req.body).then(pet => {
+            res.status(200).json(pet);
+        })
+        .catch(error => this.errorHandler(error, req, res));
+    }
+
+    public updatePet(req: Request, res: Response) {
+        Pet.update(req.body, {
+            where: {
+                id_user: req.body.id_user
+            }
+        })
+        .then(pet => {
+            res.status(200).json(pet);
+        })
+        .catch(error => this.errorHandler(error, req, res));
+    }
+
+    public getPet(req: Request, res: Response) {
+        Pet.findOne({
+            where: {
+                id_pet: req.params.id_pet
+            }
+        })
+        .then(pet => {
+            if (pet)
+                res.status(200).json(pet);
+            else
+                res.status(404).end();
+        })
+        .catch(error => this.errorHandler(error, req, res));
+    }
+
+    public getPetList(req: Request, res: Response) {
+        Pet.findAll({
+            where: {
+                id_user: req.params.id_user
+            }
+        })
+        .then(pets => {
+            res.status(200).json(pets);
         })
         .catch(error => this.errorHandler(error, req, res));
     }

@@ -31,5 +31,20 @@ export const UserHost = sequelize.define('hospedador', {
     },
     femea: {
         type: Sequelize.BOOLEAN
+    },
+    numerComentario: {
+        type: Sequelize.INTEGER.UNSIGNED
+    },
+    totalLike: {
+        type: Sequelize.INTEGER.UNSIGNED
+    },     
+    totalPLN: {
+        type: Sequelize.DOUBLE
+    },
+    preco: {
+        type: Sequelize.DOUBLE
+    },
+    precoExotico: {
+        type: Sequelize.DOUBLE
     }
 });

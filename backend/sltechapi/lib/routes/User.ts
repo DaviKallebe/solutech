@@ -40,5 +40,12 @@ export class UserRoutes {
         app.put('/user/profile/update', 
                 this.fileUploadHandler.single('imagem'),
                 this.userControler.updateUserProfile);
+        //user pet
+        app.post('/user/pet/create',
+                this.userControler.createPet);
+        app.put('/user/pet/update',
+                this.userControler.updatePet);
+        app.get('/user/pet/getlist/:id_user',
+                this.userControler.getPetList);
     }
 }

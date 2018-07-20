@@ -16,10 +16,10 @@ export const Pet = sequelize.define('pet', {
         type: Sequelize.INTEGER
     },
     especie: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING(30)
     },
     raca: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING(30)
     },
     tamanho: {
         type: Sequelize.DECIMAL
@@ -37,7 +37,7 @@ export const Pet = sequelize.define('pet', {
         type: Sequelize.BOOLEAN
     },
     imagem: {
-        type: Sequelize.TEXT("tiny")
+        type: Sequelize.TEXT("long")
     },
     outros: {
         type: Sequelize.TEXT("tiny")

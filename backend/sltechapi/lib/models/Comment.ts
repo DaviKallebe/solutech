@@ -12,5 +12,8 @@ export const Comment = sequelize.define('comentarios', {
     },
     comentario: {
         type: Sequelize.TEXT('tiny')
+    },
+    ponto: {
+        type: Sequelize.DOUBLE
     }
 });
