@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/recycler_novo_servico_check_selected"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/recycler_novo_servico_image_pet"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pet_icon" />
+
+        <TextView
+            android:id="@+id/recycler_novo_servico_nome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:text="Nome"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+</RelativeLayout>

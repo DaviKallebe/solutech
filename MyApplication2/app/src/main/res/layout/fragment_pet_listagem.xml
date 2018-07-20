@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListMessageFragment"
-    android:id="@+id/fragment_List_message">
+    android:background="@android:color/white"
+    tools:context=".PetListagemFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/mensagem_listagem_recycler"
+        android:id="@+id/listagem_pet_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

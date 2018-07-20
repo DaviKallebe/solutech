@@ -195,7 +195,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void goMainActicity(Usuario user) {
-        Intent intent = new Intent(Login.this, Logado.class);
+        Intent intent = new Intent(Login.this, MainActivity.class);
 
         saveToPreferences(user);
 

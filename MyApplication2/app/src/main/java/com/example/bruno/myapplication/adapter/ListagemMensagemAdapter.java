@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ListMessageAdapter extends RecyclerView.Adapter<ListMessageAdapter.CustomViewHolder> {
+public class ListagemMensagemAdapter extends RecyclerView.Adapter<ListagemMensagemAdapter.CustomViewHolder> {
 
     public interface OnItemClicked {
         void onItemClick(View view, int position);
@@ -34,12 +34,12 @@ public class ListMessageAdapter extends RecyclerView.Adapter<ListMessageAdapter.
     private Context context;
     private OnItemClicked onClick;
 
-    public ListMessageAdapter(List<Mensagem> mensagens, Context context) {
+    public ListagemMensagemAdapter(List<Mensagem> mensagens, Context context) {
         this.mensagens = mensagens;
         this.context = context;
     }
 
-    public ListMessageAdapter(List<Mensagem> mensagens, Context context, OnItemClicked onClick) {
+    public ListagemMensagemAdapter(List<Mensagem> mensagens, Context context, OnItemClicked onClick) {
         this.mensagens = mensagens;
         this.context = context;
         this.onClick = onClick;
@@ -49,7 +49,7 @@ public class ListMessageAdapter extends RecyclerView.Adapter<ListMessageAdapter.
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.list_message_recycler, parent, false);
+                .inflate(R.layout.fragment_listagem_mensagem_recycler, parent, false);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 

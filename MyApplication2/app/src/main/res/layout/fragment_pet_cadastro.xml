@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".PetCadastroFragment">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".PetCadastroFragment"
+        tools:layout_editor_absoluteY="81dp">
+
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cadastrar Pet"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_nome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Nome:"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_pet_cadastro_nome"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_pet_cadastro_nome"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_nome"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="Nome:" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Idade:"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_pet_cadastro_idade"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_idade"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Sexo:"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_pet_cadastro_sexo"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_sexo"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Espécie:"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_pet_cadastro_especie"
+            app:layout_constraintStart_toStartOf="@+id/textView18"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_especie" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Raça:"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_pet_cadastro_raca"
+            app:layout_constraintStart_toStartOf="@+id/textView10"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_raca" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Peso(kg):"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_pet_cadastro_peso"
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_peso" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Descrição:"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_descricao"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_castrado" />
+
+        <Switch
+            android:id="@+id/fragment_pet_cadastro_castrado"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:layout_marginTop="8dp"
+            android:checked="false"
+            android:text="@string/fragment_pet_castrado_castrado"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_pet_cadastro_peso"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_peso" />
+
+        <EditText
+            android:id="@+id/fragment_pet_cadastro_nome"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="18sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_idade"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            tools:text="Nome" />
+
+        <EditText
+            android:id="@+id/fragment_pet_cadastro_idade"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:inputType="number"
+            android:max="20"
+            android:progress="1"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_pet_cadastro_nome"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/fragment_pet_cadastro_nome"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_nome" />
+
+        <EditText
+            android:id="@+id/fragment_pet_cadastro_especie"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_raca"
+            app:layout_constraintStart_toStartOf="@+id/fragment_pet_cadastro_sexo"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_sexo"
+            app:layout_constraintVertical_bias="0.538"
+            tools:text="Espécie" />
+
+        <EditText
+            android:id="@+id/fragment_pet_cadastro_raca"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_peso"
+            app:layout_constraintStart_toStartOf="@+id/fragment_pet_cadastro_especie"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_especie"
+            tools:text="Raça" />
+
+        <Switch
+            android:id="@+id/fragment_pet_cadastro_vacinado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/fragment_pet_castrado_vacinado"
+            android:textSize="24sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/textView14"
+            app:layout_constraintTop_toTopOf="@+id/fragment_pet_cadastro_castrado" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <EditText
+            android:id="@+id/fragment_pet_cadastro_descricao"
+            android:layout_width="347dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:gravity="start|top"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_confirmar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+        <EditText
+            android:id="@+id/fragment_pet_cadastro_peso"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:inputType="numberDecimal"
+            android:max="90"
+            android:progress="1"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_pet_cadastro_castrado"
+            app:layout_constraintStart_toStartOf="@+id/fragment_pet_cadastro_raca"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_raca" />
+
+        <RadioGroup
+            android:id="@+id/fragment_pet_cadastro_sexo"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/fragment_pet_cadastro_idade"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/fragment_pet_cadastro_idade"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_idade">
+
+            <RadioButton
+                android:id="@+id/fragment_pet_cadastro_radio_femea"
+                android:layout_width="107dp"
+                android:layout_height="match_parent"
+                android:text="@string/fragment_pet_cadastro_femea"
+                android:value="2" />
+
+            <RadioButton
+                android:id="@+id/fragment_pet_cadastro_radio_macho"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:checked="true"
+                android:text="@string/fragment_pet_cadastro_macho"
+                android:value="1" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/fragment_pet_cadastro_confirmar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Cadastrar"
+            android:textSize="18sp"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_pet_cadastro_descricao" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

@@ -144,7 +144,7 @@ public class MessageUserFragment extends Fragment {
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
             View view = LayoutInflater.from(context)
-                    .inflate(R.layout.message_user_recycler, parent, false);
+                    .inflate(R.layout.fragment_message_user_recycler, parent, false);
 
             CustomViewHolder viewHolder = new CustomViewHolder(view);
             return viewHolder;

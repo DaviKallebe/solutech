@@ -11,9 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bruno.myapplication.adapter.ListMessageAdapter;
-import com.example.bruno.myapplication.retrofit.Mensagem;
+import com.example.bruno.myapplication.adapter.ListagemHospedadorAdapter;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
+import com.example.bruno.myapplication.retrofit.Usuario;
 
 import java.util.List;
 
@@ -22,21 +22,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ListMessageFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ListMessageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ListMessageFragment extends Fragment implements ListMessageAdapter.OnItemClicked, Callback<List<Mensagem>> {
+public class ListagemHospedadorFragment extends Fragment implements ListagemHospedadorAdapter.OnItemClicked, Callback<List<Usuario>> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -44,23 +35,14 @@ public class ListMessageFragment extends Fragment implements ListMessageAdapter.
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private Call<List<Mensagem>> call;
+    private Call<List<Usuario>> call;
 
-    public ListMessageFragment() {
+    public ListagemHospedadorFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListMessageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ListMessageFragment newInstance(String param1, String param2) {
-        ListMessageFragment fragment = new ListMessageFragment();
+    public static ListagemHospedadorFragment newInstance(String param1, String param2) {
+        ListagemHospedadorFragment fragment = new ListagemHospedadorFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -82,34 +64,16 @@ public class ListMessageFragment extends Fragment implements ListMessageAdapter.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_list_message, container, false);
+                R.layout.fragment_hospedador_listagem, container, false);
 
-        mRecyclerView = rootView.findViewById(R.id.mensagem_listagem_recycler);
+        mRecyclerView = rootView.findViewById(R.id.hospedador_listagem_recycler);
         mLayoutManager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        Bundle bundle = this.getArguments();
-
-        if (bundle != null) {
-            call = new RetrofitConfig().getUsuarioService().getMessages(bundle.getInt("id_user"));
-            call.enqueue(this);
-        }
+        call = new RetrofitConfig().getUsuarioService().listUsers();
+        call.enqueue(this);
 
         return rootView;
-    }
-
-    @Override
-    public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
-        if (response.code() == 200) {
-            mAdapter = new ListMessageAdapter(response.body(), this.getContext(), this);
-            mRecyclerView.setAdapter(mAdapter);
-        }
-    }
-
-    @Override
-    public void onFailure(Call<List<Mensagem>> call, Throwable t) {
-        //Snackbar.make(getView().findViewById(R.id.fragment_List_message), "Verifique sua conexão!", Snackbar.LENGTH_LONG)
-        //        .setAction("Action", null).show();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -134,15 +98,36 @@ public class ListMessageFragment extends Fragment implements ListMessageAdapter.
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        if (call != null)
+            call.cancel();
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        //
+        void verUsuarioDetalhes(Usuario user);
+    }
+
+    @Override
+    public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+        if (response.code() == 200) {
+            mAdapter = new ListagemHospedadorAdapter(response.body(), this.getContext(), this);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
+
+    @Override
+    public void onFailure(Call<List<Usuario>> call, Throwable t) {
+        View view = getView();
+
+        if (view != null)
+            Snackbar.make(view, "Problemas de comunicação!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
     }
 
     @Override
     public void onItemClick(View view, int position) {
+        Usuario user = ((ListagemHospedadorAdapter)mAdapter).getItem(position);
 
+        mListener.verUsuarioDetalhes(user);
     }
 }

@@ -9,21 +9,24 @@ import android.util.Log;
 
 import com.example.bruno.myapplication.commons.ResourceState;
 import com.example.bruno.myapplication.repository.UsuarioRepository;
+import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.example.bruno.myapplication.room.AppDatabase;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-public class LogadoViewModel extends AndroidViewModel {
+public class MainActivityViewModel extends AndroidViewModel {
 
     private AppDatabase appDatabase;
     private UsuarioRepository mUserRepository;
     private LiveData<ResourceState<Usuario>> currentUser;
+    private LiveData<ResourceState<List<Pet>>> userPetList;
 
-    public LogadoViewModel(@NonNull Application application) {
+    public MainActivityViewModel(@NonNull Application application) {
         super(application);
 
         appDatabase = Room.databaseBuilder(
@@ -40,8 +43,24 @@ public class LogadoViewModel extends AndroidViewModel {
         this.currentUser = mUserRepository.getCurrentUser(id_user);
     }
 
+    public void loadPetList(int id_user) {
+        this.userPetList = mUserRepository.getPetList(id_user);
+    }
+
     public LiveData<ResourceState<Usuario>> getCurrentUser() {
         return this.currentUser;
+    }
+
+    public LiveData<ResourceState<List<Pet>>> getPetList() {
+        return this.userPetList;
+    }
+
+    public LiveData<Pet> getPet(Integer id_pet) {
+        return mUserRepository.getPet(id_pet);
+    }
+
+    public void inserPet(Pet pet) {
+        mUserRepository.createNewPet(pet);
     }
 
     //image perfil

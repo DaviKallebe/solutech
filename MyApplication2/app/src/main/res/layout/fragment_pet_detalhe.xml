@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".PetDetalheFragment"
+    tools:layout_editor_absoluteY="81dp">
+
+    <ImageView
+        android:id="@+id/fragment_pet_detalhe_imagem_perfil"
+        android:layout_width="347dp"
+        android:layout_height="187dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_idade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_nome"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/fragment_pet_detalhe_idade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="idade"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_especie"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_pet_detalhe_sexo"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_imagem_perfil"
+        tools:text="Idade" />
+
+    <TextView
+        android:id="@+id/fragment_pet_detalhe_sexo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sexo"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_especie"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_pet_detalhe_peso"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragment_pet_detalhe_idade"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_imagem_perfil"
+        tools:text="Sexo" />
+
+    <TextView
+        android:id="@+id/fragment_pet_detalhe_raca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="raca"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_descricao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragment_pet_detalhe_especie"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_peso"
+        tools:text="Raça" />
+
+    <TextView
+        android:id="@+id/fragment_pet_detalhe_especie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="especie"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_descricao"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_pet_detalhe_raca"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_idade"
+        tools:text="Espécie" />
+
+    <TextView
+        android:id="@+id/fragment_pet_detalhe_peso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="peso"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_raca"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragment_pet_detalhe_sexo"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_imagem_perfil"
+        tools:text="Peso" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintGuide_begin="0dp" />
+
+    <TextView
+        android:id="@+id/fragment_pet_detalhe_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="nome"
+        android:textSize="30sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_pet_detalhe_imagem_perfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Nome" />
+
+    <EditText
+        android:id="@+id/fragment_pet_detalhe_descricao"
+        android:layout_width="347dp"
+        android:layout_height="120dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:text="descricao"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_pet_detalhe_raca"
+        tools:text="Descrição do Animalzinho vai aqui do jeito que o usuário quiser because reasons" />
+
+</android.support.constraint.ConstraintLayout>

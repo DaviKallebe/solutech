@@ -26,16 +26,14 @@ import com.example.bruno.myapplication.commons.BrPhoneNumberFormatter;
 import com.example.bruno.myapplication.commons.PerfilOpcoes;
 
 import java.lang.ref.WeakReference;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 
-public class EditValueFragment extends Fragment implements View.OnClickListener {
+public class EditarValorFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -44,17 +42,17 @@ public class EditValueFragment extends Fragment implements View.OnClickListener 
     private PerfilOpcoes mOption;
     private EditText mTextValue;
     private DatePicker mDatePickerValue;
-    private LogadoViewModel mViewModel;
+    private MainActivityViewModel mViewModel;
     private Context mContext;
 
     private OnFragmentInteractionListener mListener;
 
-    public EditValueFragment() {
+    public EditarValorFragment() {
         // Required empty public constructor
     }
 
-    public static EditValueFragment newInstance(String param1, String param2) {
-        EditValueFragment fragment = new EditValueFragment();
+    public static EditarValorFragment newInstance(String param1, String param2) {
+        EditarValorFragment fragment = new EditarValorFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,14 +68,14 @@ public class EditValueFragment extends Fragment implements View.OnClickListener 
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        mViewModel = ViewModelProviders.of(getActivity()).get(LogadoViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_fragment_edit_values,
+        View rootView = inflater.inflate(R.layout.fragment_fragment_editar_valor,
                 container, false);
         setHasOptionsMenu(true);
 

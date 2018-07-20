@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -63,7 +62,7 @@ public class NovoUsuarioActivity extends Activity
                 if (response.code() == 201){
                     Usuario user = response.body();
 
-                    Intent intent = new Intent(NovoUsuarioActivity.this, Logado.class);
+                    Intent intent = new Intent(NovoUsuarioActivity.this, MainActivity.class);
                     intent.putExtra("email", user.getEmail());
                     intent.putExtra("primeiroNome", user.getPrimeiroNome());
                     intent.putExtra("ultimoNome", user.getUltimoNome());

@@ -54,4 +54,18 @@ public interface ObservableUsarioService {
 
     @PUT("user/profile/update/")
     Observable<Usuario> updateUserProfile(@Body RequestBody object);
+
+    @GET("user/pet/getlist/{id_user}")
+    Flowable<Response<List<Pet>>> getPetList(@Path("id_user") Integer id_user);
+
+    @Multipart
+    @PUT("user/pet/update/")
+    Observable<Pet> updateUserPet(@PartMap Map<String, RequestBody> object,
+                                  @Part MultipartBody.Part image);
+
+    @PUT("user/pet/update/")
+    Observable<Pet> updateUserPet(@Body RequestBody object);
+
+    @POST("user/pet/create/")
+    Observable<Pet> createUserPet(@Body RequestBody body);
 }

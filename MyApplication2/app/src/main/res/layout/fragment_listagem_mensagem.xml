@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListagemHospedadorFragment"
-    android:id="@+id/fragment_hospedador_listagem" >
+    tools:context=".ListagemMensagemFragment"
+    android:id="@+id/fragment_List_message">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/hospedador_listagem_recycler"
+        android:id="@+id/mensagem_listagem_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

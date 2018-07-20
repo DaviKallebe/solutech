@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import com.example.bruno.myapplication.adapter.UsuarioPerfilAdapter;
 import com.example.bruno.myapplication.commons.PerfilOpcoes;
 import com.example.bruno.myapplication.commons.Status;
 import com.example.bruno.myapplication.retrofit.Usuario;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -54,8 +52,9 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     private RecyclerView mRecyclerView;
     private UsuarioPerfilAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private LogadoViewModel mViewModel;
+    private MainActivityViewModel mViewModel;
     CircleImageView mImageView;
+    private Integer id_user;
 
     public UsuarioPerfilFragment() {
         // Required empty public constructor
@@ -80,7 +79,7 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
         }
 
         //
-        mViewModel = ViewModelProviders.of(getActivity()).get(LogadoViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
     }
 
     @Override
@@ -105,7 +104,7 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
             mImageView.setOnClickListener(this::dispatchTakePictureIntent);
 
             SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
-            int id_user = prefs.getInt("id_user", 0);
+            id_user = prefs.getInt("id_user", 0);
 
             mViewModel.getCurrentUser().observe(this, resource -> {
                 if (resource != null && resource.status == Status.SUCCESS) {
@@ -133,8 +132,8 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                                 .into(mImageView);
                     }
                 }
-                else
-                    mRecyclerView.setAdapter(new UsuarioPerfilAdapter(defaultOptions(), context, this));
+                /*else
+                    mRecyclerView.setAdapter(new UsuarioPerfilAdapter(defaultOptions(), context, this));*/
             });
         }
 
@@ -173,10 +172,26 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     }
 
     @Override
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
+        //
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        if (activity != null) {
+            ActionBar actionBar = activity.getSupportActionBar();
+
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(false);
+                actionBar.setDisplayShowHomeEnabled(false);
+            }
+            activity.setTitle(getResources().getString(R.string.app_label));
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.findItem(R.id.action_search).setVisible(false);
-        menu.findItem(R.id.action_perfil).setVisible(false);
-        menu.findItem(R.id.action_deslogar).setVisible(false);
+        menu.clear();
+        inflater.inflate(R.menu.usuario_perfil_menu, menu);
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
@@ -210,6 +225,15 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                 }
 
                 break;
+            case R.id.action_perfil_pets:
+                PetListagemFragment petListagemFragment = new PetListagemFragment();
+
+                mViewModel.loadPetList(id_user);
+
+                goToFragment(petListagemFragment);
+                break;
+            case R.id.action_perfil_local:
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -232,18 +256,6 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        //
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-        if (activity != null) {
-            ActionBar actionBar = activity.getSupportActionBar();
-
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(false);
-                actionBar.setDisplayShowHomeEnabled(false);
-            }
-            activity.setTitle(getResources().getString(R.string.app_label));
-        }
     }
 
     @Override
@@ -266,23 +278,34 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
         if (mAdapter == null || mListener == null || activity == null)
             return;
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
         if (fragmentManager != null) {
             PerfilOpcoes opt = mAdapter.getItem(position);
-            EditValueFragment editValueFragment = new EditValueFragment();
+            EditarValorFragment editarValorFragment = new EditarValorFragment();
 
-            editValueFragment.setOption(opt);
-
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
-                    .replace(R.id.fragment_usuario_perfil,
-                            editValueFragment,
-                            editValueFragment.getClass().getSimpleName())
-                    .addToBackStack(null)
-                    .commit();
+            editarValorFragment.setOption(opt);
+            goToFragment(editarValorFragment);
         }
 
+    }
+
+    public void goToFragment(Fragment fragmentDestination) {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        if (activity != null) {
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
+                        .replace(R.id.fragment_usuario_perfil,
+                                fragmentDestination,
+                                fragmentDestination.getClass().getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
     }
 
     public String getStr(int id) {

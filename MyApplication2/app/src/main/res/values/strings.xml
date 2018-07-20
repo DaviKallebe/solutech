@@ -45,9 +45,26 @@
 
     <!-- Strings related to fragment title -->
     <string name="fragment_perfil">Perfil</string>
+    <string name="fragment_pet">Pets</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_cancel_action">Cancelar</string>
     <string name="fragment_confirm_action">Confirmar</string>
+
+    <!-- Strings related to fragmento formulatrio -->
+    <string name="data_inicio">Data de Início</string>
+    <string name="data_final">Data de Término</string>
+    <string name="preco_total">Preço total:</string>
+
+    <!-- out of order -->
+    <string name="menu_perfil_pets">Meus Pets</string>
+    <string name="menu_perfil_local">Meu Local</string>
+    <string name="fragment_pet_detalhe_menu_add">Adicionar pet</string>
+    <string name="fragment_pet_cadastro_macho">Macho</string>
+    <string name="fragment_pet_cadastro_femea">Fêmea</string>
+    <string name="fragment_pet_castrado_castrado">Castrado</string>
+    <string name="fragment_pet_castrado_vacinado">Vacinado</string>
+    <string name="fragment_pet_detalhe_menu_remover">Remover</string>
+    <string name="fragment_pet_detalhe_menu_editar">Editar</string>
 </resources>

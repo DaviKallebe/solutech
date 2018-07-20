@@ -9,19 +9,27 @@ import android.util.Log;
 
 import com.example.bruno.myapplication.commons.NetworkBoundSource;
 import com.example.bruno.myapplication.commons.ResourceState;
+import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.example.bruno.myapplication.room.AppDatabase;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
@@ -33,9 +41,10 @@ import retrofit2.Response;
 public class UsuarioRepository {
 
     private AppDatabase appDatabase;
-    private int retry;
+    private CompositeDisposable compositeDisposable;
 
     public UsuarioRepository(AppDatabase appDatabase) {
+        this.compositeDisposable = new CompositeDisposable();
         this.appDatabase = appDatabase;
     }
 
@@ -60,15 +69,75 @@ public class UsuarioRepository {
             @NonNull
             @Override
             protected LiveData<Response<Usuario>> createCall() {
-                return LiveDataReactiveStreams.fromPublisher(
-                        new RetrofitConfig()
-                                .getObservableUsuarioService()
-                                .getResponseProfile(id_user, null)
-                                .subscribeOn(Schedulers.newThread())
-                                .observeOn(Schedulers.newThread())
-                                .onExceptionResumeNext(next -> UsuarioRepository.handleError("FALHOU")));
+                return LiveDataReactiveStreams.fromPublisher(new RetrofitConfig()
+                        .getObservableUsuarioService()
+                        .getResponseProfile(id_user, null)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.newThread())
+                        .onExceptionResumeNext(next -> UsuarioRepository.handleError("FALHOU")));
             }
         }.getAsLiveData();
+    }
+
+    public LiveData<ResourceState<List<Pet>>> getPetList(int id_user) {
+        return new NetworkBoundSource<List<Pet>, List<Pet>>() {
+            @Override
+            protected void saveCallResult(@NonNull List<Pet> item) {
+                appDatabase.getPetDao().inserPets(item.toArray(new Pet[item.size()]));
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Pet> data) {
+                return true;
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Pet>> loadFromDb() {
+                return appDatabase.getPetDao().gePetList();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<Response<List<Pet>>> createCall() {
+                return LiveDataReactiveStreams.fromPublisher(new RetrofitConfig()
+                        .getObservableUsuarioService()
+                        .getPetList(id_user)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.newThread())
+                        .onExceptionResumeNext(next -> UsuarioRepository.handleError("FALHOU")));
+            }
+        }.getAsLiveData();
+    }
+
+    public LiveData<Pet> getPet(Integer id_pet) {
+        return appDatabase.getPetDao().getPet(id_pet);
+    }
+
+    //upate user information
+    private void insertPetRoom(Pet pet) {
+        AsyncTask.execute(() -> appDatabase.getPetDao().inserPets(pet));
+    }
+
+    public void createNewPet(Pet pet) {
+        try {
+            RequestBody body = RequestBody
+                    .create(MediaType.parse("application/json; charset=utf-8"), pet.getFieldsJson().toString());
+
+            Observable<Pet> createPet = new RetrofitConfig()
+                    .getObservableUsuarioService()
+                    .createUserPet(body);
+
+            Disposable disposable = createPet.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::insertPetRoom, this::handleInternalError);
+
+            compositeDisposable.add(disposable);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
@@ -134,6 +203,8 @@ public class UsuarioRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(this::updateCurrentUser)
                 .subscribe();
+
+        compositeDisposable.add(disposable);
     }
 
     //update anything else
@@ -156,6 +227,8 @@ public class UsuarioRepository {
         Disposable disposable = updateProfile.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateCurrentUser);
+
+        compositeDisposable.add(disposable);
     }
 
     //handle error in general
@@ -163,9 +236,10 @@ public class UsuarioRepository {
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
 
-            if (httpException.code() == 404) {
-                //
-            }
+            Log.d("URLRetro", httpException.response().raw().request().url().toString());
+            Log.d("CODERetro", Integer.toString(httpException.code()));
+
+            httpException.printStackTrace();
         }
     }
 

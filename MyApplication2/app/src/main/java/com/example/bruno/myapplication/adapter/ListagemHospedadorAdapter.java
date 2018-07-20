@@ -3,7 +3,6 @@ package com.example.bruno.myapplication.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import com.example.bruno.myapplication.retrofit.Usuario;
 
 import java.util.List;
 
-public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorListagemAdapter.CustomViewHolder> {
+public class ListagemHospedadorAdapter extends RecyclerView.Adapter<ListagemHospedadorAdapter.CustomViewHolder> {
 
     public interface OnItemClicked {
         void onItemClick(View view, int position);
@@ -29,12 +28,12 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
     private List<Usuario> usuarios;
     private Context context;
 
-    public HospedadorListagemAdapter(List<Usuario> usuarios, Context context) {
+    public ListagemHospedadorAdapter(List<Usuario> usuarios, Context context) {
         this.usuarios = usuarios;
         this.context = context;
     }
 
-    public HospedadorListagemAdapter(List<Usuario> usuarios, Context context, OnItemClicked onClick) {
+    public ListagemHospedadorAdapter(List<Usuario> usuarios, Context context, OnItemClicked onClick) {
         this.usuarios = usuarios;
         this.context = context;
         this.onClick = onClick;

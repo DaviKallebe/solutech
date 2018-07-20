@@ -2,7 +2,6 @@ package com.example.bruno.myapplication;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -11,8 +10,6 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 
 import com.facebook.login.LoginManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -66,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
             .addOnSuccessListener(aVoid -> {
                 FirebaseUser user = mAuth.getCurrentUser();
                 closeProgressBar();
-                startActivity(new Intent(SplashActivity.this, Logado.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             });
     }
 
