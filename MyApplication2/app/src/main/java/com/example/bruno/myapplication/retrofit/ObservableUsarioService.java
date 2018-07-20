@@ -68,4 +68,7 @@ public interface ObservableUsarioService {
 
     @POST("user/pet/create/")
     Observable<Pet> createUserPet(@Body RequestBody body);
+
+    @GET("user/get/{nome}")
+    Flowable<List<Usuario>> getUserByName(@Path("nome") String nome);
 }

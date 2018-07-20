@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ListagemHospedadorFragment extends Fragment implements ListagemHospedadorAdapter.OnItemClicked, Callback<List<Usuario>> {
+public class HospedadorListagemFragment extends Fragment implements ListagemHospedadorAdapter.OnItemClicked, Callback<List<Usuario>> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,12 +37,12 @@ public class ListagemHospedadorFragment extends Fragment implements ListagemHosp
     private RecyclerView.LayoutManager mLayoutManager;
     private Call<List<Usuario>> call;
 
-    public ListagemHospedadorFragment() {
+    public HospedadorListagemFragment() {
         // Required empty public constructor
     }
 
-    public static ListagemHospedadorFragment newInstance(String param1, String param2) {
-        ListagemHospedadorFragment fragment = new ListagemHospedadorFragment();
+    public static HospedadorListagemFragment newInstance(String param1, String param2) {
+        HospedadorListagemFragment fragment = new HospedadorListagemFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

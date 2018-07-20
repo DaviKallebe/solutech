@@ -153,9 +153,7 @@ public class EditarValorFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.findItem(R.id.action_search).setVisible(false);
-        menu.findItem(R.id.action_perfil).setVisible(false);
-        menu.findItem(R.id.action_deslogar).setVisible(false);
+        menu.clear();
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 

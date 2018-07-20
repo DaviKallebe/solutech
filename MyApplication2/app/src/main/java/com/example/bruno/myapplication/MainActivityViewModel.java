@@ -16,6 +16,7 @@ import com.example.bruno.myapplication.room.AppDatabase;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
@@ -61,6 +62,10 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void inserPet(Pet pet) {
         mUserRepository.createNewPet(pet);
+    }
+
+    public Flowable<List<Usuario>> getUsersByName(String nome) {
+        return null;
     }
 
     //image perfil

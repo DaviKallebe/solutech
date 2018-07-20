@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.bruno.myapplication.adapter.UsuarioPerfilAdapter;
 import com.example.bruno.myapplication.commons.PerfilOpcoes;
@@ -78,8 +80,10 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        //
-        mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        FragmentActivity activity = getActivity();
+
+        if (activity != null)
+            mViewModel = ViewModelProviders.of(activity).get(MainActivityViewModel.class);
     }
 
     @Override
@@ -95,7 +99,12 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
         if (context != null) {
             mRecyclerView = rootView.findViewById(R.id.recycler_perfil_listagem);
-            mLayoutManager = new LinearLayoutManager(context);
+            mLayoutManager = new LinearLayoutManager(context) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
 
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(context));
@@ -105,6 +114,13 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
             SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
             id_user = prefs.getInt("id_user", 0);
+
+            TextView textViewAnuncio = rootView.findViewById(R.id.fragment_usuario_perfil_anuncio);
+            textViewAnuncio.setOnClickListener(v -> {
+                HospedadorCadastroFragment hospedadorCadastroFragment = new HospedadorCadastroFragment();
+
+                goToFragment(hospedadorCadastroFragment);
+            });
 
             mViewModel.getCurrentUser().observe(this, resource -> {
                 if (resource != null && resource.status == Status.SUCCESS) {
@@ -233,6 +249,11 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                 goToFragment(petListagemFragment);
                 break;
             case R.id.action_perfil_local:
+                break;
+            case R.id.action_perfil_hospedador:
+                HospedadorPerfilFragment hospedadorPerfilFragment = new HospedadorPerfilFragment();
+
+                goToFragment(hospedadorPerfilFragment);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

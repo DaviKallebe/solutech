@@ -49,11 +49,20 @@
         android:background="@android:color/darker_gray"
         android:layout_below="@+id/layout_image_perfil" />
 
+    <TextView
+        android:id="@+id/fragment_usuario_perfil_anuncio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/line_one"
+        android:background="@color/colorAccent"
+        android:text="Deseja iniciar a parceria conosco?\n Comece clicando aqui"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_perfil_listagem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/line_one"
+        android:layout_below="@+id/fragment_usuario_perfil_anuncio"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"

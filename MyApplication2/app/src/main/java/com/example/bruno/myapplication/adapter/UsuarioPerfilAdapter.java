@@ -53,7 +53,7 @@ public class UsuarioPerfilAdapter extends RecyclerView.Adapter<UsuarioPerfilAdap
 
         if (opt.getTypeField() != null && opt.getTypeField() == 6) {
             holder.textViewField.setSingleLine(false);
-            holder.textViewField.setLines(5);
+            holder.textViewField.setLines(3);
         }
     }
 

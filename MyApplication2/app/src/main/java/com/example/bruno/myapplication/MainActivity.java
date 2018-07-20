@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.ByteArrayOutputStream;
 
 
-public class MainActivity extends AppCompatActivity implements ListagemHospedadorFragment.OnFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements HospedadorListagemFragment.OnFragmentInteractionListener,
         ListagemMensagemFragment.OnFragmentInteractionListener,
         UsuarioPerfilFragment.OnFragmentInteractionListener,
         EditarValorFragment.OnFragmentInteractionListener {
@@ -79,6 +80,18 @@ public class MainActivity extends AppCompatActivity implements ListagemHospedado
         }
         if (searchView != null) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
         }
 
         return super.onCreateOptionsMenu(menu);
@@ -190,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements ListagemHospedado
         @Override
         public Fragment getItem(int position) {
             if (position == 0)
-                return new ListagemHospedadorFragment();
+                return new HospedadorListagemFragment();
             else if (position == 1) {
                 ListagemMensagemFragment fragment = new ListagemMensagemFragment();
                 Intent it = MainActivity.this.getIntent();

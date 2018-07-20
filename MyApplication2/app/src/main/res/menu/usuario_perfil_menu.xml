@@ -14,4 +14,10 @@
         android:title="@string/menu_perfil_local"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_perfil_hospedador"
+        android:orderInCategory="101"
+        android:title="@string/menu_perfil_hospedador"
+        app:showAsAction="never" />
+
 </menu>

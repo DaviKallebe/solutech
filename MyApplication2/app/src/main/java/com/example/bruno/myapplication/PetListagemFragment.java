@@ -136,7 +136,7 @@ public class PetListagemFragment extends Fragment implements ListagemPetAdapter.
             if (fragmentManager != null) {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
-                        .replace(R.id.fragment_usuario_perfil,
+                        .replace(R.id.fragment_pet_listagem,
                                 fragmentDestination,
                                 fragmentDestination.getClass().getSimpleName())
                         .addToBackStack(null)

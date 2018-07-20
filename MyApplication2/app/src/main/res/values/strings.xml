@@ -46,6 +46,8 @@
     <!-- Strings related to fragment title -->
     <string name="fragment_perfil">Perfil</string>
     <string name="fragment_pet">Pets</string>
+    <string name="fragment_hospedador">Hospedador</string>
+    <string name="fragment_logradouro">Local</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -60,6 +62,7 @@
     <!-- out of order -->
     <string name="menu_perfil_pets">Meus Pets</string>
     <string name="menu_perfil_local">Meu Local</string>
+    <string name="menu_perfil_hospedador">Hospedador</string>
     <string name="fragment_pet_detalhe_menu_add">Adicionar pet</string>
     <string name="fragment_pet_cadastro_macho">Macho</string>
     <string name="fragment_pet_cadastro_femea">Fêmea</string>
