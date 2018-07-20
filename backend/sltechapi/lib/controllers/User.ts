@@ -1,10 +1,16 @@
 import { User } from "../models/User";
-import { UserProfile } from "../models/UserProfile"
-import { Pet } from "../models/Pet"
+import { UserProfile } from "../models/UserProfile";
+import { Pet } from "../models/Pet";
 import { Request, Response } from 'express';
-import { config } from '../../config'
+import { config } from '../../config';
+import { sequelize } from "../mysql";
+
 
 export class UserController {
+    public errorHandler(error, req: Request, res: Response) {
+        res.status(500).json(error);
+    }
+
     public createUser(req: Request, res: Response) {
         let data = req.body;
         data.firebaseUid = req.query.firebaseUid
@@ -258,6 +264,18 @@ export class UserController {
         });
     }
 
+    public getUsersByName = (req: Request, res: Response) => {
+        sequelize.query("SELECT * FROM perfils WHERE primeiroNome like ? OR ultimoNome like ?", 
+        {model: User, replacements: [ '%' +req.params.nome + '%', '%' + req.params.nome + '%'], type: sequelize.QueryTypes.SELECT})
+        .then(users => {
+            res.status(200).json(users);
+        }, err => {
+            res.status(500).json(err);
+        });
+        //.catch(error => this.errorHandler(error, req, res));
+
+    }
+
     public generateHashes(req: Request, res: Response) {
         User.findAll({
             where: {
@@ -362,9 +380,5 @@ export class UserController {
             res.status(200).json(pets);
         })
         .catch(error => this.errorHandler(error, req, res));
-    }
-
-    public errorHandler(error, req: Request, res: Response) {
-        res.status(500).send(error);
-    }
+    }    
 }

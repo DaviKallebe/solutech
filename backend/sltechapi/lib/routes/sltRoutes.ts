@@ -41,6 +41,9 @@ export class Routes {
 
         app.route('/user/list_all')
             .get(this.userControler.listUsers);
+        
+        app.route('/user/get/:nome')
+            .get(this.userControler.getUsersByName);
 
         app.route('/user/get_comments/:id_user')
             .get(this.commentController.getComments);
