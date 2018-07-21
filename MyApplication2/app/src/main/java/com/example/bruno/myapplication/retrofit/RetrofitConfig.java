@@ -14,14 +14,14 @@ public class RetrofitConfig {
 
     public RetrofitConfig() {
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.10:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
         rxAdapter = RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io());
 
         this.ObsRetrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.10:3000/")
+                .baseUrl("http://10.0.2.2:3000/")
                 .addCallAdapterFactory(rxAdapter)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();

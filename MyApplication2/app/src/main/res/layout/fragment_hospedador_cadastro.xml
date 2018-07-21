@@ -1,465 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_hospedador_cadastro_etapa1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".HospedadorCadastroFragment">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HospedadorCadastroFragment">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Cadastrar Hospedador"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Cadastrar Hospedador" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
         <ImageButton
+
             android:id="@+id/imageButton"
-            android:layout_width="137dp"
-            android:layout_height="146dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/editText6"
-            app:layout_constraintEnd_toStartOf="@+id/editText3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_image_likes" />
 
-        <EditText
-            android:id="@+id/editText3"
-            android:layout_width="192dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Nome"
-            app:layout_constraintBottom_toTopOf="@+id/editText5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageButton"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:text="Nome" />
-
-        <EditText
-            android:id="@+id/editText5"
-            android:layout_width="193dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Sobrenome"
-            app:layout_constraintBottom_toTopOf="@+id/editText6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/imageButton"
-            app:layout_constraintTop_toBottomOf="@+id/editText3"
-            tools:text="SobreNome" />
-
-        <EditText
-            android:id="@+id/editText6"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="number"
+            android:orientation="vertical"
+            android:padding="22dp">
+
+            <EditText
+                android:id="@+id/editNome"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:hint="Nome"
+                android:inputType="text"
+
+                />
+
+            <EditText
+                android:id="@+id/editSobrenome"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:hint="Sobrenome"
+                android:inputType="text"
+    />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Órgão Emissor" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <EditText
+            android:id="@+id/editRG"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
             android:hint="RG"
-            app:layout_constraintBottom_toTopOf="@+id/editText7"
-            app:layout_constraintStart_toStartOf="@+id/imageButton"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton"
-            tools:text="RG" />
+            android:textAlignment="center" />
 
-        <Spinner
-            android:id="@+id/orgaoEmissor"
-            android:layout_width="126dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/editText6"
-            app:layout_constraintEnd_toEndOf="@+id/editText5"
-            app:layout_constraintTop_toTopOf="@+id/editText6"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <EditText
-            android:id="@+id/editText7"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="date"
-            android:hint="Data de Nascimento"
-            app:layout_constraintBottom_toTopOf="@+id/editText9"
-            app:layout_constraintStart_toStartOf="@+id/editText6"
-            app:layout_constraintTop_toBottomOf="@+id/editText6"
-            tools:text="Data de Nascimento" />
-
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
         <EditText
-            android:id="@+id/editText9"
-            android:layout_width="wrap_content"
+            android:text="2556866-3"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="number"
+            android:id="@+id/edtOrgaoEmissor"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+
+        >
+        <EditText
+            android:id="@+id/editCPF"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
             android:hint="CPF"
-            app:layout_constraintBottom_toTopOf="@+id/editText11"
-            app:layout_constraintStart_toStartOf="@+id/editText7"
-            app:layout_constraintTop_toBottomOf="@+id/editText7"
-            tools:text="CPF" />
-
-        <Spinner
-            android:id="@+id/tipoDeSupervisao"
-            android:layout_width="197dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView13"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-        <CheckBox
-            android:id="@+id/restricaoFilhote"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Filhotes"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoFemea"
-            app:layout_constraintEnd_toStartOf="@+id/restricaoCastrado"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoIdoso">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoIdoso"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Idosos"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoFilhote"
-            app:layout_constraintEnd_toStartOf="@+id/restricaoCastrado"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoMacho"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Machos"
-            app:layout_constraintBottom_toTopOf="@+id/textView16"
-            app:layout_constraintEnd_toStartOf="@+id/restricaoAnimaisGrandes"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoFemea">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoFemea"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Fémeas"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoMacho"
-            app:layout_constraintEnd_toStartOf="@+id/restricaoAnimaisPequenos"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoFilhote">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoCastrado"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Castrados"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoAnimaisPequenos"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/restricaoFilhote"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoAnimaisPequenos"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Animais Pequenoes"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoAnimaisGrandes"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/restricaoFilhote"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoCastrado">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoAnimaisGrandes"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Animais Grandes"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoAnimaisExoticos"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/restricaoMacho"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoAnimaisPequenos">
-
-        </CheckBox>
-
-        <CheckBox
-            android:id="@+id/restricaoAnimaisExoticos"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Animais Exóticos"
-            app:layout_constraintBottom_toTopOf="@+id/QuantidadeDeAnimais"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/restricaoMacho"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoAnimaisGrandes">
-
-        </CheckBox>
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="Cuido de ...:"
-            app:layout_constraintBottom_toTopOf="@+id/restricaoIdoso"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tipoDeSupervisao"
-            tools:text="Cuido de ...:" />
+            android:textAlignment="center"
+            android:text="01689498226"
+            />
 
         <EditText
-            android:id="@+id/editText11"
-            android:layout_width="wrap_content"
+            android:id="@+id/editTelefone"
+            android:layout_width="162dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:inputType="phone"
+            android:textAlignment="center"
             android:hint="Telefone"
-            app:layout_constraintBottom_toTopOf="@+id/textView15"
-            app:layout_constraintStart_toStartOf="@+id/editText9"
-            app:layout_constraintTop_toBottomOf="@+id/editText9"
-            tools:text="Telefone" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Tipo de Supervisão"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/tipoDeSupervisao"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText11"
-            tools:text="Tipo de Supervisão" />
-
-        <Spinner
-            android:id="@+id/QuantidadeDeAnimais"
-            android:layout_width="108dp"
-            android:layout_height="27dp"
-            app:layout_constraintBottom_toTopOf="@+id/textView20"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView16"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoAnimaisExoticos" />
-
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quantidade de Animais por Vez:"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/textView20"
-            app:layout_constraintEnd_toStartOf="@+id/QuantidadeDeAnimais"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/restricaoMacho"
-            tools:text="Quantidade de Animais por Vez:" />
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="wrap_content"
-            android:layout_height="21dp"
-            android:text="Descrição Pessoal:"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/editText12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/preferenciaMamiferos"
-            tools:text="Descrição Pessoal:" />
-
-        <EditText
-            android:id="@+id/editText12"
-            android:layout_width="345dp"
-            android:layout_height="143dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
-
-        <CheckBox
-            android:id="@+id/preferenciaCachorro"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Cahorros"
-            app:layout_constraintBottom_toTopOf="@+id/preferenciaGatos"
-            app:layout_constraintEnd_toStartOf="@+id/preferenciaRepteis"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20"/>
-
-        <CheckBox
-            android:id="@+id/preferenciaGatos"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Gatos"
-            app:layout_constraintBottom_toTopOf="@+id/preferenciaMamiferos"
-            app:layout_constraintEnd_toStartOf="@+id/preferenciaAves"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/preferenciaCachorro"/>
-
-        <CheckBox
-            android:id="@+id/preferenciaMamiferos"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:checked="true"
-            android:text="Mamíferos"
-            app:layout_constraintBottom_toTopOf="@+id/textView19"
-            app:layout_constraintEnd_toStartOf="@+id/preferenciaPeixes"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/preferenciaGatos"/>
-
-        <CheckBox
-            android:id="@+id/preferenciaAves"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Aves"
-            app:layout_constraintBottom_toTopOf="@+id/preferenciaPeixes"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/preferenciaGatos"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/preferenciaRepteis"/>
-
-        <CheckBox
-            android:id="@+id/preferenciaPeixes"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Peixes"
-            app:layout_constraintBottom_toTopOf="@+id/textView19"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/preferenciaMamiferos"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/preferenciaAves"/>
-
-        <CheckBox
-            android:id="@+id/preferenciaRepteis"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="192dp"
-            android:layout_marginStart="192dp"
-            android:checked="true"
-            android:text="Répteis"
-            app:layout_constraintBottom_toTopOf="@+id/preferenciaAves"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/preferenciaCachorro"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20"/>
-
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Preferencia(s) de Animal(is)"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/preferenciaCachorro"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/QuantidadeDeAnimais"
-            tools:text="Preferencia(s) de Animal(is)" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cadastrar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText12"
-            tools:text="Cadastrar" />
+            android:layout_marginLeft="12dp"/>
 
 
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="Próximo"
+        android:id="@+id/btnProximo"/>
+
+    </LinearLayout>
+</RelativeLayout>

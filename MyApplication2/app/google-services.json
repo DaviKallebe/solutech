@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "345767365707-c5jah45h2av2v2bp55v3j5pvbvvv9o3q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bruno.myapplication",
+            "certificate_hash": "a951e94b941a7092ba54d7a3ae9b1b26f096c774"
+          }
+        },
+        {
           "client_id": "345767365707-56s5ttg848smrp0d5scetskclobnamu7.apps.googleusercontent.com",
           "client_type": 3
         }

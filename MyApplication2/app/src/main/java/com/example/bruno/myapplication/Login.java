@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -223,6 +224,7 @@ public class Login extends AppCompatActivity {
         LoginManager.getInstance().logOut();
 
         if (e instanceof IOException) {
+            Log.e("ERRORLOGIN", e.getMessage());
             Toast.makeText(Login.this,
                     "Não foi possível conectar ao servidor, tente novamente mais tarde!",
                     Toast.LENGTH_SHORT).show();
@@ -230,6 +232,8 @@ public class Login extends AppCompatActivity {
         //
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
+
+            Log.e("HTTPERROR", e.getMessage());
 
             Toast.makeText(Login.this,
                     "Opa! Aconteceu algo que não deveria.",
@@ -248,6 +252,7 @@ public class Login extends AppCompatActivity {
         LoginManager.getInstance().logOut();
 
         if (e instanceof IOException) {
+            Log.e("ERRORLOGIN", e.getMessage());
             Toast.makeText(Login.this,
                     "Não foi possível conectar ao servidor, tente novamente mais tarde!",
                     Toast.LENGTH_SHORT).show();
