@@ -123,11 +123,6 @@ public class MainActivity extends AppCompatActivity implements HospedadorListage
         return super.onOptionsItemSelected(item);
     }
 
-    public void startPerfilActivity() {
-        Intent intent = new Intent(this, Perfil.class);
-        startActivity(intent);
-    }
-
     public void startPerfilFragment() {
         usuarioPerfil = new UsuarioPerfilFragment();
         getSupportFragmentManager()
@@ -136,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements HospedadorListage
                 .replace(R.id.activity_logado,
                         usuarioPerfil,
                         usuarioPerfil.getClass().getSimpleName())
-                .addToBackStack(null)
+                .addToBackStack(getResources().getString(R.string.perfil_fragment))
                 .commit();
     }
 

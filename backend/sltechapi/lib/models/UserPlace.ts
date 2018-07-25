@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 import { User } from "./User";
 
-export const UserPlace = sequelize.define('logradouro', {
+export const UserPlace = sequelize.define('logradouros', {
     id_lugar: {
         type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
@@ -28,7 +28,7 @@ export const UserPlace = sequelize.define('logradouro', {
         type: Sequelize.INTEGER.UNSIGNED
     },
     complemento: {
-        type: Sequelize.STRING(15)
+        type: Sequelize.STRING(30)
     },
     logradouro: {
         type: Sequelize.STRING(100)
@@ -40,10 +40,10 @@ export const UserPlace = sequelize.define('logradouro', {
         type: Sequelize.DECIMAL(11, 8)
     },
     descricao: {
-        type: Sequelize.TEXT("tiny"),
+        type: Sequelize.TEXT("medium"),
         allowNull: false
     },
     imagem: {
-        type: Sequelize.TEXT("tiny"),
+        type: Sequelize.TEXT("long"),
     }
 });

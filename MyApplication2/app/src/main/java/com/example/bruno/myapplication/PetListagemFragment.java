@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bruno.myapplication.adapter.ListagemPetAdapter;
+import com.example.bruno.myapplication.adapter.PetListagemAdapter;
 import com.example.bruno.myapplication.commons.SimpleDividerItemDecoration;
 import com.example.bruno.myapplication.commons.Status;
 import com.example.bruno.myapplication.retrofit.Pet;
@@ -25,10 +25,10 @@ import com.example.bruno.myapplication.retrofit.Pet;
 import java.util.List;
 
 
-public class PetListagemFragment extends Fragment implements ListagemPetAdapter.OnItemClicked {
+public class PetListagemFragment extends Fragment implements PetListagemAdapter.OnItemClicked {
 
     private RecyclerView mRecyclerView;
-    private ListagemPetAdapter mAdapter;
+    private PetListagemAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private MainActivityViewModel mViewModel;
 
@@ -63,7 +63,7 @@ public class PetListagemFragment extends Fragment implements ListagemPetAdapter.
                 if (resource != null && resource.status == Status.SUCCESS) {
                     List<Pet> petList = resource.data;
 
-                    mAdapter = new ListagemPetAdapter(petList, context, this);
+                    mAdapter = new PetListagemAdapter(petList, context, this);
 
                     mRecyclerView.setAdapter(mAdapter);
                 }

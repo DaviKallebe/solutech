@@ -2,7 +2,7 @@ import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 import { User } from "./User";
 
-export const Pet = sequelize.define('pet', {
+export const Pet = sequelize.define('pets', {
     id_pet: {
         type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,

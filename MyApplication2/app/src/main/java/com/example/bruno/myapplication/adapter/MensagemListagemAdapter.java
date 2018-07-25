@@ -20,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class ListagemMensagemAdapter extends RecyclerView.Adapter<ListagemMensagemAdapter.CustomViewHolder> {
+public class MensagemListagemAdapter extends RecyclerView.Adapter<MensagemListagemAdapter.CustomViewHolder> {
 
     public interface OnItemClicked {
         void onItemClick(View view, int position);
@@ -34,12 +34,12 @@ public class ListagemMensagemAdapter extends RecyclerView.Adapter<ListagemMensag
     private Context context;
     private OnItemClicked onClick;
 
-    public ListagemMensagemAdapter(List<Mensagem> mensagens, Context context) {
+    public MensagemListagemAdapter(List<Mensagem> mensagens, Context context) {
         this.mensagens = mensagens;
         this.context = context;
     }
 
-    public ListagemMensagemAdapter(List<Mensagem> mensagens, Context context, OnItemClicked onClick) {
+    public MensagemListagemAdapter(List<Mensagem> mensagens, Context context, OnItemClicked onClick) {
         this.mensagens = mensagens;
         this.context = context;
         this.onClick = onClick;

@@ -11,7 +11,7 @@ export const Message = sequelize.define('mensagens', {
 		allowNull: false
     },
     mensagem: {
-        type: Sequelize.TEXT('tiny'),
+        type: Sequelize.TEXT('medium'),
         allowNull: false
     },
     data: {

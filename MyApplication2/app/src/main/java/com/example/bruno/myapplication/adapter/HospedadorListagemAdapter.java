@@ -14,7 +14,7 @@ import com.example.bruno.myapplication.retrofit.Usuario;
 
 import java.util.List;
 
-public class ListagemHospedadorAdapter extends RecyclerView.Adapter<ListagemHospedadorAdapter.CustomViewHolder> {
+public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorListagemAdapter.CustomViewHolder> {
 
     public interface OnItemClicked {
         void onItemClick(View view, int position);
@@ -28,12 +28,12 @@ public class ListagemHospedadorAdapter extends RecyclerView.Adapter<ListagemHosp
     private List<Usuario> usuarios;
     private Context context;
 
-    public ListagemHospedadorAdapter(List<Usuario> usuarios, Context context) {
+    public HospedadorListagemAdapter(List<Usuario> usuarios, Context context) {
         this.usuarios = usuarios;
         this.context = context;
     }
 
-    public ListagemHospedadorAdapter(List<Usuario> usuarios, Context context, OnItemClicked onClick) {
+    public HospedadorListagemAdapter(List<Usuario> usuarios, Context context, OnItemClicked onClick) {
         this.usuarios = usuarios;
         this.context = context;
         this.onClick = onClick;

@@ -10,14 +10,16 @@ export let sequelize = new Sequelize.Sequelize(
 		dialect: "mysql",
 		operatorsAliases: false
 	}
-);
+)
 
 if (config.force == true) {
-    sequelize.query('DROP DATABASE IF EXISTS ' + config.development.database + ';' ).then(data => {
+	sequelize.query('DROP DATABASE IF EXISTS ' + config.development.database + ';' +
+					'CREATE DATABASE IF NOT EXISTS ' + config.development.database + ';' ).then(data => {
         //Database dropped
     });
 }
-
-sequelize.query('CREATE DATABASE IF NOT EXISTS ' + config.development.database + ';' ).then(data => {
-    //Database created
-});
+else {
+	sequelize.query('CREATE DATABASE IF NOT EXISTS ' + config.development.database + ';' ).then(data => {
+		//Database created
+	});
+}

@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import { UserProfile } from "../models/UserProfile";
+import { UserHost } from "../models/UserHost";
 import { Pet } from "../models/Pet";
 import { Request, Response } from 'express';
 import { config } from '../../config';
@@ -8,7 +9,7 @@ import { sequelize } from "../mysql";
 
 export class UserController {
     public errorHandler(error, req: Request, res: Response) {
-        res.status(500).json(error);
+        res.status(500).send(error);
     }
 
     public createUser(req: Request, res: Response) {
@@ -380,5 +381,39 @@ export class UserController {
             res.status(200).json(pets);
         })
         .catch(error => this.errorHandler(error, req, res));
-    }    
+    } 
+    
+    public getHospedador(req: Request, res: Response) {
+        UserHost.findOne({
+            where: {
+                id_user: req.params.id_user
+            }
+        })
+        .then(host => {
+            if (host)
+                res.status(200).json(host);
+            else
+                res.status(200).end();
+        })
+        .catch(error => res.status(500).send(error));
+    }
+
+    public updateHospedador(req: Request, res: Response) {
+        UserHost.update({
+            where: {
+                id_user: req.body.id_user
+            }
+        })
+        .then(host => {
+            res.status(200).json(host);
+        })
+        .catch(err => res.status(500).send(err));
+    }
+
+    public createHospedador(req: Request, res: Response) {
+        UserHost.create(req.body).then(host => {
+            res.status(200).json(host);
+        })
+        .catch(err => res.status(500).send(err));
+    }
 }

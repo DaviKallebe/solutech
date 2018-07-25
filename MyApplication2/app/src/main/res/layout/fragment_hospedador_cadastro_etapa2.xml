@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_hospedador_cadastro_etapa2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".HospedadorCadastroEtapa2Fragment">
+
+    <Spinner
+        android:id="@+id/fragment_hospedador_cadastro_tipoDeSupervisao"
+        android:layout_width="197dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewCuidoDe"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTipoSupervisao" />
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoFilhote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Filhotes"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedador_cadastro_restricaoFemea"
+        app:layout_constraintStart_toStartOf="@+id/fragment_hospedador_cadastro_restricaoIdoso"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoIdoso"
+        app:layout_constraintWidth_percent="0.45">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoIdoso"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:checked="true"
+        android:text="Idosos"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedador_cadastro_restricaoFilhote"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCuidoDe"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintWidth_percent="0.45">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoMacho"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Machos"
+        app:layout_constraintStart_toStartOf="@+id/fragment_hospedador_cadastro_restricaoFemea"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoFemea"
+        app:layout_constraintWidth_percent="0.45">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoFemea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Fémeas"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedador_cadastro_restricaoMacho"
+        app:layout_constraintStart_toStartOf="@+id/fragment_hospedador_cadastro_restricaoFilhote"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoFilhote"
+        app:layout_constraintWidth_percent="0.45">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoCastrado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Castrados"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoIdoso"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedador_cadastro_restricaoIdoso"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedador_cadastro_restricaoIdoso"
+        app:layout_constraintVertical_bias="0.0">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoAnimaisPequenos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Animais Pequenoes"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoFilhote"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedador_cadastro_restricaoFilhote"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedador_cadastro_restricaoFilhote">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoAnimaisGrandes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Animais Grandes"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoFemea"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedador_cadastro_restricaoFemea"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedador_cadastro_restricaoFemea">
+
+    </CheckBox>
+
+    <CheckBox
+        android:id="@+id/fragment_hospedador_cadastro_restricaoAnimaisExoticos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Animais Exóticos"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedador_cadastro_restricaoMacho"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedador_cadastro_restricaoMacho"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedador_cadastro_restricaoMacho">
+
+    </CheckBox>
+
+    <TextView
+        android:id="@+id/textViewCuidoDe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Cuido de ...:"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hospedador_cadastro_tipoDeSupervisao"
+        tools:text="Cuido de ...:" />
+
+    <TextView
+        android:id="@+id/textViewTipoSupervisao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="Tipo de Supervisão"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedador_cadastro_tipoDeSupervisao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Tipo de Supervisão" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_hospedador_cadastro_etapa2_arrow_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:scaleType="center"
+        android:src="@drawable/ic_float_button_foward"
+        android:visibility="visible"
+        android:tint="#ffffff"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

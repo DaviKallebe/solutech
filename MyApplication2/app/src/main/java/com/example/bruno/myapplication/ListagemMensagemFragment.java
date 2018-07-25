@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bruno.myapplication.adapter.ListagemMensagemAdapter;
+import com.example.bruno.myapplication.adapter.MensagemListagemAdapter;
 import com.example.bruno.myapplication.retrofit.Mensagem;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 
@@ -29,7 +29,7 @@ import retrofit2.Response;
  * Use the {@link ListagemMensagemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListagemMensagemFragment extends Fragment implements ListagemMensagemAdapter.OnItemClicked, Callback<List<Mensagem>> {
+public class ListagemMensagemFragment extends Fragment implements MensagemListagemAdapter.OnItemClicked, Callback<List<Mensagem>> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -100,7 +100,7 @@ public class ListagemMensagemFragment extends Fragment implements ListagemMensag
     @Override
     public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
         if (response.code() == 200) {
-            mAdapter = new ListagemMensagemAdapter(response.body(), this.getContext(), this);
+            mAdapter = new MensagemListagemAdapter(response.body(), this.getContext(), this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }

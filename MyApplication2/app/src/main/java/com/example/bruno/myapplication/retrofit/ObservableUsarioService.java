@@ -34,7 +34,7 @@ public interface ObservableUsarioService {
     Observable<List<Usuario>> listUsers();
 
     @GET("user/get_comments/{id_user}")
-    Observable<List<Comentario>> getComments(@Path("id_user") Integer id_user);
+    Flowable<List<Comentario>> getComments(@Path("id_user") Integer id_user);
 
     @GET("user/get_messages/{id_user}")
     Observable<List<Mensagem>> getMessages(@Path("id_user") Integer id_user);
@@ -71,4 +71,13 @@ public interface ObservableUsarioService {
 
     @GET("user/get/{nome}")
     Flowable<List<Usuario>> getUserByName(@Path("nome") String nome);
+
+    @GET("user/host/get/:id_user")
+    Flowable<Usuario> getHospedador(@Path("id_user") Integer id_user);
+
+    @POST("/user/host/create")
+    Observable<Hospedador> createHospedador(@Body RequestBody body);
+
+    @PUT("/user/host/update")
+    Observable<Hospedador> updateHospedador(@Body RequestBody body);
 }

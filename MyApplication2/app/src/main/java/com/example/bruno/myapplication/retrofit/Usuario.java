@@ -28,10 +28,19 @@ public class Usuario {
     private String documento;
     private String orgaoEmissor;
     private String cpf;
+    private Boolean cadastrouComoHospedador;
 
     private String nascimento;
     private String createdAt;
     private String updatedAt;
+
+    public Boolean getCadastrouComoHospedador() {
+        return cadastrouComoHospedador;
+    }
+
+    public void setCadastrouComoHospedador(Boolean cadastrouComoHospedador) {
+        this.cadastrouComoHospedador = cadastrouComoHospedador;
+    }
 
     public Integer getId() {
         return id;

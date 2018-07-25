@@ -16,7 +16,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ListagemPetAdapter extends RecyclerView.Adapter<ListagemPetAdapter.CustomViewHolder> {
+public class PetListagemAdapter extends RecyclerView.Adapter<PetListagemAdapter.CustomViewHolder> {
 
     public void setOnClick(OnItemClicked onClick) {
         this.onClick = onClick;
@@ -26,7 +26,7 @@ public class ListagemPetAdapter extends RecyclerView.Adapter<ListagemPetAdapter.
     private Context context;
     private OnItemClicked onClick;
 
-    public ListagemPetAdapter(List<Pet> pets, Context context, OnItemClicked onClick) {
+    public PetListagemAdapter(List<Pet> pets, Context context, OnItemClicked onClick) {
         this.pets = pets;
         this.context = context;
         this.onClick = onClick;

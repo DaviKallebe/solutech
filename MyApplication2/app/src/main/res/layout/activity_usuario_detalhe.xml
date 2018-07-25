@@ -18,9 +18,8 @@
             android:layout_height="96dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/mob_user_175"
-            app:civ_border_width="2dp"
             app:civ_border_color="#FF000000"/>
 
         <TextView
@@ -127,7 +126,7 @@
             android:text="Comentários"/>
 
         <ListView
-            android:id="@+id/listViewComentario"
+            android:id="@+id/fragment_hospedador_listagem_detalhe_perfil_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/listViewComentarioLabel" />

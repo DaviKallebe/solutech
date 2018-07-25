@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bruno.myapplication.adapter.ListagemHospedadorAdapter;
+import com.example.bruno.myapplication.adapter.HospedadorListagemAdapter;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
 
@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HospedadorListagemFragment extends Fragment implements ListagemHospedadorAdapter.OnItemClicked, Callback<List<Usuario>> {
+public class HospedadorListagemFragment extends Fragment implements HospedadorListagemAdapter.OnItemClicked, Callback<List<Usuario>> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -110,7 +110,7 @@ public class HospedadorListagemFragment extends Fragment implements ListagemHosp
     @Override
     public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
         if (response.code() == 200) {
-            mAdapter = new ListagemHospedadorAdapter(response.body(), this.getContext(), this);
+            mAdapter = new HospedadorListagemAdapter(response.body(), this.getContext(), this);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
@@ -126,7 +126,7 @@ public class HospedadorListagemFragment extends Fragment implements ListagemHosp
 
     @Override
     public void onItemClick(View view, int position) {
-        Usuario user = ((ListagemHospedadorAdapter)mAdapter).getItem(position);
+        Usuario user = ((HospedadorListagemAdapter)mAdapter).getItem(position);
 
         mListener.verUsuarioDetalhes(user);
     }

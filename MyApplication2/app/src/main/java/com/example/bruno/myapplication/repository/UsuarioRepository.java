@@ -9,6 +9,9 @@ import android.util.Log;
 
 import com.example.bruno.myapplication.commons.NetworkBoundSource;
 import com.example.bruno.myapplication.commons.ResourceState;
+import com.example.bruno.myapplication.retrofit.Comentario;
+import com.example.bruno.myapplication.retrofit.Hospedador;
+import com.example.bruno.myapplication.retrofit.Mensagem;
 import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
@@ -27,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -46,6 +50,49 @@ public class UsuarioRepository {
     public UsuarioRepository(AppDatabase appDatabase) {
         this.compositeDisposable = new CompositeDisposable();
         this.appDatabase = appDatabase;
+    }
+
+    @NonNull
+    private RequestBody createPart(String descriptionString) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, descriptionString);
+    }
+
+    @NonNull
+    private RequestBody createPart(Integer descriptionInteger) {
+        return RequestBody.create(
+                MultipartBody.FORM, Integer.toString(descriptionInteger));
+        //MediaType.parse("multipart/form-data"), Integer.toString(descriptionInteger));
+    }
+
+    @NonNull
+    private RequestBody createPart(Date descriptionDate) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, df.format(descriptionDate));
+    }
+
+    @NonNull
+    private RequestBody createPart(Double descriptionReal) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, Double.toString(descriptionReal));
+    }
+
+    @NonNull
+    private RequestBody createPart(Boolean descriptionBool) {
+        return RequestBody.create(
+                okhttp3.MultipartBody.FORM, Boolean.toString(descriptionBool));
+    }
+
+    @NonNull
+    private MultipartBody.Part prepareFilePart(String formName, ByteArrayOutputStream file) {
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("image/jpeg"),
+                        file.toByteArray()
+                );
+
+        return MultipartBody.Part.createFormData(formName, "camera.jpg", requestFile);
     }
 
     public LiveData<ResourceState<Usuario>> getCurrentUser(int id_user) {
@@ -140,47 +187,11 @@ public class UsuarioRepository {
         }
     }
 
-    @NonNull
-    private RequestBody createPart(String descriptionString) {
-        return RequestBody.create(
-                okhttp3.MultipartBody.FORM, descriptionString);
-    }
-
-    @NonNull
-    private RequestBody createPart(Integer descriptionInteger) {
-        return RequestBody.create(
-                MultipartBody.FORM, Integer.toString(descriptionInteger));
-                //MediaType.parse("multipart/form-data"), Integer.toString(descriptionInteger));
-    }
-
-    @NonNull
-    private RequestBody createPart(Date descriptionDate) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
-        return RequestBody.create(
-                okhttp3.MultipartBody.FORM, df.format(descriptionDate));
-    }
-
-    @NonNull
-    private RequestBody createPart(Double descriptionReal) {
-        return RequestBody.create(
-                okhttp3.MultipartBody.FORM, Double.toString(descriptionReal));
-    }
-
-    @NonNull
-    private RequestBody createPart(Boolean descriptionBool) {
-        return RequestBody.create(
-                okhttp3.MultipartBody.FORM, Boolean.toString(descriptionBool));
-    }
-
-    @NonNull
-    private MultipartBody.Part prepareFilePart(String formName, ByteArrayOutputStream file) {
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse("image/jpeg"),
-                        file.toByteArray()
-                );
-
-        return MultipartBody.Part.createFormData(formName, "camera.jpg", requestFile);
+    //messages
+    public Flowable<List<Comentario>> getComments(Integer id_user) {
+        return new RetrofitConfig()
+                .getObservableUsuarioService()
+                .getComments(id_user);
     }
 
     //upate user information
@@ -231,6 +242,23 @@ public class UsuarioRepository {
         compositeDisposable.add(disposable);
     }
 
+    private void insertHospedadorRoom(Hospedador hospedador) {
+        AsyncTask.execute(() -> appDatabase.getHospedadorDao().insertHospedador(hospedador));
+    }
+
+    public Observable<Hospedador> createHospedador(Hospedador hospedador) {
+        Observable<Hospedador> hospedadorObservable = new RetrofitConfig()
+                .getObservableUsuarioService()
+                .createHospedador(hospedador.generateRequestBody())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .share();
+
+        compositeDisposable.add(hospedadorObservable.subscribe(this::insertHospedadorRoom));
+
+        return hospedadorObservable;
+    }
+
     //handle error in general
     private void handleInternalError(Throwable e) {
         if (e instanceof HttpException) {
@@ -241,10 +269,6 @@ public class UsuarioRepository {
 
             httpException.printStackTrace();
         }
-    }
-
-    public static void handleError(Throwable e) {
-        Log.e(UsuarioRepository.class.getSimpleName(), e.getMessage());
     }
 
     public static void handleError(String msg) {

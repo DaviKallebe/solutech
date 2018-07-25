@@ -30,6 +30,8 @@ import com.example.bruno.myapplication.commons.Status;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,10 +41,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 
 public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdapter.OnItemClicked {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
 
@@ -57,28 +55,11 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     private MainActivityViewModel mViewModel;
     CircleImageView mImageView;
     private Integer id_user;
-
-    public UsuarioPerfilFragment() {
-        // Required empty public constructor
-    }
-
-    public static UsuarioPerfilFragment newInstance(String param1, String param2) {
-        UsuarioPerfilFragment fragment = new UsuarioPerfilFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Usuario usuario;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         FragmentActivity activity = getActivity();
 
@@ -117,7 +98,7 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
             TextView textViewAnuncio = rootView.findViewById(R.id.fragment_usuario_perfil_anuncio);
             textViewAnuncio.setOnClickListener(v -> {
-                HospedadorCadastroFragment hospedadorCadastroFragment = new HospedadorCadastroFragment();
+                HospedadorCadastroEtapa1Fragment hospedadorCadastroFragment = new HospedadorCadastroEtapa1Fragment();
 
                 goToFragment(hospedadorCadastroFragment);
             });
@@ -127,25 +108,35 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                     List<PerfilOpcoes> opt = new ArrayList<>();
                     Usuario user = resource.data;
 
-                    //1 - String, 2 - Integer, 3 - Real, 4 - Date, 5 - Phone
-                    opt.add(new PerfilOpcoes<>(getStr(R.string.primeiro_nome),
-                            "primeiroNome", user.getPrimeiroNome(), 1));
-                    opt.add(new PerfilOpcoes<>(getStr(R.string.ultimo_nome),
-                            "ultimoNome", user.getUltimoNome(), 1));
-                    opt.add(new PerfilOpcoes<>(getStr(R.string.data_nascimento),
-                            "nascimento", user.getNascimento(), 4));
-                    opt.add(new PerfilOpcoes<>(getStr(R.string.telefone),
-                            "telefone", user.getTelefone(), 5));
-                    opt.add(new PerfilOpcoes<>(getStr(R.string.descricao),
-                            "descricao", user.getDescricao(), 6));
+                    if (user != null) {
+                        usuario = user;
 
-                    mAdapter = new UsuarioPerfilAdapter(opt, context, this);
+                        if (user.getCadastrouComoHospedador() != null ||
+                                !user.getCadastrouComoHospedador())
+                            textViewAnuncio.setVisibility(View.VISIBLE);
+                        else
+                            textViewAnuncio.setVisibility(View.GONE);
 
-                    mRecyclerView.setAdapter(mAdapter);
+                        //1 - String, 2 - Integer, 3 - Real, 4 - Date, 5 - Phone
+                        opt.add(new PerfilOpcoes<>(getStr(R.string.primeiro_nome),
+                                "primeiroNome", user.getPrimeiroNome(), 1));
+                        opt.add(new PerfilOpcoes<>(getStr(R.string.ultimo_nome),
+                                "ultimoNome", user.getUltimoNome(), 1));
+                        opt.add(new PerfilOpcoes<>(getStr(R.string.data_nascimento),
+                                "nascimento", user.getNascimento(), 4));
+                        opt.add(new PerfilOpcoes<>(getStr(R.string.telefone),
+                                "telefone", user.getTelefone(), 5));
+                        opt.add(new PerfilOpcoes<>(getStr(R.string.descricao),
+                                "descricao", user.getDescricao(), 6));
 
-                    if (user.getImagem() != null) {
-                        Picasso.get().load(user.getImagem())
-                                .into(mImageView);
+                        mAdapter = new UsuarioPerfilAdapter(opt, context, this);
+
+                        mRecyclerView.setAdapter(mAdapter);
+
+                        if (user.getImagem() != null) {
+                            Picasso.get().load(user.getImagem())
+                                    .into(mImageView);
+                        }
                     }
                 }
                 /*else
@@ -178,13 +169,6 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                 getResources().getString(R.string.descricao)));
 
         return opt;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override

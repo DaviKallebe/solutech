@@ -15,34 +15,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CadastroEtapa2Fragment extends Fragment {
+
+public class HospedadorCadastroEtapa4Fragment extends Fragment {
 
     private MainActivityViewModel mViewModel;
-
-    public CadastroEtapa2Fragment() {
-        // Required empty public constructor
-    }
-
-    public static CadastroEtapa2Fragment newInstance(String param1, String param2) {
-        CadastroEtapa2Fragment fragment = new CadastroEtapa2Fragment();
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FragmentActivity activity = getActivity();
+        FragmentActivity fragmentActivity = getActivity();
 
-        if (activity != null)
-            mViewModel = ViewModelProviders.of(activity).get(MainActivityViewModel.class);
+        if (fragmentActivity != null)
+            mViewModel = ViewModelProviders.of(fragmentActivity).get(MainActivityViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_cadastro_etapa2, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_hospedador_cadastro_etapa4, container, false);
 
         setHasOptionsMenu(true);
 

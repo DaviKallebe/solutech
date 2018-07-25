@@ -11,7 +11,7 @@ export class UserRoutes {
             return callBack(null, config.image_upload_folder);
         },
         filename: function(req, file, callBack) {
-            return callBack(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
+            return callBack(null, new Date().toISOString().replace(/:/g, '-') + file.filename);
         }
     });
 
@@ -44,8 +44,19 @@ export class UserRoutes {
         app.post('/user/pet/create',
                 this.userControler.createPet);
         app.put('/user/pet/update',
+                this.fileUploadHandler.single('imagem'),
                 this.userControler.updatePet);
         app.get('/user/pet/getlist/:id_user',
                 this.userControler.getPetList);
+
+        //user host
+        app.get('/user/host/get/:id_user',
+                this.userControler.getHospedador);
+        app.put('/user/host/update',
+                this.fileUploadHandler.single('imagem'),
+                this.userControler.updateHospedador);
+        app.post('/user/host/create',
+                this.userControler.createHospedador);
+        
     }
 }

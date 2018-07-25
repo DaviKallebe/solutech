@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.example.bruno.myapplication.retrofit.Comentario;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +46,7 @@ public class UsuarioDetalheActivity extends AppCompatActivity  implements Adapte
             @Override
             public void onResponse(Call<List<Comentario>> call, Response<List<Comentario>> response) {
                 if (response.code() == 200) {
-                    ListView listViewComentario = findViewById(R.id.listViewComentario);
+                    ListView listViewComentario = findViewById(R.id.fragment_hospedador_listagem_detalhe_perfil_recycler);
                     listViewComentario.setAdapter(new UsuarioDetalheActivity.CustomAdapter(response.body()));
                 }
             }
@@ -105,7 +103,7 @@ public class UsuarioDetalheActivity extends AppCompatActivity  implements Adapte
             Comentario comentario = comentarios.get(position);
 
             if (convertView == null) {
-                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.usuario_detalhe_comentario_listview, parent, false);
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_hospedador_listagem_detalhe_perfil_recycler, parent, false);
                 viewHolder = new ViewHolder(convertView);
                 convertView.setTag(viewHolder);
             } else {

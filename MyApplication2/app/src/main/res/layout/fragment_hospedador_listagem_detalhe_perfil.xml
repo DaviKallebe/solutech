@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_hospedador_listagem_detalhe_perfil"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HospedadorListagemDetalhePerfilFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDescricaoUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imagePerfil"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/mob_user_175"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="Nome"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/imagePerfil"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTelefone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="Telefone"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNome"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/textViewDescricaoUsuarioLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:text="Descrição"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_header" />
+
+    <TextView
+        android:id="@+id/textViewDescricaoUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="150dp"
+        android:minHeight="100dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingStart="10dp"
+        android:text="Descrição"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/textViewImageDislike"
+        app:layout_constraintEnd_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintStart_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintTop_toBottomOf="@+id/layout_header" />
+
+
+    <TextView
+        android:id="@+id/textViewImageLike"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/heart"
+        android:drawableStart="@drawable/heart"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="0"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewImageDislike"
+        app:layout_constraintEnd_toStartOf="@+id/textViewImageDislike"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewImageDislike"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:drawableLeft="@drawable/sad"
+        android:drawableStart="@drawable/sad"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="0"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedador_listagem_detalhe_perfil_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescricaoUsuario" />
+
+
+    <TextView
+        android:id="@+id/listViewComentarioLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:text="Comentários"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintStart_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintTop_toBottomOf="@+id/textViewImageLike" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_hospedador_listagem_detalhe_perfil_recycler"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintStart_toEndOf="@+id/textViewImageLike"
+        app:layout_constraintTop_toBottomOf="@+id/textViewImageDislike" />
+
+</android.support.constraint.ConstraintLayout>

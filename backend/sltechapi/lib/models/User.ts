@@ -8,7 +8,7 @@ import { Comment } from "../models/Comment";
 import { Message } from "../models/Message";
 import { Pet } from "../models/Pet";
 
-export const User = sequelize.define('usuario', {
+export const User = sequelize.define('usuarios', {
     id_user: {
         type: Sequelize.BIGINT.UNSIGNED,
         autoIncrement: true,
@@ -36,6 +36,10 @@ export const User = sequelize.define('usuario', {
     },
     account_creation: {
         type: Sequelize.INTEGER.UNSIGNED
+    },
+    cadastrouComoHospedador: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 });
 

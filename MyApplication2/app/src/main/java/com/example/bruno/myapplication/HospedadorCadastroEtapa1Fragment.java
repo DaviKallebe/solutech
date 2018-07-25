@@ -1,10 +1,11 @@
 package com.example.bruno.myapplication;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.SharedPreferences;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,13 +17,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import static android.content.Context.MODE_PRIVATE;
+import com.example.bruno.myapplication.retrofit.Hospedador;
 
-public class HospedadorCadastroFragment extends Fragment {
+public class HospedadorCadastroEtapa1Fragment extends Fragment {
+
+    EditText primeiroNome;
+    EditText ultimoNome;
+    EditText rg;
+    EditText orgaoEmissor;
+    EditText cpf;
+    EditText nascimento;
+    EditText telefone;
 
     private MainActivityViewModel mViewModel;
-    private Button button;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,23 +46,51 @@ public class HospedadorCadastroFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_hospedador_cadastro, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_hospedador_cadastro_etapa1, container, false);
 
         setHasOptionsMenu(true);
 
-        button = (Button) rootView.findViewById(R.id.btnProximo);
+        primeiroNome = rootView.findViewById(R.id.fragment_hospedador_cadastro_primeironome);
+        ultimoNome = rootView.findViewById(R.id.fragment_hospedador_cadastro_ultimonome);
+        rg = rootView.findViewById(R.id.fragment_hospedador_cadastro_rg);
+        orgaoEmissor = rootView.findViewById(R.id.fragment_hospedador_cadastro_orgaoemissor);
+        cpf = rootView.findViewById(R.id.fragment_hospedador_cadastro_cpf);
+        nascimento = rootView.findViewById(R.id.fragment_hospedador_cadastro_nascimento);
+        telefone = rootView.findViewById(R.id.fragment_hospedador_cadastro_telefone);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CadastroEtapa2Fragment cadastroEtapa2Fragment = new CadastroEtapa2Fragment();
+        Context context = getContext();
 
-                goToFragment(cadastroEtapa2Fragment);
+        if (context != null) {
+            FloatingActionButton fab_arrow_forward = rootView.findViewById(
+                    R.id.fragment_hospedador_cadastro_etapa1_arrow_forward);
+            fab_arrow_forward.setOnClickListener(v -> {
+                if (checkFields()) {
+                    HospedadorCadastroEtapa2Fragment cadastroEtapa2Fragment = new HospedadorCadastroEtapa2Fragment();
 
-            }
-        });
+                    Hospedador hospedador = new Hospedador();
+
+                    hospedador.setPrimeiroNome(primeiroNome.getText().toString());
+                    hospedador.setUltimoNome(ultimoNome.getText().toString());
+                    hospedador.setRg(rg.getText().toString());
+                    hospedador.setOrgaoEmissor(orgaoEmissor.getText().toString());
+                    hospedador.setCpf(cpf.getText().toString());
+                    hospedador.setNascimento(nascimento.getText().toString());
+                    hospedador.setTelefone(telefone.getText().toString());
+
+                    mViewModel.updateHospedadorCadastro(hospedador);
+
+                    goToFragment(cadastroEtapa2Fragment);
+                } else
+                    Toast.makeText(context, getResources().getString(R.string.empty_fields),
+                            Toast.LENGTH_SHORT).show();
+            });
+        }
 
         return rootView;
+    }
+
+    public Boolean checkFields() {
+        return true;
     }
 
     @Override

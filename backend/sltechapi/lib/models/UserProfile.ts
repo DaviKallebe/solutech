@@ -1,7 +1,7 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
 
-export let UserProfile = sequelize.define('perfil', {
+export let UserProfile = sequelize.define('perfis', {
     primeiroNome: {
         type: Sequelize.STRING(20),
         allowNull: false
@@ -31,7 +31,7 @@ export let UserProfile = sequelize.define('perfil', {
         allowNull: true
     },
     descricao: {
-        type: Sequelize.TEXT('tiny'),
+        type: Sequelize.TEXT('medium'),
         allowNull: true
     },
     imagem: {

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_hospedador_cadastro_etapa3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".HospedadorCadastroEtapa3Fragment">
+
+    <CheckBox
+        android:id="@+id/fragment_hospedado_cadastro_preferenciaGatos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Gatos"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedado_cadastro_preferenciaMamiferos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hospedado_cadastro_preferenciaCachorro"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <TextView
+        android:id="@+id/textViewPreferencia"
+        tools:text="Preferencia(s) de Animal(is)"
+        android:layout_width="wrap_content"
+        android:layout_height="22dp"
+        android:layout_marginTop="16dp"
+        android:text="Preferencia(s) de Animal(is)"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewQuantidade" />
+
+    <TextView
+        android:id="@+id/textViewQuantidade"
+        tools:text="Quantidade de Animais por Vez:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:text="Quantidade de Animais por Vez:"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/QuantidadeDeAnimais"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/fragment_hospedado_cadastro_preferenciaCachorro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:checked="true"
+        android:text="Cahorros"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_hospedado_cadastro_preferenciaGatos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPreferencia"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <Spinner
+        android:id="@+id/fragment_hospedado_cadastro_quantidadeDeAnimais"
+        android:layout_width="108dp"
+        android:layout_height="26dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewQuantidade"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewQuantidade"
+        app:layout_constraintTop_toTopOf="@+id/textViewQuantidade" />
+
+    <CheckBox
+        android:id="@+id/fragment_hospedado_cadastro_preferenciaAves"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Aves"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedado_cadastro_preferenciaGatos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedado_cadastro_preferenciaGatos"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedado_cadastro_preferenciaGatos"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <CheckBox
+        android:id="@+id/fragment_hospedado_cadastro_preferenciaMamiferos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:text="Mamíferos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_hospedado_cadastro_preferenciaGatos"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <CheckBox
+        android:id="@+id/fragment_hospedado_cadastro_preferenciaRepteis"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Répteis"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedado_cadastro_preferenciaCachorro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedado_cadastro_preferenciaCachorro"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedado_cadastro_preferenciaCachorro"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <CheckBox
+        android:id="@+id/fragment_hospedado_cadastro_preferenciaPeixes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:checked="true"
+        android:text="Peixes"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_hospedado_cadastro_preferenciaMamiferos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_hospedado_cadastro_preferenciaMamiferos"
+        app:layout_constraintTop_toTopOf="@+id/fragment_hospedado_cadastro_preferenciaMamiferos"
+        app:layout_constraintWidth_percent="0.45" />
+
+    <Button
+        android:id="@+id/fragment_hospedado_cadastro_action_cadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Cadastrar" />
+
+</android.support.constraint.ConstraintLayout>
