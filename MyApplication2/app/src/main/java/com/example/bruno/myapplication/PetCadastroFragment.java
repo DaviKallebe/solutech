@@ -131,24 +131,6 @@ public class PetCadastroFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int menu_id = item.getItemId();
-
-        switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-                }
-
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 }

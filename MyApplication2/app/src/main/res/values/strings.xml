@@ -6,6 +6,7 @@
     <string name="title_activity_login">Entrar</string>
     <string name="empty_fields">Preencha todos os campos</string>
     <string name="perfil_fragment">perfilFragment</string>
+    <string name="salvando">Salvando dados</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

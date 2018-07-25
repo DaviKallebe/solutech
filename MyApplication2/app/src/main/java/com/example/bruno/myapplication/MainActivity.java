@@ -13,14 +13,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.bruno.myapplication.commons.PerfilOpcoes;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity implements HospedadorListagemFragment.OnFragmentInteractionListener,
         ListagemMensagemFragment.OnFragmentInteractionListener,
-        UsuarioPerfilFragment.OnFragmentInteractionListener,
         EditarValorFragment.OnFragmentInteractionListener {
 
     private static final int NUM_PAGES = 3;
@@ -64,7 +62,21 @@ public class MainActivity extends AppCompatActivity implements HospedadorListage
         mViewModel = ViewModelProviders.of(this).get(MainActivityViewModel.class);
         mViewModel.loadCurrentUser(id_user);
 
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ActionBar actionBar = getSupportActionBar();
+
+        fragmentManager.addOnBackStackChangedListener(() -> {
+            if (actionBar != null) {
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setDisplayShowHomeEnabled(true);
+                }
+                else {
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    actionBar.setDisplayShowHomeEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -119,6 +131,11 @@ public class MainActivity extends AppCompatActivity implements HospedadorListage
         else if (id == R.id.action_search) {
             return true;
         }
+        else if (id == android.R.id.home) {
+            getSupportFragmentManager().popBackStackImmediate();
+
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -168,20 +185,6 @@ public class MainActivity extends AppCompatActivity implements HospedadorListage
             if (mViewModel != null)
                 mViewModel.updateProfile(id_user, stream);
         }
-    }
-
-    @Override
-    public void changeValue(PerfilOpcoes opt) {
-        EditarValorFragment editarValorFragment = new EditarValorFragment();
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
-                .replace(R.id.activity_logado,
-                        editarValorFragment,
-                        editarValorFragment.getClass().getSimpleName())
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override

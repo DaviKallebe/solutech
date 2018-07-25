@@ -37,5 +37,9 @@ export let UserProfile = sequelize.define('perfis', {
     imagem: {
         type: Sequelize.STRING(255),
         allowNull: true
+    },
+    cadastrouComoHospedador: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
     }
 });

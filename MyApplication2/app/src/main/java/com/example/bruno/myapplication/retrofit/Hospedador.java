@@ -19,6 +19,7 @@ public class Hospedador {
     @NonNull
     @PrimaryKey
     private Integer id_user;
+    private Integer id;
 
     private String primeiroNome;
     private String ultimoNome;
@@ -58,6 +59,16 @@ public class Hospedador {
     private Double precoExotico;
 
     private String descricao;
+    private String createdAt;
+    private String updatedAt;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @NonNull
     public Integer getId_user() {
@@ -324,6 +335,22 @@ public class Hospedador {
         this.nascimento = nascimento;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public JSONObject getFieldsJson() throws IllegalAccessException, JSONException {
         JSONObject json = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();
@@ -354,5 +381,22 @@ public class Hospedador {
         }
 
         return null;
+    }
+
+    public void updateFields(Hospedador hospedador) {
+        try {
+            Field[] fields = hospedador.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+                if (Modifier.isPrivate(field.getModifiers())) {
+                    Object fieldValue = field.get(hospedador);
+
+                    if (fieldValue != null)
+                        field.set(this, fieldValue);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

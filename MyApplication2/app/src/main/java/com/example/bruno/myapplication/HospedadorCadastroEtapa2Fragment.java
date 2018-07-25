@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,9 +68,9 @@ public class HospedadorCadastroEtapa2Fragment extends Fragment {
         Context context = getContext();
 
         if (context != null) {
-            FloatingActionButton fab_arrow_forward = rootView.findViewById(
+            FloatingActionButton fab2_arrow_forward = rootView.findViewById(
                     R.id.fragment_hospedador_cadastro_etapa2_arrow_forward);
-            fab_arrow_forward.setOnClickListener(v -> {
+            fab2_arrow_forward.setOnClickListener(v -> {
                 if (checkFields()) {
                     HospedadorCadastroEtapa3Fragment cadastroEtapa3Fragment = new HospedadorCadastroEtapa3Fragment();
 
@@ -120,24 +121,6 @@ public class HospedadorCadastroEtapa2Fragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int menu_id = item.getItemId();
-
-        switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-                }
-
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 

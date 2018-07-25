@@ -46,7 +46,7 @@ export class UserController {
                 model: UserProfile,
                 attributes: ['primeiroNome', 'ultimoNome', 'telefone']
             }]
-        }).then(user => {
+            }).then(user => {
             if (user) {
                 let result = {
                     email: user.email,
@@ -103,17 +103,16 @@ export class UserController {
                 },
                 include: [{
                     model: UserProfile,
-                    attributes: ['primeiroNome', 'ultimoNome', 'telefone']
+                    attributes: ['primeiroNome', 'ultimoNome', 'telefone'],
                 }]
             }).then(user => {
-
                 if (user) {
                     let result = {
                         email: user.email,
                         id_user: user.id_user,
-                        primeiroNome: user.perfil.primeiroNome,
-                        ultimoNome: user.perfil.ultimoNome,
-                        telefone: user.perfil.telefone
+                        primeiroNome: user.perfi.primeiroNome,
+                        ultimoNome: user.perfi.ultimoNome,
+                        telefone: user.perfi.telefone
                     }
                     res.status(200).json(result);
                 }
@@ -266,7 +265,7 @@ export class UserController {
     }
 
     public getUsersByName = (req: Request, res: Response) => {
-        sequelize.query("SELECT * FROM perfils WHERE primeiroNome like ? OR ultimoNome like ?", 
+        sequelize.query("SELECT * FROM perfis WHERE primeiroNome like ? OR ultimoNome like ?", 
         {model: User, replacements: [ '%' +req.params.nome + '%', '%' + req.params.nome + '%'], type: sequelize.QueryTypes.SELECT})
         .then(users => {
             res.status(200).json(users);
@@ -414,6 +413,6 @@ export class UserController {
         UserHost.create(req.body).then(host => {
             res.status(200).json(host);
         })
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(500).json(err));
     }
 }

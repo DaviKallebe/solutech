@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.bruno.myapplication.adapter.PetListagemAdapter;
 import com.example.bruno.myapplication.commons.SimpleDividerItemDecoration;
@@ -100,25 +101,12 @@ public class PetListagemFragment extends Fragment implements PetListagemAdapter.
         int menu_id = item.getItemId();
 
         switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-                }
-
-                break;
             case R.id.fragment_pet_detalhe_menu_novo:
                 goToFragment(new PetCadastroFragment());
-                break;
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

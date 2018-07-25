@@ -36,11 +36,7 @@ export const User = sequelize.define('usuarios', {
     },
     account_creation: {
         type: Sequelize.INTEGER.UNSIGNED
-    },
-    cadastrouComoHospedador: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-    }
+    }    
 });
 
 User.addHook('afterCreate', 'generateHash', (userInfo, option) => {
@@ -71,29 +67,53 @@ User.prototype.checkPassword = function (password) {
 
 User.sync({force: false}).then(() => {
     //Table created
-    User.hasOne(UserPlace, {foreignKeyConstraint: true, foreignKey: 'id_user'});
-    UserPlace.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    User.hasOne(UserPlace, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
+    UserPlace.belongsTo(User, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
 
     UserPlace.sync({force: false}).then(() => {
         //Table created
     });
     //
-    User.hasOne(UserProfile, {foreignKeyConstraint: true, foreignKey: 'id_user'});
-    UserProfile.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    User.hasOne(UserProfile, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
+    UserProfile.belongsTo(User, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
 
     UserProfile.sync({force: false}).then(() => {
         //Table created
     });
     //
-    User.hasOne(UserHost, {foreignKeyConstraint: true, foreignKey: 'id_user'});
-    UserHost.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    User.hasOne(UserHost, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
+    UserHost.belongsTo(User, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
 
     UserHost.sync({force: false}).then(() => {
         //Table created
     });
     //
-    User.hasMany(Pet, {foreignKeyConstraint: true, foreignKey: 'id_user'});
-    Pet.belongsTo(User, {foreignKeyConstraint: true, foreignKey: 'id_user'});
+    User.hasMany(Pet, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
+    Pet.belongsTo(User, {foreignKeyConstraint: true, foreignKey: {
+        name: 'id_user',
+        allowNull: false
+    },  onDelete: 'CASCADE'});
 
     Pet.sync({force: false}).then(() => {
         //Table created

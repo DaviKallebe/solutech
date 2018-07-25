@@ -119,18 +119,6 @@ public class PetDetalheFragment extends Fragment {
         int menu_id = item.getItemId();
 
         switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-                }
-
-                break;
-
             case R.id.fragment_pet_detalhe_menu_editar:
                 break;
             case R.id.fragment_pet_detalhe_menu_remover:

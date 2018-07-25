@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,10 +25,9 @@ import android.widget.TextView;
 import com.example.bruno.myapplication.adapter.UsuarioPerfilAdapter;
 import com.example.bruno.myapplication.commons.PerfilOpcoes;
 import com.example.bruno.myapplication.commons.Status;
+import com.example.bruno.myapplication.retrofit.Hospedador;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +40,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdapter.OnItemClicked {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private UsuarioPerfilAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -100,6 +91,10 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
             textViewAnuncio.setOnClickListener(v -> {
                 HospedadorCadastroEtapa1Fragment hospedadorCadastroFragment = new HospedadorCadastroEtapa1Fragment();
 
+                Hospedador hospedador = new Hospedador();
+                hospedador.setId_user(id_user);
+                mViewModel.updateHospedadorCadastro(hospedador);
+
                 goToFragment(hospedadorCadastroFragment);
             });
 
@@ -110,9 +105,9 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
                     if (user != null) {
                         usuario = user;
+                        Boolean cadastrou = user.getCadastrouComoHospedador();
 
-                        if (user.getCadastrouComoHospedador() != null ||
-                                !user.getCadastrouComoHospedador())
+                        if (cadastrou != null && !cadastrou)
                             textViewAnuncio.setVisibility(View.VISIBLE);
                         else
                             textViewAnuncio.setVisibility(View.GONE);
@@ -174,18 +169,6 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     @Override
     public void onDestroyOptionsMenu() {
         super.onDestroyOptionsMenu();
-        //
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-        if (activity != null) {
-            ActionBar actionBar = activity.getSupportActionBar();
-
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(false);
-                actionBar.setDisplayShowHomeEnabled(false);
-            }
-            activity.setTitle(getResources().getString(R.string.app_label));
-        }
     }
 
     @Override
@@ -195,16 +178,8 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        if (activity != null) {
-            ActionBar actionBar = activity.getSupportActionBar();
-
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setDisplayShowHomeEnabled(true);
-            }
-
+        if (activity != null)
             activity.setTitle(getResources().getString(R.string.fragment_perfil));
-        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -214,17 +189,6 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
         int menu_id = item.getItemId();
 
         switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-                }
-
-                break;
             case R.id.action_perfil_pets:
                 PetListagemFragment petListagemFragment = new PetListagemFragment();
 
@@ -249,18 +213,11 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -272,26 +229,18 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
         super.onStop();
     }
 
-    public interface OnFragmentInteractionListener {
-        void changeValue(PerfilOpcoes opt);
-    }
-
     @Override
     public void onItemClick(View view, int position) {
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        if (mAdapter == null || mListener == null || activity == null)
+        if (mAdapter == null || activity == null)
             return;
 
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        PerfilOpcoes opt = mAdapter.getItem(position);
+        EditarValorFragment editarValorFragment = new EditarValorFragment();
 
-        if (fragmentManager != null) {
-            PerfilOpcoes opt = mAdapter.getItem(position);
-            EditarValorFragment editarValorFragment = new EditarValorFragment();
-
-            editarValorFragment.setOption(opt);
-            goToFragment(editarValorFragment);
-        }
+        editarValorFragment.setOption(opt);
+        goToFragment(editarValorFragment);
 
     }
 

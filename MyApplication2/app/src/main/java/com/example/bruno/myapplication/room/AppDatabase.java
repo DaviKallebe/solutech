@@ -9,7 +9,7 @@ import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.Usuario;
 
 @Database(entities = {Usuario.class, Pet.class, Hospedador.class},
-        version = 6, exportSchema = false)
+        version = 8, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UsuarioDao getUsuarioDao();

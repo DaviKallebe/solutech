@@ -95,21 +95,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         if (this.hospedador == null)
             this.hospedador = new Hospedador();
 
-        try {
-            Field[] fields = hospedador.getClass().getDeclaredFields();
-
-            for (Field field : fields) {
-                if (Modifier.isPrivate(field.getModifiers())) {
-                    Object fieldValue = field.get(hospedador);
-
-                    if (fieldValue != null) {
-                        field.set(this.hospedador, fieldValue);
-                    }
-                }
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        this.hospedador.updateFields(hospedador);
     }
 
     public Observable<Hospedador> createHospedador() {

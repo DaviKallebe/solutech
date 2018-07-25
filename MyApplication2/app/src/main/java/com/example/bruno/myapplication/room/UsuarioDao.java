@@ -25,4 +25,7 @@ public interface UsuarioDao {
 
     @Update
     void updateCurrentUser(Usuario user);
+
+    @Query("UPDATE Usuario SET cadastrouComoHospedador = 1")
+    void updateCadastrou();
 }

@@ -19,11 +19,8 @@ import com.example.bruno.myapplication.room.AppDatabase;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -197,6 +194,7 @@ public class UsuarioRepository {
     //upate user information
     public void updateCurrentUser(Usuario user) {
         AsyncTask.execute(() -> appDatabase.getUsuarioDao().updateCurrentUser(user));
+        AsyncTask.execute(() -> appDatabase.getUsuarioDao().updateCadastrou());
     }
 
     //update image
@@ -254,7 +252,9 @@ public class UsuarioRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .share();
 
-        compositeDisposable.add(hospedadorObservable.subscribe(this::insertHospedadorRoom));
+        compositeDisposable.add(hospedadorObservable.subscribe(
+                this::insertHospedadorRoom,
+                this::handleInternalError));
 
         return hospedadorObservable;
     }

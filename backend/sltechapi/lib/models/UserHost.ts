@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from "../mysql";
-import { User } from "./User";
+import { UserProfile } from "../models/UserProfile"
 
 export const UserHost = sequelize.define('hospedadores', {
     primeiroNome: {
@@ -101,4 +101,12 @@ export const UserHost = sequelize.define('hospedadores', {
     descricao: {
         type: Sequelize.TEXT('medium')
     }
+});
+
+UserHost.hook('afterCreate', 'setProfileCadastradoComoHospedador', (userProfileInfo, option) => {
+    UserProfile.update({cadastrouComoHospedador: true}, {
+        where: {
+            id_user: userProfileInfo.id_user
+        }
+    })
 });

@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,11 +23,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.bruno.myapplication.retrofit.Hospedador;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import okio.Buffer;
 
 public class HospedadorCadastroEtapa3Fragment extends Fragment {
 
@@ -50,7 +52,7 @@ public class HospedadorCadastroEtapa3Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_hospedador_cadastro_etapa3, container, false);
@@ -66,12 +68,10 @@ public class HospedadorCadastroEtapa3Fragment extends Fragment {
         cuidaPeixe = rootView.findViewById(R.id.fragment_hospedado_cadastro_preferenciaPeixes);
 
         Context context = getContext();
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        if (context != null && activity != null) {
+        if (context != null) {
             Button cadastrar = rootView.findViewById(
                     R.id.fragment_hospedado_cadastro_action_cadastrar);
-            FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
             cadastrar.setOnClickListener((View v) -> {
                 if (checkFields()) {
@@ -87,35 +87,45 @@ public class HospedadorCadastroEtapa3Fragment extends Fragment {
 
                     mViewModel.updateHospedadorCadastro(hospedador);
 
-                    ProgressDialog dialog = ProgressDialog.show(context, "", "", true);
+                    AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-                    activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if (activity != null) {
+                        ProgressDialog dialog = ProgressDialog.show(activity, "",
+                                getResources().getString(R.string.salvando), true);
 
-                    dialog.show();
+                        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                    Disposable disposable = mViewModel.createHospedador()
-                            .subscribe((Hospedador resp) -> {
-                                Toast.makeText(context,
-                                        "Parabéns seus cadastro foi realizado com sucesso!",
-                                        Toast.LENGTH_LONG).show();
+                        dialog.show();
 
-                                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        Disposable disposable = mViewModel.createHospedador()
+                                .subscribe((Hospedador resp) -> {
+                                    Toast.makeText(context,
+                                            "Parabéns seus cadastro foi realizado com sucesso!",
+                                            Toast.LENGTH_LONG).show();
 
-                                if (fragmentManager != null) {
-                                    fragmentManager.popBackStackImmediate(
-                                            getResources().getString(R.string.perfil_fragment), 0);
-                                }
-                            }, error -> {
-                                Toast.makeText(context,
-                                        "Aconteceu um erro durante a tentativa de cadastro!",
-                                        Toast.LENGTH_LONG).show();
+                                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    dialog.hide();
 
-                                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                            });
+                                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
 
-                    CompositeDisposable compositeDisposable = new CompositeDisposable();
-                    compositeDisposable.add(disposable);
+                                    if (fragmentManager != null) {
+                                        fragmentManager.popBackStackImmediate(
+                                                getResources().getString(R.string.perfil_fragment), 0);
+                                    }
+                                }, (Throwable error) -> {
+                                    Toast.makeText(context,
+                                            "Aconteceu um erro durante a tentativa de cadastro!",
+                                            Toast.LENGTH_LONG).show();
+
+                                    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    dialog.hide();
+
+                                });
+
+                        CompositeDisposable compositeDisposable = new CompositeDisposable();
+                        compositeDisposable.add(disposable);
+                    }
                 }
             });
         }
@@ -145,24 +155,6 @@ public class HospedadorCadastroEtapa3Fragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int menu_id = item.getItemId();
-
-        switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-                }
-
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
