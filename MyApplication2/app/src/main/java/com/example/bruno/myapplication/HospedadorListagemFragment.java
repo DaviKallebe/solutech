@@ -1,87 +1,109 @@
 package com.example.bruno.myapplication;
 
+import android.app.SearchManager;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.bruno.myapplication.adapter.HospedadorListagemAdapter;
+import com.example.bruno.myapplication.retrofit.Hospedador;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HospedadorListagemFragment extends Fragment implements HospedadorListagemAdapter.OnItemClicked, Callback<List<Usuario>> {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
+public class HospedadorListagemFragment extends Fragment implements HospedadorListagemAdapter.OnItemClicked {
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private Call<List<Usuario>> call;
-
-    public HospedadorListagemFragment() {
-        // Required empty public constructor
-    }
-
-    public static HospedadorListagemFragment newInstance(String param1, String param2) {
-        HospedadorListagemFragment fragment = new HospedadorListagemFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private HospedadorListagemAdapter mAdapter;
+    private List<Hospedador> hospedadors;
+    private MainActivityViewModel mViewModel;
+    private OnFragmentInteractionListener mListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        FragmentActivity fragmentActivity = getActivity();
+
+        if (fragmentActivity != null)
+            mViewModel = ViewModelProviders.of(fragmentActivity).get(MainActivityViewModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_hospedador_listagem, container, false);
 
-        mRecyclerView = rootView.findViewById(R.id.hospedador_listagem_recycler);
-        mLayoutManager = new LinearLayoutManager(this.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        Context context = getContext();
 
-        call = new RetrofitConfig().getUsuarioService().listUsers();
-        call.enqueue(this);
+        if (context != null) {
+            mRecyclerView = rootView.findViewById(R.id.hospedador_listagem_recycler);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
+            mRecyclerView.setLayoutManager(mLayoutManager);
+
+            FragmentActivity fragmentActivity = getActivity();
+
+            if (fragmentActivity != null) {
+                Disposable disposable = mViewModel
+                        .searchUsers(null, null)
+                        .retry((retryCount, throwable) -> retryCount < 3 &&
+                                throwable instanceof SocketTimeoutException)
+                        .subscribe((List<Hospedador> hospedadors) -> {
+                            if (hospedadors != null) {
+                                fragmentActivity.runOnUiThread(() -> {
+                                    this.hospedadors = hospedadors;
+                                    mAdapter = new HospedadorListagemAdapter(this.hospedadors,
+                                            this.getContext(), this);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                });
+                            }
+                        }, (Throwable e) -> {
+                            e.printStackTrace();
+                            Toast.makeText(context, "Não foi possivel carregar os hospedadores",
+                                Toast.LENGTH_LONG).show();
+                        });
+
+                CompositeDisposable compositeDisposable = new CompositeDisposable();
+                compositeDisposable.add(disposable);
+            }
+        }
+
+        setHasOptionsMenu(true);
+        setRetainInstance(true);
 
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -98,36 +120,82 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
     public void onDetach() {
         super.onDetach();
         mListener = null;
-
-        if (call != null)
-            call.cancel();
     }
 
     public interface OnFragmentInteractionListener {
-        void verUsuarioDetalhes(Usuario user);
+        void startFragment(Fragment fragment, String name);
     }
 
     @Override
-    public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
-        if (response.code() == 200) {
-            mAdapter = new HospedadorListagemAdapter(response.body(), this.getContext(), this);
-            mRecyclerView.setAdapter(mAdapter);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+        FragmentActivity fragmentActivity = getActivity();
+
+        if (fragmentActivity != null) {
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+
+            SearchManager searchManager = (SearchManager)
+                    fragmentActivity.getSystemService(Context.SEARCH_SERVICE);
+
+            SearchView searchView = null;
+
+            if (searchItem != null) {
+                searchView = (SearchView) searchItem.getActionView();
+            }
+            if (searchView != null && searchManager != null) {
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(fragmentActivity.getComponentName()));
+
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
+                    }
+                });
+            }
+
+            fragmentActivity.setTitle(getResources().getString(R.string.app_label));
         }
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
-    public void onFailure(Call<List<Usuario>> call, Throwable t) {
-        View view = getView();
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
+    }
 
-        if (view != null)
-            Snackbar.make(view, "Problemas de comunicação!", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        Usuario user = ((HospedadorListagemAdapter)mAdapter).getItem(position);
+        Hospedador user = mAdapter.getItem(position);
 
-        mListener.verUsuarioDetalhes(user);
+        if (getActivity() != null && getActivity() instanceof MainActivity) {
+            HospedadorListagemDetalheFragment hospedadorListagemDetalheFragment =
+                    new HospedadorListagemDetalheFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("id_user", user.getId_user());
+            bundle.putString("nome", user.getFullName());
+            bundle.putString("telefone", user.getTelefone());
+            bundle.putString("descricao", user.getDescricao());
+            bundle.putString("primeiroNome", user.getPrimeiroNome());
+            bundle.putString("ultimoNome", user.getUltimoNome());
+            bundle.putString("imagem", user.getImagem());
+
+            hospedadorListagemDetalheFragment.setArguments(bundle);
+
+            if (mListener != null)
+                mListener.startFragment(hospedadorListagemDetalheFragment, null);
+        }
     }
 }

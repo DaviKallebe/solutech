@@ -3,9 +3,12 @@ package com.example.bruno.myapplication;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,47 +35,29 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class EditarValorFragment extends Fragment implements View.OnClickListener {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
     private PerfilOpcoes mOption;
     private EditText mTextValue;
     private DatePicker mDatePickerValue;
     private MainActivityViewModel mViewModel;
     private Context mContext;
-
-    private OnFragmentInteractionListener mListener;
-
-    public EditarValorFragment() {
-        // Required empty public constructor
-    }
-
-    public static EditarValorFragment newInstance(String param1, String param2) {
-        EditarValorFragment fragment = new EditarValorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Integer id_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
-        mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
+        FragmentActivity fragmentActivity = getActivity();
+
+        if (fragmentActivity != null)
+            mViewModel = ViewModelProviders.of(getActivity()).get(MainActivityViewModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_fragment_editar_valor,
@@ -82,6 +67,9 @@ public class EditarValorFragment extends Fragment implements View.OnClickListene
         mContext = this.getContext();
         mTextValue = rootView.findViewById(R.id.fragment_edit_edittext_value);
         mDatePickerValue = rootView.findViewById(R.id.fragment_edit_datePicker_value);
+
+        SharedPreferences prefs = mContext.getSharedPreferences("userfile", MODE_PRIVATE);
+        id_user = prefs.getInt("id_user", 0);
 
         if (mOption != null) {
             TextView textView = rootView.findViewById(R.id.fragment_edit_textview_title);
@@ -100,10 +88,12 @@ public class EditarValorFragment extends Fragment implements View.OnClickListene
                 Calendar calendar = Calendar.getInstance();
                 Date date = null;
 
-                try {
-                    date = format.parse((String)mOption.getValue());
-                } catch (ParseException e) {
-                    Log.e("DATEPARSEERROR", e.getMessage());
+                if (mOption.getValue() != null) {
+                    try {
+                        date = format.parse((String) mOption.getValue());
+                    } catch (ParseException e) {
+                        Log.e("DATEPARSEERROR", e.getMessage());
+                    }
                 }
 
                 mDatePickerValue.setVisibility(View.VISIBLE);
@@ -141,12 +131,6 @@ public class EditarValorFragment extends Fragment implements View.OnClickListene
         return rootView;
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            //mListener.saveFieldOnBackend(uri);
-        }
-    }
-
     public void setOption(PerfilOpcoes mOption) {
         this.mOption = mOption;
     }
@@ -157,72 +141,25 @@ public class EditarValorFragment extends Fragment implements View.OnClickListene
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-        if (activity != null) {
-            ActionBar actionBar = activity.getSupportActionBar();
-
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setDisplayShowHomeEnabled(true);
-            }
-
+        if (activity != null)
             activity.setTitle(getResources().getString(R.string.fragment_perfil));
-        }
 
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int menu_id = item.getItemId();
-
-        switch (menu_id) {
-            case android.R.id.home:
-                AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-                if (activity != null) {
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
-                    if (fragmentManager != null)
-                        fragmentManager.popBackStackImmediate();
-
-                    hideSoftKeyboard(getActivity(), getView());
-                }
-
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-        //
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-
-        if (activity != null) {
-            ActionBar actionBar = activity.getSupportActionBar();
-
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(false);
-                actionBar.setDisplayShowHomeEnabled(false);
-            }
-            activity.setTitle(getResources().getString(R.string.app_label));
-        }
     }
 
     public void close() {
@@ -259,24 +196,22 @@ public class EditarValorFragment extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.fragment_edit_button_confirm:
-                if (mListener != null) {
-                    Integer type = mOption.getTypeField();
+                Integer type = mOption.getTypeField();
 
-                    if (type == 1 || type == 2 || type == 3 || type == 5 || type == 6) {
-                        mOption.setValue(mTextValue.getText().toString());
-                    }
-
-                    if (type == 4) {
-                        mOption.setValue(new GregorianCalendar(mDatePickerValue.getYear(),
-                                mDatePickerValue.getMonth(),
-                                mDatePickerValue.getDayOfMonth()).getTime());
-                    }
-
-                    mListener.saveFieldOnBackend(mOption.getField(), mOption.getValue());
-
-                    hideSoftKeyboard(getActivity(), getView());
-                    close();
+                if (type == 1 || type == 2 || type == 3 || type == 5 || type == 6) {
+                    mOption.setValue(mTextValue.getText().toString());
                 }
+
+                if (type == 4) {
+                    mOption.setValue(new GregorianCalendar(mDatePickerValue.getYear(),
+                            mDatePickerValue.getMonth(),
+                            mDatePickerValue.getDayOfMonth()).getTime());
+                }
+
+                mViewModel.updateProfile(id_user, mOption.getField(), mOption.getValue());
+
+                hideSoftKeyboard(getActivity(), getView());
+                close();
 
                 break;
         }

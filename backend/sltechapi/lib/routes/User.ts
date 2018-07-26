@@ -57,6 +57,9 @@ export class UserRoutes {
                 this.userControler.updateHospedador);
         app.post('/user/host/create',
                 this.userControler.createHospedador);
+
+        app.get('/search/user/all',
+                this.userControler.UserSearch);
         
     }
 }

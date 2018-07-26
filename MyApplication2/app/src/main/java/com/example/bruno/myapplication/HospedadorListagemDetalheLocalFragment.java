@@ -14,6 +14,10 @@ public class HospedadorListagemDetalheLocalFragment extends Fragment {
 
     private MainActivityViewModel mViewModel;
 
+    public HospedadorListagemDetalheLocalFragment() {
+        //
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -51,7 +51,7 @@ export const UserHost = sequelize.define('hospedadores', {
     cuidaCachorro: {
         type: Sequelize.BOOLEAN
     },
-    cuidaGatos: {
+    cuidaGato: {
         type: Sequelize.BOOLEAN
     },
     cuidaMamifero: {
@@ -83,7 +83,7 @@ export const UserHost = sequelize.define('hospedadores', {
     tipoSupervisao: {
         type: Sequelize.INTEGER
     },
-    numerComentario: {
+    numeroComentario: {
         type: Sequelize.INTEGER
     },
     totalLike: {

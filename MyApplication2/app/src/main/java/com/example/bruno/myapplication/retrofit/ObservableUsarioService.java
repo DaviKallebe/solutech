@@ -30,8 +30,9 @@ public interface ObservableUsarioService {
     Single<Usuario> doFirebaseCreateUser(@Query("firebaseUid") String firebaseUid,
                                          @Body RequestBody object);
 
-    @GET("user/list_all")
-    Observable<List<Usuario>> listUsers();
+    @GET("/search/user/all")
+    Flowable<List<Hospedador>> searchUsers(@Query("id_user") Integer id_user,
+                                        @Query("nome") String name);
 
     @GET("user/get_comments/{id_user}")
     Flowable<List<Comentario>> getComments(@Path("id_user") Integer id_user);

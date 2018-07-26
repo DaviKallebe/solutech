@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bruno.myapplication.R;
-import com.example.bruno.myapplication.retrofit.Usuario;
+import com.example.bruno.myapplication.retrofit.Hospedador;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorListagemAdapter.CustomViewHolder> {
 
@@ -25,34 +28,29 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
     }
 
     private OnItemClicked onClick;
-    private List<Usuario> usuarios;
+    private List<Hospedador> hospedadores;
     private Context context;
 
-    public HospedadorListagemAdapter(List<Usuario> usuarios, Context context) {
-        this.usuarios = usuarios;
-        this.context = context;
-    }
-
-    public HospedadorListagemAdapter(List<Usuario> usuarios, Context context, OnItemClicked onClick) {
-        this.usuarios = usuarios;
+    public HospedadorListagemAdapter(List<Hospedador> hospedadores, Context context, OnItemClicked onClick) {
+        this.hospedadores = hospedadores;
         this.context = context;
         this.onClick = onClick;
     }
 
     @Override
     public int getItemCount() {
-        return this.usuarios.size();
+        return this.hospedadores.size();
     }
 
-    public Usuario getItem(int position) {
-        return this.usuarios.get(position);
+    public Hospedador getItem(int position) {
+        return this.hospedadores.get(position);
     }
 
     @NonNull
     @Override
     public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.customlayouthosp, parent, false);
+                .inflate(R.layout.fragment_hospedador_listagem_recycler, parent, false);
 
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 
@@ -61,21 +59,24 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-        Usuario user = usuarios.get(position);
+        Hospedador hospedador = hospedadores.get(position);
 
-        holder.textViewNome.setText(user.getFullName());
-        holder.textViewDesc.setText(user.getDescricao());
+        holder.textViewNome.setText(hospedador.getFullName());
+        holder.textViewDesc.setText(hospedador.getDescricao());
+
+        if (hospedador.getImagem() != null)
+            Picasso.get().load(hospedador.getImagem()).into(holder.circleImagemPerfil);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imageView;
+        CircleImageView circleImagemPerfil;
         TextView textViewNome;
         TextView textViewDesc;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.imageViewH);
+            circleImagemPerfil = itemView.findViewById(R.id.fragment_hospedador_listagem_imagemperfil);
             textViewNome = itemView.findViewById(R.id.textViewNomeH);
             textViewDesc = itemView.findViewById(R.id.textViewDescricaoH);
 

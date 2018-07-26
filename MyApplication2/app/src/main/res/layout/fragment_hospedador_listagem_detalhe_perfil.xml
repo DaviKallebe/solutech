@@ -54,6 +54,21 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
+        <Button
+            android:id="@+id/fragmento_hospedador_listagem_detalhe_perfil_requisitar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="Solicitar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"
+            android:drawableEnd="@drawable/ic_image_ask"
+            android:drawableRight="@drawable/ic_image_ask" />
+
     </android.support.constraint.ConstraintLayout>
 
 
@@ -75,8 +90,8 @@
         android:id="@+id/textViewDescricaoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxHeight="150dp"
-        android:minHeight="100dp"
+        android:maxHeight="100dp"
+        android:minHeight="50dp"
         android:paddingEnd="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -84,6 +99,8 @@
         android:text="Descrição"
         android:textSize="16sp"
         android:textStyle="italic"
+        android:maxLines="5"
+        android:minLines="2"
         app:layout_constraintBottom_toTopOf="@+id/textViewImageDislike"
         app:layout_constraintEnd_toEndOf="@+id/textViewImageLike"
         app:layout_constraintStart_toEndOf="@+id/textViewImageLike"

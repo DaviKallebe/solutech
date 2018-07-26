@@ -48,7 +48,7 @@
         android:layout_marginRight="5dp"
         android:background="@android:color/darker_gray"
         android:layout_below="@+id/layout_image_perfil"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/fragment_usuario_perfil_anuncio"

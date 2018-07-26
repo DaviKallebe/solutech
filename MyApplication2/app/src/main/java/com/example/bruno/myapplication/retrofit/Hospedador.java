@@ -59,6 +59,7 @@ public class Hospedador {
     private Double precoExotico;
 
     private String descricao;
+    private String imagem;
     private String createdAt;
     private String updatedAt;
 
@@ -349,6 +350,18 @@ public class Hospedador {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getFullName() {
+        return primeiroNome + ' ' + ultimoNome;
     }
 
     public JSONObject getFieldsJson() throws IllegalAccessException, JSONException {

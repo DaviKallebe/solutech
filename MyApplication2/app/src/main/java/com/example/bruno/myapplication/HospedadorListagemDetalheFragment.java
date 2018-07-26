@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HospedadorListagemDetalheFragment extends Fragment {
+
     private MainActivityViewModel mViewModel;
 
     @Override
@@ -48,18 +49,12 @@ public class HospedadorListagemDetalheFragment extends Fragment {
 
             if (fragmentManager != null) {
                 //Fragments Settings
-                HospedadorListagemDetalhePerfilFragment hospedadorListagemDetalhePerfilFragment =
-                        new HospedadorListagemDetalhePerfilFragment();
-                HospedadorListagemDetalheLocalFragment hospedadorListagemDetalheLocalFragment =
-                        new HospedadorListagemDetalheLocalFragment();
-
                 List<FragmentOption> fragmentOptions = new ArrayList<>();
 
-                //Fragment and Name
-                fragmentOptions.add(new FragmentOption(hospedadorListagemDetalhePerfilFragment,
-                        getResources().getString(R.string.fragment_hospedador_listagem_detalhe_perfil)));
-                fragmentOptions.add(new FragmentOption(hospedadorListagemDetalheLocalFragment,
-                        getResources().getString(R.string.fragment_hospedador_listagem_detalhe_local)));
+                fragmentOptions.add(new FragmentOption(HospedadorListagemDetalhePerfilFragment.class,
+                        getResources().getString(R.string.fragment_hospedador_listagem_detalhe_perfil), getArguments()));
+                fragmentOptions.add(new FragmentOption(HospedadorListagemDetalheLocalFragment.class,
+                        getResources().getString(R.string.fragment_hospedador_listagem_detalhe_local), getArguments()));
 
                 //PageViewer and TabLyout configuration
                 ViewPager mPager = rootView.findViewById(R.id.fragment_hospedador_listagem_detalhe_viewpager);
@@ -127,12 +122,19 @@ public class HospedadorListagemDetalheFragment extends Fragment {
     }
 
     private class FragmentOption {
-        private Fragment fragment;
+        private Class classFragment;
         private String fragmentName;
+        private Bundle bundle;
 
-        public FragmentOption(Fragment fragment, String fragmentName) {
-            this.fragment = fragment;
+        private <T extends Fragment> FragmentOption(Class<T> classFragment, String fragmentName) {
+            this.classFragment = classFragment;
             this.fragmentName = fragmentName;
+        }
+
+        private <T extends Fragment> FragmentOption(Class<T> classFragment, String fragmentName, Bundle bundle) {
+            this.classFragment = classFragment;
+            this.fragmentName = fragmentName;
+            this.bundle = bundle;
         }
 
         public String getFragmentName() {
@@ -140,7 +142,18 @@ public class HospedadorListagemDetalheFragment extends Fragment {
         }
 
         public Fragment getFragment() {
-            return fragment;
+            try {
+                Fragment fragment = (Fragment) classFragment.newInstance();
+                fragment.setArguments(bundle);
+
+                return fragment;
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 

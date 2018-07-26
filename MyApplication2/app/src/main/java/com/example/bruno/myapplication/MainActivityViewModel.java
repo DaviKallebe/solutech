@@ -10,14 +10,11 @@ import com.example.bruno.myapplication.commons.ResourceState;
 import com.example.bruno.myapplication.repository.UsuarioRepository;
 import com.example.bruno.myapplication.retrofit.Comentario;
 import com.example.bruno.myapplication.retrofit.Hospedador;
-import com.example.bruno.myapplication.retrofit.Mensagem;
 import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.example.bruno.myapplication.room.AppDatabase;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -74,7 +71,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         return null;
     }
 
-    public Flowable<List<Comentario>> getMessages() {
+    public Flowable<List<Comentario>> getComments(Integer id_user) {
         return mUserRepository.getComments(id_user);
     }
 
@@ -104,5 +101,9 @@ public class MainActivityViewModel extends AndroidViewModel {
         }
 
         return null;
+    }
+
+    public Flowable<List<Hospedador>> searchUsers(Integer id_user, String nome) {
+        return mUserRepository.searchUsers(id_user, nome);
     }
 }

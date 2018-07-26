@@ -19,6 +19,7 @@ import com.example.bruno.myapplication.room.AppDatabase;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -257,6 +258,14 @@ public class UsuarioRepository {
                 this::handleInternalError));
 
         return hospedadorObservable;
+    }
+
+    public Flowable<List<Hospedador>> searchUsers(Integer id_user, String nome) {
+        return new RetrofitConfig()
+                .getObservableUsuarioService()
+                .searchUsers(id_user, nome)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.newThread());
     }
 
     //handle error in general

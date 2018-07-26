@@ -258,7 +258,10 @@ export class UserController {
     public listUsers(req: Request, res: Response) {
         UserProfile.findAll({
         }).then(profile => {
-            res.status(200).send(profile);
+            if (profile.imagem)
+                profile.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + profile.imagem.replace(/\\/gi, "/");
+
+            res.status(200).json(profile);
         }, err => {
             res.status(500).send(err);
         });
@@ -414,5 +417,28 @@ export class UserController {
             res.status(200).json(host);
         })
         .catch(err => res.status(500).json(err));
+    }
+
+    public UserSearch(req: Request, res: Response) {
+        sequelize.query("SELECT `hospedadores`.`id`, `usuario`.`primeiroNome`, `usuario`.`ultimoNome`, `hospedadores`.`rg`, \
+        \n`hospedadores`.`orgaoEmissor`, `hospedadores`.`nascimento`, `hospedadores`.`cpf`, `usuario`.`telefone`, \
+        \n`hospedadores`.`cuidaIdoso`, `hospedadores`.`cuidaFilhote`, `hospedadores`.`cuidaFemea`, `hospedadores`.`cuidaMacho`, \
+        \n`hospedadores`.`cuidaCastrado`, `hospedadores`.`cuidaPequeno`, `hospedadores`.`cuidaGrande`, `hospedadores`.`cuidaExotico`, \
+        \n`hospedadores`.`cuidaCachorro`, `hospedadores`.`cuidaGato`, `hospedadores`.`cuidaMamifero`, `hospedadores`.`cuidaReptil`, \
+        \n`hospedadores`.`cuidaAve`, `hospedadores`.`cuidaPeixe`, `hospedadores`.`likes`, `hospedadores`.`dislikes`, \
+        \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
+        \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
+        \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
+        \n`usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` FROM `hospedadores` AS `hospedadores` \
+        \nLEFT OUTER JOIN `perfis` AS `usuario` ON `hospedadores`.`id_user` = `usuario`.`id_user`;")
+        .then(userHospedador => {
+            let array_list = userHospedador[1].map(hosp => {
+                if (hosp.imagem != null)
+                    hosp.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+
+                return hosp;
+            })
+            res.status(200).json(array_list);
+        }, err => res.status(500).json(err));
     }
 }
