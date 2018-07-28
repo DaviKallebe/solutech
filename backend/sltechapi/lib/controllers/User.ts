@@ -79,9 +79,9 @@ export class UserController {
                     let result = {
                         email: user.email,
                         id_user: user.id_user,
-                        primeiroNome: user.perfil.primeiroNome,
-                        ultimoNome: user.perfil.ultimoNome,
-                        telefone: user.perfil.telefone
+                        primeiroNome: user.perfi.primeiroNome,
+                        ultimoNome: user.perfi.ultimoNome,
+                        telefone: user.perfi.telefone
                     }
 
                     res.status(200).json(result);

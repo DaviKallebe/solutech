@@ -17,10 +17,11 @@
         android:hint="@string/prompt_phone"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="18sp"
-        android:nextFocusForward="@+id/editFirstName"
+        android:nextFocusDown="@+id/editFirstName"
         android:singleLine="true"
         android:inputType="phone"
-        android:drawableLeft="@drawable/ic_text_icon_phone" />
+        android:drawableLeft="@drawable/ic_text_icon_phone"
+        android:drawableStart="@drawable/ic_text_icon_phone"/>
 
     <RelativeLayout
         android:layout_width="300dp"
@@ -39,7 +40,7 @@
             android:hint="@string/prompt_first_name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="18sp"
-            android:nextFocusForward="@+id/editLastName"
+            android:nextFocusDown="@+id/editLastName"
             android:singleLine="true" />
 
         <EditText

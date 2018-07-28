@@ -22,12 +22,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-
-    <!-- Strings related to usuario -->
     <string name="activity_cadastro_usuario">Cadastro</string>
     <string name="prompt_phone">Número (92) 00000&#8211;0000</string>
     <string name="prompt_first_name">Primeiro nome</string>
     <string name="prompt_last_name">Ultimo nome</string>
+    <string name="error_create_new_user">Aconteceu um erro ao tentar criar a conta</string>
+    <string name="error_user_already_exist">Usuário já existe</string>
+    <string name="error_unkown_signin">Erro ao tentar entrar, tente novamente mais tarde</string>
 
     <!-- Strings related to facebook login -->
     <string name="facebook_app_id">678714429187142</string>
