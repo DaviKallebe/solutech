@@ -224,7 +224,6 @@ public class Login extends AppCompatActivity {
         LoginManager.getInstance().logOut();
 
         if (e instanceof IOException) {
-            Log.e("ERRORLOGIN", e.getMessage());
             Toast.makeText(Login.this,
                     "Não foi possível conectar ao servidor, tente novamente mais tarde!",
                     Toast.LENGTH_SHORT).show();
@@ -232,8 +231,6 @@ public class Login extends AppCompatActivity {
         //
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-
-            Log.e("HTTPERROR", e.getMessage());
 
             Toast.makeText(Login.this,
                     "Opa! Aconteceu algo que não deveria.",
@@ -246,19 +243,21 @@ public class Login extends AppCompatActivity {
     }
 
     public void handleLoginError(Throwable e) {
-        closeProgressBar();
 
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
 
         if (e instanceof IOException) {
-            Log.e("ERRORLOGIN", e.getMessage());
+            closeProgressBar();
+
             Toast.makeText(Login.this,
                     "Não foi possível conectar ao servidor, tente novamente mais tarde!",
                     Toast.LENGTH_SHORT).show();
         }
-        //
+        else
         if (e instanceof HttpException) {
+            closeProgressBar();
+
             HttpException httpException = (HttpException) e;
 
             if (httpException.code() == 401) {
@@ -267,6 +266,13 @@ public class Login extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         }
+        else {
+            closeProgressBar();
+            Toast.makeText(this,
+                    getResources().getString(R.string.error_unkown_signin),
+                    Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void showProgressBar() {

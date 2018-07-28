@@ -1,31 +1,39 @@
 package com.example.bruno.myapplication;
 
-import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
-public class NovoUsuarioActivity extends Activity
+public class NovoUsuarioActivity extends AppCompatActivity
         implements NovoUsuarioPasso1.OnFragmentInteractionListener,
                     NovoUsuarioPasso2.OnFragmentInteractionListener {
 
     String email;
     String pword;
-    String phone;
-    String firstName;
-    String lastName;
+    String telefone;
+    String primeiroNome;
+    String ultimoNome;
     Fragment novoPasso1;
     Fragment novoPasso2;
 
@@ -34,18 +42,62 @@ public class NovoUsuarioActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_novo_usuario);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ActionBar actionBar = getSupportActionBar();
+
+        fragmentManager.addOnBackStackChangedListener(() -> {
+            if (actionBar != null) {
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setDisplayShowHomeEnabled(true);
+                }
+                else {
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    actionBar.setDisplayShowHomeEnabled(false);
+                }
+            }
+        });
+
+
         novoPasso1 = new NovoUsuarioPasso1();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.activity_novo_usuario, novoPasso1, novoPasso1.getClass().getSimpleName()).addToBackStack(null).commit();
+        fragmentManager.
+                beginTransaction()
+                .replace(R.id.activity_novo_usuario,
+                        novoPasso1,
+                        novoPasso1.getClass().getSimpleName())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void saveToPreferences(Usuario user) {
+        SharedPreferences.Editor editor = getSharedPreferences("userfile", MODE_PRIVATE).edit();
+        editor.putInt("id_user", user.getId_user());
+        editor.apply();
+    }
+
+    public void goMainActicity(Usuario user) {
+        Intent intent = new Intent(NovoUsuarioActivity.this, MainActivity.class);
+
+        saveToPreferences(user);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("email", user.getEmail());
+        intent.putExtra("primeiroNome", user.getPrimeiroNome());
+        intent.putExtra("ultimoNome", user.getUltimoNome());
+        intent.putExtra("id_user", user.getId_user());
+        intent.putExtra("nome", user.getPrimeiroNome() + ' ' + user.getUltimoNome());
+
+        startActivity(intent);
     }
 
     public void createNewUser() {
-        String json = String.format("{\"%s\": \"%s\",\"%s\": \"%s\",\"%s\": \"%s\",\"%s\": \"%s\",\"%s\": \"%s\"}",
-                "email", this.email,
-                "pword", this.pword,
-                "primeiroNome", this.firstName,
-                "ultimoNome", this.lastName,
-                "telefone", this.phone);
+        Usuario usuario = new Usuario();
+
+        usuario.setEmail(this.email);
+        usuario.setPassword(this.pword);
+        usuario.setPrimeiroNome(this.primeiroNome);
+        usuario.setUltimoNome(this.ultimoNome);
+        usuario.setTelefone(this.telefone);
 
         final ProgressBar mProgressBar = findViewById(R.id.progressBarNovo);
 
@@ -53,44 +105,70 @@ public class NovoUsuarioActivity extends Activity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
-        Call<Usuario> call = new RetrofitConfig().getUsuarioService().createNewUser(body);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (response.code() == 201){
-                    Usuario user = response.body();
+        mAuth.createUserWithEmailAndPassword(this.email, this.pword)
+                .addOnCompleteListener((Task<AuthResult> task) -> {
+                    if (task.isSuccessful())
+                        new RetrofitConfig().getObservableUsuarioService()
+                                .doFirebaseCreateUser(mAuth.getCurrentUser().getUid(),
+                                        usuario.generateRequestBody())
+                                .observeOn(Schedulers.newThread())
+                                .subscribeOn(AndroidSchedulers.mainThread())
+                                .subscribe(user -> {
+                                    runOnUiThread(() -> {
+                                        mProgressBar.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    });
 
-                    Intent intent = new Intent(NovoUsuarioActivity.this, MainActivity.class);
-                    intent.putExtra("email", user.getEmail());
-                    intent.putExtra("primeiroNome", user.getPrimeiroNome());
-                    intent.putExtra("ultimoNome", user.getUltimoNome());
-                    intent.putExtra("telefone", user.getTelefone());
-                    intent.putExtra("id_user", user.getId_user());
-                    intent.putExtra("nome", user.getPrimeiroNome() + ' ' + user.getUltimoNome());
+                                    goMainActicity(user);
+                                });
+                    else {
+                        mProgressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    }
+                })
+                .addOnFailureListener((Exception e) -> {
+                    mProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                    startActivity(intent);
-                }
+                    if (e instanceof FirebaseAuthUserCollisionException)
+                        Toast.makeText(this,
+                                getResources().getString(R.string.error_user_already_exist),
+                                Toast.LENGTH_LONG).show();
+                    else {
+                        Toast.makeText(this,
+                                getResources().getString(R.string.error_create_new_user),
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            if (fragmentManager != null) {
+                if (fragmentManager.getBackStackEntryCount() > 1)
+                    fragmentManager.popBackStackImmediate();
                 else
-                if (response.code() == 500) {
-                    Snackbar.make(findViewById(R.id.activity_novo_usuario), "Erro ao realizar o cadastro!", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                if (fragmentManager.getBackStackEntryCount() == 1) {
+                    this.finish();
                 }
-
-                mProgressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                Snackbar.make(findViewById(R.id.activity_novo_usuario), "Não foi possível realizar o cadastro!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            return true;
+        }
 
-                mProgressBar.setVisibility(View.GONE);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            }
-        });
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -99,15 +177,20 @@ public class NovoUsuarioActivity extends Activity
         this.pword = pass;
 
         novoPasso2 = new NovoUsuarioPasso2();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.activity_novo_usuario, novoPasso2, novoPasso2.getClass().getSimpleName()).addToBackStack(null).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.activity_novo_usuario,
+                        novoPasso2,
+                        novoPasso2.getClass().getSimpleName())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void NovoUsuarioPasso2SaveToActivity(String phone, String firstName, String lastName) {
-        this.phone = phone;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.telefone = phone;
+        this.primeiroNome = firstName;
+        this.ultimoNome = lastName;
 
         createNewUser();
     }
