@@ -2,6 +2,7 @@ package com.example.bruno.myapplication;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import java.util.Locale;
 
 public class PetDetalheFragment extends Fragment {
     private static final String param1_id_pet = "param1_id_pet";
+    private static final int PET_PICK_IMAGE = 2;
 
     private MainActivityViewModel mViewModel;
     private Integer id_pet;
@@ -92,9 +94,20 @@ public class PetDetalheFragment extends Fragment {
                     Picasso.get().load(pet.getImagem()).into(imagem);
 
             });
+
+            imagem.setOnClickListener(this::openImageSelector);
         }
 
         return rootView;
+    }
+
+    public void openImageSelector(View v) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                "Selecione uma image"),
+                PET_PICK_IMAGE);
     }
 
     @Override

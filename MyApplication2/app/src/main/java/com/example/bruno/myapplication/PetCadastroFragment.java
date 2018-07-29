@@ -65,13 +65,13 @@ public class PetCadastroFragment extends Fragment {
 
             nome = rootView.findViewById(R.id.fragment_pet_cadastro_nome);
             idade = rootView.findViewById(R.id.fragment_pet_cadastro_idade);
-            macho = rootView.findViewById(R.id.fragment_pet_cadastro_radio_macho);
-            femea = rootView.findViewById(R.id.fragment_pet_cadastro_radio_femea);
+            macho = rootView.findViewById(R.id.fragment_pet_cadastro_macho);
+            femea = rootView.findViewById(R.id.fragment_pet_cadastro_femea);
             especie = rootView.findViewById(R.id.fragment_pet_cadastro_especie);
             raca = rootView.findViewById(R.id.fragment_pet_cadastro_raca);
             peso = rootView.findViewById(R.id.fragment_pet_cadastro_peso);
-            vacinado = rootView.findViewById(R.id.fragment_pet_cadastro_vacinado);
-            castrado = rootView.findViewById(R.id.fragment_pet_cadastro_castrado);
+            //vacinado = rootView.findViewById(R.id.fragment_pet_cadastro_vacinado);
+            //castrado = rootView.findViewById(R.id.fragment_pet_cadastro_castrado);
             descricao = rootView.findViewById(R.id.fragment_pet_cadastro_descricao);
 
             Button confirmar = rootView.findViewById(R.id.fragment_pet_cadastro_confirmar);

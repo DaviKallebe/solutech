@@ -67,8 +67,14 @@ public interface ObservableUsarioService {
     @PUT("user/pet/update/")
     Observable<Pet> updateUserPet(@Body RequestBody object);
 
+    /*
     @POST("user/pet/create/")
-    Observable<Pet> createUserPet(@Body RequestBody body);
+    Observable<Pet> createUserPet(@Body RequestBody body);*/
+
+    @Multipart
+    @POST("user/pet/create/")
+    Observable<Pet> createUserPet(@PartMap Map<String, RequestBody> partMapBody,
+                                  @Part MultipartBody.Part image);
 
     @GET("user/get/{nome}")
     Flowable<List<Usuario>> getUserByName(@Path("nome") String nome);

@@ -10,6 +10,9 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
 @Entity
 public class Pet {
 
@@ -173,5 +176,20 @@ public class Pet {
         }
 
         return json;
+    }
+
+    public RequestBody generateRequestBody() {
+        try {
+            return RequestBody
+                    .create(MediaType.parse("application/json; charset=utf-8"),
+                            this.getFieldsJson().toString());
+
+        } catch (IllegalAccessException e1) {
+            e1.printStackTrace();
+        } catch (JSONException e2) {
+            e2.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
 
     private static final int NUM_PAGES = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PET_PICK_IMAGE = 2;
 
     private MainActivityViewModel mViewModel;
     private Integer id_user;
@@ -178,6 +179,17 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
 
             if (mViewModel != null)
                 mViewModel.updateProfile(id_user, stream);
+        }
+        else
+        if (requestCode == PET_PICK_IMAGE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+            //if (mViewModel != null)
+
         }
     }
 

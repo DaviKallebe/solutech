@@ -9,6 +9,9 @@ export const UserHost = sequelize.define('hospedadores', {
     ultimoNome: {
         type: Sequelize.STRING
     },
+    nomeCompleto: {
+        type: Sequelize.STRING
+    },
     rg: {
         type: Sequelize.STRING
     },
@@ -101,6 +104,13 @@ export const UserHost = sequelize.define('hospedadores', {
     descricao: {
         type: Sequelize.TEXT('medium')
     }
+}, {
+    indexes: [
+        { type: 'FULLTEXT', 
+          name: 'nomeFTS', 
+          fields: ['nomeCompleto'] }
+    ]
+  
 });
 
 UserHost.hook('afterCreate', 'setProfileCadastradoComoHospedador', (userProfileInfo, option) => {
@@ -108,5 +118,7 @@ UserHost.hook('afterCreate', 'setProfileCadastradoComoHospedador', (userProfileI
         where: {
             id_user: userProfileInfo.id_user
         }
-    })
+    });
+
+    userProfileInfo.nomeCompleto = userProfileInfo.primeiroNome + " " + userProfileInfo.ultimoNome;
 });

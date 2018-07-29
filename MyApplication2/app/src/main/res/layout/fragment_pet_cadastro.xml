@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
@@ -6,8 +7,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
-    <?xml version="1.0" encoding="utf-8"?>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -81,7 +80,7 @@
 
 
             <EditText
-                android:id="@+id/petCadNome"
+                android:id="@+id/fragment_pet_cadastro_nome"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -105,7 +104,7 @@
 
 
             <EditText
-                android:id="@+id/petCadIdade"
+                android:id="@+id/fragment_pet_cadastro_idade"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -145,20 +144,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center">
+
                     <RadioButton
+                        android:id="@+id/fragment_pet_cadastro_macho"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/petCadSexoM"
-                        android:text="Macho"
                         android:layout_gravity="center"
-                        />
+                        android:checked="true"
+                        android:text="Macho" />
+
                     <RadioButton
+                        android:id="@+id/fragment_pet_cadastro_femea"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/petCadSexoF"
-                        android:text="Fêmea"
                         android:layout_gravity="center"
-                        />
+                        android:text="Fêmea" />
 
                 </LinearLayout>
 
@@ -181,14 +181,13 @@
 
 
             <EditText
-                android:id="@+id/petCadPeso"
-                android:layout_height="wrap_content"
+                android:id="@+id/fragment_pet_cadastro_peso"
                 android:layout_width="50dp"
-                android:singleLine="true"
-                android:padding="12dp"
-                android:textSize="16dp"
+                android:layout_height="wrap_content"
                 android:inputType="number"
-                />
+                android:padding="12dp"
+                android:singleLine="true"
+                android:textSize="16dp" />
 
 
 
@@ -200,7 +199,7 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -219,7 +218,7 @@
 
 
             <EditText
-                android:id="@+id/petCadEspecie"
+                android:id="@+id/fragment_pet_cadastro_especie"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:hint="Ex: Gato"
@@ -244,15 +243,13 @@
 
 
             <EditText
-                android:id="@+id/petCadRaca"
-                android:layout_height="wrap_content"
+                android:id="@+id/fragment_pet_cadastro_raca"
                 android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:hint="Ex: Siames"
-                android:singleLine="true"
                 android:padding="12dp"
-                android:textSize="16dp"
-                />
-
+                android:singleLine="true"
+                android:textSize="16dp" />
 
 
         </LinearLayout>
@@ -275,25 +272,24 @@
 
 
         <EditText
-            android:id="@+id/petCadDescricao"
-            android:layout_height="wrap_content"
+            android:id="@+id/fragment_pet_cadastro_descricao"
             android:layout_width="match_parent"
-            android:inputType="textMultiLine"
+            android:layout_height="wrap_content"
             android:hint="Adicione uma observação aqui"
+            android:inputType="textMultiLine"
             android:padding="12dp"
-            android:textSize="16dp"
-            />
+            android:textSize="16dp" />
 
 
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/fragment_pet_cadastro_confirmar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cadastrar"
-        android:id="@+id/btnCadastroPet"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="Cadastrar" />
 
 
 </LinearLayout>

@@ -165,9 +165,14 @@ public class UsuarioRepository {
     }
 
     public void createNewPet(Pet pet) {
+        /*
+    }
         try {
-            RequestBody body = RequestBody
-                    .create(MediaType.parse("application/json; charset=utf-8"), pet.getFieldsJson().toString());
+            /*
+            MultipartBody.Part body = prepareFilePart("imagem", image);
+            HashMap<String, RequestBody> map = new HashMap<>();
+
+            map.put("id_user", createPart(id_user));
 
             Observable<Pet> createPet = new RetrofitConfig()
                     .getObservableUsuarioService()
@@ -182,7 +187,7 @@ public class UsuarioRepository {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     //messages

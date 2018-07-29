@@ -1,15 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <?xml version="1.0" encoding="utf-8"?>
-
-
-
-
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -32,7 +27,7 @@
             android:layout_marginBottom="10dp" >
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/image_perfil"
+                android:id="@+id/fragment_pet_detalhe_imagem_perfil"
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_alignParentTop="true"
@@ -74,7 +69,7 @@
 
 
             <TextView
-                android:id="@+id/petNome"
+                android:id="@+id/fragment_pet_detalhe_nome"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -99,7 +94,7 @@
 
 
             <TextView
-                android:id="@+id/petIdade"
+                android:id="@+id/fragment_pet_detalhe_idade"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -136,14 +131,14 @@
                 android:textSize="16dp" />
 
 
-                <TextView
-                    android:id="@+id/petSexo"
-                    android:layout_width="130dp"
-                    android:padding="12dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+            <TextView
+                android:id="@+id/fragment_pet_detalhe_sexo"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="12dp"
 
-                    android:text="*Sexo*" />
+                android:text="*Sexo*" />
 
 
 
@@ -165,15 +160,14 @@
 
 
             <TextView
-                android:id="@+id/petPeso"
-                android:layout_height="wrap_content"
+                android:id="@+id/fragment_pet_detalhe_peso"
                 android:layout_width="50dp"
-                android:singleLine="true"
-                android:padding="12dp"
-                android:textSize="16dp"
+                android:layout_height="wrap_content"
                 android:inputType="number"
+                android:padding="12dp"
+                android:singleLine="true"
                 android:text="*?*"
-                />
+                android:textSize="16dp" />
 
 
 
@@ -204,12 +198,12 @@
 
 
             <TextView
-                android:id="@+id/petEspecie"
+                android:id="@+id/fragment_pet_detalhe_especie"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="*especie*"
                 android:padding="12dp"
                 android:singleLine="true"
+                android:text="*especie*"
                 android:textSize="16dp" />
 
 
@@ -229,7 +223,7 @@
 
 
             <TextView
-                android:id="@+id/petRaca"
+                android:id="@+id/fragment_pet_detalhe_raca"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -258,14 +252,13 @@
 
 
         <TextView
-            android:id="@+id/petDescricao"
-            android:layout_height="wrap_content"
+            android:id="@+id/fragment_pet_detalhe_descricao"
             android:layout_width="match_parent"
-            android:inputType="textMultiLine"
+            android:layout_height="wrap_content"
             android:hint="*descricao*"
+            android:inputType="textMultiLine"
             android:padding="12dp"
-            android:textSize="16dp"
-            />
+            android:textSize="16dp" />
 
 
 
