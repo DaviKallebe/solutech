@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:layout_gravity="center"
-    android:background="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:clickable="true"
-            android:focusable="true"
-            tools:context=".UsuarioPerfilFragment"
-            android:id="@+id/fragment_usuario_perfil"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        tools:context=".UsuarioPerfilFragment"
+        android:id="@+id/fragment_usuario_perfil"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
         <RelativeLayout
             android:id="@+id/layout_image_perfil"
@@ -66,7 +58,7 @@
             android:layout_below="@+id/layout_image_perfil"
             android:visibility="invisible"/>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 
     <LinearLayout
@@ -93,7 +85,6 @@
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:singleLine="true"
-                android:nextFocusDown="@id/fragment_pet_cadastro_idade"
                 android:textSize="16dp" />
 
 
@@ -119,12 +110,16 @@
                 android:inputType="number"
                 android:padding="12dp"
                 android:singleLine="true"
-                android:nextFocusDown="@id/fragment_pet_cadastro_peso"
                 android:textSize="16dp" />
+
 
         </LinearLayout>
 
+
+
     </LinearLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,7 +162,9 @@
 
                 </LinearLayout>
 
+
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -179,7 +176,9 @@
                 android:layout_width="88dp"
                 android:layout_height="wrap_content"
                 android:text="Peso(KG):"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                />
+
 
             <EditText
                 android:id="@+id/fragment_pet_cadastro_peso"
@@ -188,10 +187,13 @@
                 android:inputType="number"
                 android:padding="12dp"
                 android:singleLine="true"
-                android:nextFocusDown="@id/fragment_pet_cadastro_especie"
                 android:textSize="16dp" />
 
+
+
         </LinearLayout>
+
+
 
     </LinearLayout>
 
@@ -200,6 +202,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
 
         <LinearLayout
             android:layout_width="210dp"
@@ -213,6 +216,7 @@
                 android:text="Espécie:"
                 android:textSize="16dp" />
 
+
             <EditText
                 android:id="@+id/fragment_pet_cadastro_especie"
                 android:layout_width="100dp"
@@ -220,7 +224,6 @@
                 android:hint="Ex: Gato"
                 android:padding="12dp"
                 android:singleLine="true"
-                android:nextFocusDown="@id/fragment_pet_cadastro_raca"
                 android:textSize="16dp" />
 
 
@@ -236,7 +239,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Raça:"
-                android:textSize="16dp"/>
+                android:textSize="16dp" />
+
 
             <EditText
                 android:id="@+id/fragment_pet_cadastro_raca"
@@ -245,8 +249,8 @@
                 android:hint="Ex: Siames"
                 android:padding="12dp"
                 android:singleLine="true"
-                android:nextFocusDown="@id/fragment_pet_cadastro_descricao"
                 android:textSize="16dp" />
+
 
         </LinearLayout>
 
@@ -263,7 +267,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Descrição:"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            />
 
 
         <EditText
@@ -279,13 +284,13 @@
 
     </LinearLayout>
 
-        <Button
-            android:id="@+id/fragment_pet_cadastro_confirmar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Cadastrar" />
+    <Button
+        android:id="@+id/fragment_pet_cadastro_confirmar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Cadastrar" />
 
-    </LinearLayout>
-</ScrollView>
+
+</LinearLayout>
 
