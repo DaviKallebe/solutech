@@ -21,4 +21,7 @@ public interface PetDao {
 
     @Query("SELECT * FROM Pet WHERE id_pet = :id_pet")
     LiveData<Pet> getPet(Integer id_pet);
+
+    @Query("DELETE FROM Pet")
+    void deletePets();
 }

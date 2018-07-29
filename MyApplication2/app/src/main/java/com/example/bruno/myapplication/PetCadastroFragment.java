@@ -85,8 +85,8 @@ public class PetCadastroFragment extends Fragment {
                     pet.setEspecie(especie.getText().toString());
                     pet.setRaca(raca.getText().toString());
                     pet.setPeso(Double.valueOf(peso.getText().toString()));
-                    pet.setVacinado(vacinado.isChecked());
-                    pet.setCastrado(castrado.isChecked());
+                    //pet.setVacinado(vacinado.isChecked());
+                    //pet.setCastrado(castrado.isChecked());
                     pet.setOutros(descricao.getText().toString());
                     pet.setId_user(id_user);
 

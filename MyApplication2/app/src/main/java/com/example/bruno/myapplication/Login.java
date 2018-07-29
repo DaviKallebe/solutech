@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -141,7 +140,6 @@ public class Login extends AppCompatActivity {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, (Task<AuthResult> task) -> {
-                    closeProgressBar();
 
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
@@ -156,10 +154,16 @@ public class Login extends AppCompatActivity {
 
                         compositeDisposable.add(disposable);
                     } else {
+                        closeProgressBar();
                         Toast.makeText(Login.this, "Authentication falhou.",
                                 Toast.LENGTH_SHORT).show();
                     }
 
+                })
+                .addOnFailureListener(this, (task) -> {
+                    closeProgressBar();
+                    Toast.makeText(Login.this, "Authentication falhou.",
+                            Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -243,21 +247,17 @@ public class Login extends AppCompatActivity {
     }
 
     public void handleLoginError(Throwable e) {
-
+        closeProgressBar();
         FirebaseAuth.getInstance().signOut();
         LoginManager.getInstance().logOut();
 
         if (e instanceof IOException) {
-            closeProgressBar();
-
             Toast.makeText(Login.this,
                     "Não foi possível conectar ao servidor, tente novamente mais tarde!",
                     Toast.LENGTH_SHORT).show();
         }
         else
         if (e instanceof HttpException) {
-            closeProgressBar();
-
             HttpException httpException = (HttpException) e;
 
             if (httpException.code() == 401) {
@@ -267,7 +267,6 @@ public class Login extends AppCompatActivity {
             }
         }
         else {
-            closeProgressBar();
             Toast.makeText(this,
                     getResources().getString(R.string.error_unkown_signin),
                     Toast.LENGTH_SHORT).show();

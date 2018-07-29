@@ -1,7 +1,9 @@
 package com.example.bruno.myapplication.retrofit;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import org.json.JSONException;
@@ -9,8 +11,13 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 @Entity
@@ -34,6 +41,9 @@ public class Pet {
     private String outros;
     private String createdAt;
     private String updatedAt;
+
+    @Ignore
+    private Bitmap image;
 
     public Integer getIdade() {
         return idade;
@@ -191,5 +201,72 @@ public class Pet {
         }
 
         return null;
+    }
+
+    public void updateFields(Class object) {
+        if (this.getClass().equals(object.getClass())){
+            try {
+                Field[] fields = object.getClass().getDeclaredFields();
+
+                for (Field field : fields) {
+                    if (Modifier.isPrivate(field.getModifiers())) {
+                        Object fieldValue = field.get(object);
+
+                        if (fieldValue != null)
+                            field.set(this, fieldValue);
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private RequestBody createPartFromObject(Object object) {
+        if (object instanceof String)
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, (String)object);
+        if (object instanceof Integer)
+            return RequestBody.create(
+                    MultipartBody.FORM, Integer.toString((Integer)object));
+        if (object instanceof Date) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, df.format((Date)object));
+        }
+        if (object instanceof Double)
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, Double.toString((Double)object));
+        if (object instanceof Boolean)
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, Boolean.toString((Boolean)object));
+
+        return null;
+    }
+
+    public HashMap<String, RequestBody> getHashMapStringRequestBody() {
+        try {
+            Field[] fields = this.getClass().getDeclaredFields();
+            HashMap<String, RequestBody> hashMap = new HashMap<>();
+
+            for (Field field : fields) {
+                if (Modifier.isPrivate(field.getModifiers())) {
+                    Object fieldValue = field.get(this);
+
+                    if (fieldValue != null) {
+                        RequestBody requestBody = createPartFromObject(fieldValue);
+
+                        if (requestBody != null)
+                            hashMap.put(field.getName(), requestBody);
+                    }
+                }
+            }
+
+            return hashMap;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+
+            return new HashMap<>();
+        }
     }
 }

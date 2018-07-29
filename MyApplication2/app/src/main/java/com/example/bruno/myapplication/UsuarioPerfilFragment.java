@@ -107,10 +107,10 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                         usuario = user;
                         Boolean cadastrou = user.getCadastrouComoHospedador();
 
-                        if (cadastrou != null && !cadastrou)
-                            textViewAnuncio.setVisibility(View.VISIBLE);
-                        else
+                        if (cadastrou)
                             textViewAnuncio.setVisibility(View.GONE);
+                        else
+                            textViewAnuncio.setVisibility(View.VISIBLE);
 
                         //1 - String, 2 - Integer, 3 - Real, 4 - Date, 5 - Phone
                         opt.add(new PerfilOpcoes<>(getStr(R.string.primeiro_nome),

@@ -128,6 +128,7 @@ public class UsuarioRepository {
         return new NetworkBoundSource<List<Pet>, List<Pet>>() {
             @Override
             protected void saveCallResult(@NonNull List<Pet> item) {
+                appDatabase.getPetDao().deletePets();
                 appDatabase.getPetDao().inserPets(item.toArray(new Pet[item.size()]));
             }
 
@@ -165,29 +166,17 @@ public class UsuarioRepository {
     }
 
     public void createNewPet(Pet pet) {
-        /*
-    }
-        try {
-            /*
-            MultipartBody.Part body = prepareFilePart("imagem", image);
-            HashMap<String, RequestBody> map = new HashMap<>();
+        HashMap<String, RequestBody> map = pet.getHashMapStringRequestBody();
 
-            map.put("id_user", createPart(id_user));
+        Observable<Pet> createPet = new RetrofitConfig()
+                .getObservableUsuarioService()
+                .createUserPet(pet.getHashMapStringRequestBody(), null);
 
-            Observable<Pet> createPet = new RetrofitConfig()
-                    .getObservableUsuarioService()
-                    .createUserPet(body);
+        Disposable disposable = createPet.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::insertPetRoom, this::handleInternalError);
 
-            Disposable disposable = createPet.subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::insertPetRoom, this::handleInternalError);
-
-            compositeDisposable.add(disposable);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
+        compositeDisposable.add(disposable);
     }
 
     //messages

@@ -172,6 +172,22 @@ public class NovoUsuarioActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragmentManager != null) {
+            if (fragmentManager.getBackStackEntryCount() > 1)
+                fragmentManager.popBackStackImmediate();
+            else
+            if (fragmentManager.getBackStackEntryCount() == 1) {
+                this.finish();
+            }
+        }
+        else
+            super.onBackPressed();
+    }
+
+    @Override
     public void NovoUsuarioPasso1SaveToActivity(String email, String pass) {
         this.email = email;
         this.pword = pass;
