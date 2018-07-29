@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CadastrarLogradouro extends Fragment {
+public class CadastrarLogradouroEtapa1 extends Fragment {
 
     private MainActivityViewModel mViewModel;
 
@@ -32,7 +32,7 @@ public class CadastrarLogradouro extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_cadastrar_logradouro, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_cadastrar_logradouro_etapa1, container, false);
 
         setHasOptionsMenu(true);
 
