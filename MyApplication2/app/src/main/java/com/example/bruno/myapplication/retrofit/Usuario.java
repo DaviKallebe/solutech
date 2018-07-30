@@ -30,6 +30,7 @@ public class Usuario {
     private String password;
     private String primeiroNome;
     private String ultimoNome;
+    private String nomeCompleto;
     private String telefone;
     private String descricao;
     private String imagem;
@@ -172,6 +173,14 @@ public class Usuario {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
+
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
     JSONObject getFieldsJson() throws IllegalAccessException, JSONException {

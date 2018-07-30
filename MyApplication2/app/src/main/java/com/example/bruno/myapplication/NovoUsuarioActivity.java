@@ -122,7 +122,7 @@ public class NovoUsuarioActivity extends AppCompatActivity
                                     });
 
                                     goMainActicity(user);
-                                });
+                                }, Throwable::printStackTrace);
                     else {
                         mProgressBar.setVisibility(View.GONE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);

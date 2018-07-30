@@ -10,6 +10,10 @@ export let UserProfile = sequelize.define('perfis', {
         type: Sequelize.STRING(40),
         allowNull: false
     },
+    nomeCompleto: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+    },
     documento: {
         type: Sequelize.STRING(20),
         allowNull: true
@@ -42,4 +46,16 @@ export let UserProfile = sequelize.define('perfis', {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     }
+},{
+    indexes: [
+        { type: 'FULLTEXT', 
+          name: 'nomeFTS', 
+          fields: ['nomeCompleto'] }
+    ]
+  
 });
+
+UserProfile.afterUpdate((profile, option) => {
+    profile.nomeCompleto = profile.primeiroNome + " " + profile.ultimoNome;
+    profile.save();
+})

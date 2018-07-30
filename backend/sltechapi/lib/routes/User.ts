@@ -11,7 +11,7 @@ export class UserRoutes {
             return callBack(null, config.image_upload_folder);
         },
         filename: function(req, file, callBack) {
-            return callBack(null, new Date().toISOString().replace(/:/g, '-') + file.filename);
+            return callBack(null, new Date().toISOString().replace(/:/g, '-') + req.file.filename);
         }
     });
 

@@ -96,6 +96,7 @@ export class UserController {
 
     public createUserWithFirebase = (req: Request, res: Response) => {
         if (req.body.email && req.body.primeiroNome && req.body.ultimoNome && req.query.firebaseUid) {
+            req.body.nomeCompleto = req.body.primeiroNome + " " + req.body.ultimoNome;
             User.findOne({
                 attributes: ['email', 'id_user'],
                 where: {
@@ -326,7 +327,8 @@ export class UserController {
         UserProfile.update(data, {
             where: {
                 id_user: req.body.id_user
-            }
+            },
+            individualHooks: true            
         })
         .then(profile => {
             UserProfile.findOne({
@@ -339,7 +341,10 @@ export class UserController {
                 res.status(200).json(newProfile);
             });
         })
-        .catch(error => this.errorHandler(error, req, res));
+        .catch(error => {
+            console.log(error);
+            res.status(500).send(error)
+        });
     }
 
     public createPet = (req: Request, res: Response) => {
@@ -423,25 +428,50 @@ export class UserController {
     }
 
     public UserSearch(req: Request, res: Response) {
-        sequelize.query("SELECT `hospedadores`.`id`, `usuario`.`primeiroNome`, `usuario`.`ultimoNome`, `hospedadores`.`rg`, \
-        \n`hospedadores`.`orgaoEmissor`, `hospedadores`.`nascimento`, `hospedadores`.`cpf`, `usuario`.`telefone`, \
-        \n`hospedadores`.`cuidaIdoso`, `hospedadores`.`cuidaFilhote`, `hospedadores`.`cuidaFemea`, `hospedadores`.`cuidaMacho`, \
-        \n`hospedadores`.`cuidaCastrado`, `hospedadores`.`cuidaPequeno`, `hospedadores`.`cuidaGrande`, `hospedadores`.`cuidaExotico`, \
-        \n`hospedadores`.`cuidaCachorro`, `hospedadores`.`cuidaGato`, `hospedadores`.`cuidaMamifero`, `hospedadores`.`cuidaReptil`, \
-        \n`hospedadores`.`cuidaAve`, `hospedadores`.`cuidaPeixe`, `hospedadores`.`likes`, `hospedadores`.`dislikes`, \
-        \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
-        \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
-        \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
-        \n`usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` FROM `hospedadores` AS `hospedadores` \
-        \nLEFT OUTER JOIN `perfis` AS `usuario` ON `hospedadores`.`id_user` = `usuario`.`id_user`;")
-        .then(userHospedador => {
-            let array_list = userHospedador[1].map(hosp => {
-                if (hosp.imagem != null)
-                    hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+        if (req.query.nome == null || req.query.nome == "") {
+            sequelize.query("SELECT `hospedadores`.`id`, `usuario`.`primeiroNome`, `usuario`.`ultimoNome`, `hospedadores`.`rg`, \
+            \n`hospedadores`.`orgaoEmissor`, `hospedadores`.`nascimento`, `hospedadores`.`cpf`, `usuario`.`telefone`, \
+            \n`hospedadores`.`cuidaIdoso`, `hospedadores`.`cuidaFilhote`, `hospedadores`.`cuidaFemea`, `hospedadores`.`cuidaMacho`, \
+            \n`hospedadores`.`cuidaCastrado`, `hospedadores`.`cuidaPequeno`, `hospedadores`.`cuidaGrande`, `hospedadores`.`cuidaExotico`, \
+            \n`hospedadores`.`cuidaCachorro`, `hospedadores`.`cuidaGato`, `hospedadores`.`cuidaMamifero`, `hospedadores`.`cuidaReptil`, \
+            \n`hospedadores`.`cuidaAve`, `hospedadores`.`cuidaPeixe`, `hospedadores`.`likes`, `hospedadores`.`dislikes`, \
+            \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
+            \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
+            \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
+            \n`usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` FROM `hospedadores` AS `hospedadores` \
+            \nLEFT OUTER JOIN `perfis` AS `usuario` ON `hospedadores`.`id_user` = `usuario`.`id_user`;")
+            .then(userHospedador => {
+                let array_list = userHospedador[1].map(hosp => {
+                    if (hosp.imagem != null)
+                        hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
 
-                return hosp;
-            })
-            res.status(200).json(array_list);
-        }, err => res.status(500).json(err));
+                    return hosp;
+                });
+                res.status(200).json(array_list);
+            }, err => res.status(500).json(err));
+        }
+        else {
+            sequelize.query("SELECT `hospedadores`.`id`, `usuario`.`primeiroNome`, `usuario`.`ultimoNome`, `hospedadores`.`rg`, \
+            \n`hospedadores`.`orgaoEmissor`, `hospedadores`.`nascimento`, `hospedadores`.`cpf`, `usuario`.`telefone`, \
+            \n`hospedadores`.`cuidaIdoso`, `hospedadores`.`cuidaFilhote`, `hospedadores`.`cuidaFemea`, `hospedadores`.`cuidaMacho`, \
+            \n`hospedadores`.`cuidaCastrado`, `hospedadores`.`cuidaPequeno`, `hospedadores`.`cuidaGrande`, `hospedadores`.`cuidaExotico`, \
+            \n`hospedadores`.`cuidaCachorro`, `hospedadores`.`cuidaGato`, `hospedadores`.`cuidaMamifero`, `hospedadores`.`cuidaReptil`, \
+            \n`hospedadores`.`cuidaAve`, `hospedadores`.`cuidaPeixe`, `hospedadores`.`likes`, `hospedadores`.`dislikes`, \
+            \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
+            \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
+            \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
+            \n`usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` FROM `hospedadores` AS `hospedadores`, `perfis` AS `usuario` \
+            \nWHERE `hospedadores`.`id_user` = `usuario`.`id_user` AND MATCH(`usuario`.`nomeCompleto`) AGAINST(? IN BOOLEAN MODE);",
+            {type: sequelize.QueryTypes.SELECT, replacements: ['+*' + req.query.nome + '*']})
+            .then(hospedadores => {
+                let array_list = hospedadores.map(hosp => {
+                    if (hosp.imagem != null)
+                        hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+
+                    return hosp;
+                });
+                res.status(200).json(array_list);
+            }, err => res.status(500).json(err));
+        }
     }
 }

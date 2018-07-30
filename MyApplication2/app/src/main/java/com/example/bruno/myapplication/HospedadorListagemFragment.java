@@ -3,6 +3,7 @@ package com.example.bruno.myapplication;
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,6 +42,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class HospedadorListagemFragment extends Fragment implements HospedadorListagemAdapter.OnItemClicked {
     private RecyclerView mRecyclerView;
@@ -48,6 +51,7 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
     private List<Hospedador> hospedadors;
     private MainActivityViewModel mViewModel;
     private OnFragmentInteractionListener mListener;
+    private Integer id_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,27 +77,30 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
-            FragmentActivity fragmentActivity = getActivity();
+            SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
+            id_user = prefs.getInt("id_user", 0);
 
-            if (fragmentActivity != null) {
-                Disposable disposable = mViewModel
-                        .searchUsers(null, null)
-                        .retry((retryCount, throwable) -> throwable instanceof SocketTimeoutException)
-                        //.retry((retryCount, throwable) -> retryCount < 3 &&
-                        //        throwable instanceof SocketTimeoutException)
-                        .observeOn(Schedulers.io())
-                        .subscribeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setHospedadoresAdapter, this::handlerErrorHospedadores);
-
-                CompositeDisposable compositeDisposable = new CompositeDisposable();
-                compositeDisposable.add(disposable);
-            }
+            CallQuery(id_user, null);
         }
 
         setHasOptionsMenu(true);
         setRetainInstance(true);
 
         return rootView;
+    }
+
+    public void CallQuery(Integer id_user, String query) {
+        Disposable disposable = mViewModel
+                .searchUsers(id_user, query)
+                .retry((retryCount, throwable) -> throwable instanceof SocketTimeoutException)
+                //.retry((retryCount, throwable) -> retryCount < 3 &&
+                //        throwable instanceof SocketTimeoutException)
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::setHospedadoresAdapter, this::handlerErrorHospedadores);
+
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(disposable);
     }
 
     public void setHospedadoresAdapter(List<Hospedador> hospedadores) {
@@ -162,7 +169,8 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
-                        return false;
+                        CallQuery(id_user, query);
+                        return true;
                     }
 
                     @Override
