@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.List;
 
@@ -83,7 +84,8 @@ public class HospedadorServicoFragment extends Fragment implements
                                         Toast.LENGTH_SHORT).show();
                             });
 
-                        return throwable instanceof SocketTimeoutException;})
+                        return throwable instanceof SocketTimeoutException ||
+                               throwable instanceof ConnectException;})
                     .subscribe((List<Hospedagem> hospedagens) -> {
                         if (getActivity() != null) {
                             getActivity().runOnUiThread(() -> {
@@ -93,6 +95,8 @@ public class HospedadorServicoFragment extends Fragment implements
                                 recyclerView.setAdapter(mAdapter);
                             });
                         }
+                    }, (Throwable e) -> {
+                        e.printStackTrace();
                     });
 
             CompositeDisposable compositeDisposable = new CompositeDisposable();

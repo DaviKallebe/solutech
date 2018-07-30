@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:foreground="?android:attr/selectableItemBackground" >
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/fragmento_hospedador_servico_perfil"
+        android:id="@+id/fragmento_pedido_perfil"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginLeft="8dp"
@@ -21,19 +18,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragmento_hospedador_servico_nome"
+        android:id="@+id/fragmento_pedido_nome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/fragmento_hospedador_servico_perfil"
-        app:layout_constraintTop_toTopOf="@+id/fragmento_hospedador_servico_perfil"
+        app:layout_constraintStart_toEndOf="@+id/fragmento_pedido_perfil"
+        app:layout_constraintTop_toTopOf="@+id/fragmento_pedido_perfil"
         tools:text="Nome" />
 
     <TextView
-        android:id="@+id/fragmento_hospedador_servico_status"
+        android:id="@+id/fragmento_pedido_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -41,19 +38,19 @@
         android:layout_marginTop="4dp"
         android:textSize="12sp"
         android:textStyle="normal|italic"
-        app:layout_constraintStart_toEndOf="@+id/fragmento_hospedador_servico_perfil"
-        app:layout_constraintTop_toBottomOf="@+id/fragmento_hospedador_servico_nome"
+        app:layout_constraintStart_toEndOf="@+id/fragmento_pedido_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/fragmento_pedido_nome"
         tools:text="Status" />
 
     <TextView
-        android:id="@+id/fragmento_hospedador_servico_intervalo"
+        android:id="@+id/fragmento_pedido_intervalo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/fragmento_hospedador_servico_perfil"
-        app:layout_constraintTop_toBottomOf="@+id/fragmento_hospedador_servico_status"
+        app:layout_constraintStart_toEndOf="@+id/fragmento_pedido_perfil"
+        app:layout_constraintTop_toBottomOf="@+id/fragmento_pedido_status"
         tools:text="Intervalo" />
 
 </android.support.constraint.ConstraintLayout>

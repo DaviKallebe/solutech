@@ -1,11 +1,14 @@
 package com.example.bruno.myapplication;
 
+import android.app.DownloadManager;
 import android.app.SearchManager;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -167,15 +170,33 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
                 searchView.setSearchableInfo(searchManager.getSearchableInfo(fragmentActivity.getComponentName()));
 
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    Long beforeTime;
+                    Long afterTime;
+                    Handler handler;
+
                     @Override
                     public boolean onQueryTextSubmit(String query) {
-                        CallQuery(id_user, query);
+                        //CallQuery(id_user, query);
                         return true;
                     }
 
                     @Override
                     public boolean onQueryTextChange(String newText) {
-                        return false;
+                        if (handler != null)
+                            handler.removeCallbacksAndMessages(null);
+
+                        beforeTime = SystemClock.uptimeMillis();
+                        handler = new Handler();
+
+                        handler.postDelayed(() -> {
+                            afterTime = SystemClock.uptimeMillis();
+
+                            if (getContext() != null && afterTime - beforeTime >= 500)
+                                CallQuery(id_user, newText);
+
+                            handler.removeCallbacksAndMessages(null);
+                        }, 700);
+                        return true;
                     }
                 });
             }
