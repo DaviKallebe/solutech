@@ -43,7 +43,7 @@ public class HospedadorServicoAdapter extends RecyclerView.Adapter<HospedadorSer
 
         holder.nome.setText(hospedagem.getNomeCompleto());
         holder.status.setText(String.format("Status: %1$s",
-                hospedagem.getStatus() == 1? "Ativo" : "Cancelado"));
+                getStatus(hospedagem.getStatus())));
         holder.intervalo.setText(String.format("De %1$s até %2$s",
                 hospedagem.getDataInicio(),
                 hospedagem.getDataFim()));
@@ -52,9 +52,46 @@ public class HospedadorServicoAdapter extends RecyclerView.Adapter<HospedadorSer
             Picasso.get().load(hospedagem.getImagem()).into(holder.perfil);
     }
 
+    public String getStatus(Integer status) {
+        switch (status) {
+            case 1:
+                return "Ativo";
+            case 2:
+                return "Aceito";
+            case 3:
+                return "Rejeitado";
+            case 4:
+                return "Cancelado";
+            case 5:
+                return "Expirado";
+            case 6:
+                return "Concluido";
+            default:
+                return "";
+        }
+    }
+
+    public void updateAdapter(Integer id, Integer status) {
+        for (int i = 0; i < hospedagens.size(); ++i) {
+            Hospedagem hospedagem = hospedagens.get(i);
+
+            if (hospedagem.getId() == id) {
+                hospedagem.setStatus(status);
+
+                hospedagens.set(i, hospedagem);
+
+                break;
+            }
+        }
+    }
+
     @Override
     public int getItemCount() {
         return hospedagens.size();
+    }
+
+    public Hospedagem getItem(Integer position) {
+        return hospedagens.get(position);
     }
 
     public interface OnItemClicked {

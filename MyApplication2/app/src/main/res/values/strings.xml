@@ -36,9 +36,10 @@
     <string name="fb_login_protocol_scheme">fb678714429187142</string>
 
     <!-- Strings related to toolbars -->
-    <string name="menu_perfil">Perfil</string>
-    <string name="menu_deslogar">Deslogar</string>
+    <string name="menu_perfil">Meu Perfil</string>
+    <string name="menu_deslogar">Sair</string>
     <string name="action_menu_search">Procurar</string>
+    <string name="menu_pedido">Meus Pedidos</string>
 
     <!-- Strings related to pefil -->
     <string name="texto">Texto</string>
@@ -58,11 +59,13 @@
     <string name="fragment_hospedador_listagem_detalhe_local">Local</string>
     <string name="fragment_hospedador_listagem">Hospedadores</string>
     <string name="fragment_hospedador_servico">Serviços</string>
+    <string name="fragment_servico_detalhe">Serviço</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_cancel_action">Cancelar</string>
     <string name="fragment_confirm_action">Confirmar</string>
+    <string name="fragment_reject_action">Rejeitar</string>
 
     <!-- Strings related to fragmento formulatrio -->
     <string name="data_inicio">Data de Início</string>
@@ -81,4 +84,5 @@
     <string name="fragment_pet_castrado_vacinado">Vacinado</string>
     <string name="fragment_pet_detalhe_menu_remover">Remover</string>
     <string name="fragment_pet_detalhe_menu_editar">Editar</string>
+    <string name="aceita_servico">Eu concordo e aceito o serviço</string>
 </resources>

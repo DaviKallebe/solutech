@@ -1,12 +1,14 @@
 package com.example.bruno.myapplication.repository;
 
 import com.example.bruno.myapplication.retrofit.Hospedagem;
+import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.room.AppDatabase;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -37,9 +39,15 @@ public class HospedagemRepository {
                 .novaHospedagem(hospedagem.generateRequestBody());
     }
 
-    public Observable<Hospedagem> atualizarHospedagem(Hospedagem hospedagem) {
+    public Maybe<Hospedagem> atualizarHospedagem(Hospedagem hospedagem) {
         return new RetrofitConfig()
                 .getHospedagemService()
                 .atualizarHospedagem(hospedagem.generateRequestBody());
+    }
+
+    public Flowable<List<Pet>> selecionarPetHospedagem(String id_pets) {
+        return new RetrofitConfig()
+                .getHospedagemService()
+                .selecionarPetHospedagem(id_pets);
     }
 }

@@ -15,5 +15,8 @@ export class HospedagemRoutes {
         
         app.put("/hospedagem/atualizar",
             this.hospedagemController.atualizarHospedagem);
+
+        app.get("/hospedagem/pets/:id_pets",
+            this.hospedagemController.selecionarPetHospedagem);
     }
 }

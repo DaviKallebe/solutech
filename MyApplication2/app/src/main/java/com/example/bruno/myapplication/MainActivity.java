@@ -27,7 +27,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ListagemMensagemFragment.OnFragmentInteractionListener,
         EditarValorFragment.OnFragmentInteractionListener,
-        HospedadorListagemFragment.OnFragmentInteractionListener {
+        HospedadorListagemFragment.OnFragmentInteractionListener,
+        HospedadorServicoFragment.OnFragmentInteractionListener {
 
     private static final int NUM_PAGES = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -132,6 +133,18 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
 
     @Override
     public void startFragment(Fragment fragment, String name) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
+                .replace(R.id.activity_logado,
+                        fragment,
+                        fragment.getClass().getSimpleName())
+                .addToBackStack(name)
+                .commit();
+    }
+
+    @Override
+    public void startServicoFragment(Fragment fragment, String name) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)

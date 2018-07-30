@@ -117,8 +117,8 @@ public class UsuarioRepository {
                 return LiveDataReactiveStreams.fromPublisher(new RetrofitConfig()
                         .getObservableUsuarioService()
                         .getResponseProfile(id_user, null)
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(Schedulers.newThread())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
                         .onExceptionResumeNext(next -> UsuarioRepository.handleError("FALHOU")));
             }
         }.getAsLiveData();

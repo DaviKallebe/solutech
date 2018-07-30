@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HospedadorServicoDetalhePetFragment">
+
+
+    <TextView
+        android:id="@+id/servico_detalhe_nome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Nome" />
+
+    <TextView
+        android:id="@+id/servico_detalhe_raca"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        tools:text="Raça"
+        app:layout_constraintStart_toStartOf="@+id/servico_detalhe_nome"
+        app:layout_constraintTop_toBottomOf="@+id/servico_detalhe_nome" />
+
+    <TextView
+        android:id="@+id/servico_detalhe_altura"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/servico_detalhe_raca"
+        app:layout_constraintTop_toBottomOf="@+id/servico_detalhe_raca"
+        tools:text="Altura" />
+
+    <TextView
+        android:id="@+id/servico_detalhe_peso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/servico_detalhe_altura"
+        app:layout_constraintTop_toBottomOf="@+id/servico_detalhe_altura"
+        tools:text="Peso" />
+
+</android.support.constraint.ConstraintLayout>

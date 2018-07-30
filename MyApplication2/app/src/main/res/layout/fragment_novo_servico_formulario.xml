@@ -23,12 +23,13 @@
             android:layout_height="wrap_content"
             android:hint="@string/data_inicio"
             android:ems="10"
-            android:inputType="date" />
+            android:inputType="number" />
 
         <Button
+            android:id="@+id/fragment_novo_servico_picker1"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@android:drawable/ic_menu_my_calendar"/>
+            android:background="@android:drawable/ic_menu_my_calendar" />
 
     </LinearLayout>
 
@@ -51,12 +52,13 @@
             android:layout_height="wrap_content"
             android:hint="@string/data_final"
             android:ems="10"
-            android:inputType="date" />
+            android:inputType="number" />
 
         <Button
+            android:id="@+id/fragment_novo_servico_picker2"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="@android:drawable/ic_menu_my_calendar"/>
+            android:background="@android:drawable/ic_menu_my_calendar" />
 
     </LinearLayout>
 

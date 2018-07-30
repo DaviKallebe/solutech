@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -158,6 +159,32 @@ public class Hospedagem {
         }
 
         return json;
+    }
+
+    public void setFieldsByJson(JSONObject json) {
+        Iterator<String> itr = json.keys();
+
+        while (itr.hasNext()) {
+            String key = itr.next();
+
+            try {
+                Object value = json.get(key);
+
+                Field field = this.getClass().getField(key);
+
+                if (field != null)
+                    field.set(this, value);
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+            catch (IllegalAccessException e2) {
+                e2.printStackTrace();
+            }
+            catch (NoSuchFieldException e3) {
+                e3.printStackTrace();
+            }
+        }
     }
 
     public RequestBody generateRequestBody() {

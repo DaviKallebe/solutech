@@ -17,8 +17,14 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_deslogar"
+        android:id="@+id/action_pedido"
         android:orderInCategory="101"
+        android:title="@string/menu_pedido"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_deslogar"
+        android:orderInCategory="102"
         android:title="@string/menu_deslogar"
         app:showAsAction="never" />
 

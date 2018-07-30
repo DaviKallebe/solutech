@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 public class MainActivityViewModel extends AndroidViewModel {
@@ -121,5 +122,13 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public Flowable<List<Hospedagem>> selecionarHospedagemPedinte(Integer id_user) {
         return mHospedagemRepository.selecionarHospedagemPedinte(id_user);
+    }
+
+    public Maybe<Hospedagem> atualizarHospedagem(Hospedagem hospedagem) {
+        return mHospedagemRepository.atualizarHospedagem(hospedagem);
+    }
+
+    public Flowable<List<Pet>> selecionarPetHospedagem(String id_pets) {
+        return mHospedagemRepository.selecionarPetHospedagem(id_pets);
     }
 }
