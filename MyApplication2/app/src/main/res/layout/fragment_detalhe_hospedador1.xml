@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_hosp_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".UsuarioPerfilFragment">
+
+        <RelativeLayout
+            android:id="@+id/layout_hosp_image_perfil"
+            android:layout_width="wrap_content"
+            android:layout_height="128dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/fragment_hosp_detalhe_imagem_perfil"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/mob_user_175"
+                android:background="@drawable/edittext_border"/>
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/line_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/layout_hosp_image_perfil"
+            android:layout_marginEnd="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:background="@android:color/darker_gray"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="@drawable/edittext_border">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="Nome:"
+                android:textSize="16dp"
+            />
+
+            <TextView
+                android:id="@+id/fragment_hosp_detalhe_nome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:text="Nome"
+                android:textSize="16dp"
+            />
+
+        </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="@drawable/edittext_border">
+
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:text="Sobrenome:"
+            android:textSize="16dp" />
+
+
+        <TextView
+            android:id="@+id/fragment_hosp_detalhe_sobrenome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:text="Sobrenome"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="@drawable/edittext_border">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="RG:"
+                android:textSize="16dp" />
+
+
+            <TextView
+                android:id="@+id/fragment_hosp_detalhe_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="12dp"
+
+                android:text="1112233-3" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="@drawable/edittext_border">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="CPF:"
+                android:textSize="16dp"
+                />
+
+
+            <TextView
+                android:id="@+id/fragment_hosp_detalhe_cpf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:text="011.222.333.44"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="@drawable/edittext_border">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="Data Nasc:"
+                android:textSize="16dp" />
+
+
+            <TextView
+                android:id="@+id/fragment_hosp_detalhe_dataNascimento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:text="01/01/1990"
+                android:textSize="16dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:background="@drawable/edittext_border">
+
+            <TextView
+                android:layout_width="85dp"
+                android:layout_height="wrap_content"
+                android:text="Telefone:"
+                android:textSize="16dp" />
+
+
+            <TextView
+                android:id="@+id/fragment_hosp_detalhe_telefone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:text="(92)98110-1550"
+                android:textSize="16dp" />
+
+
+        </LinearLayout>
+
+
+
+</LinearLayout>
+
