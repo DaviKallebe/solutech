@@ -20,17 +20,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bruno.myapplication.adapter.NovoServicoFormularioAdapter;
 import com.example.bruno.myapplication.commons.SimpleDividerItemDecoration;
 import com.example.bruno.myapplication.commons.Status;
+import com.example.bruno.myapplication.retrofit.Hospedagem;
 import com.example.bruno.myapplication.retrofit.Pet;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -71,6 +81,9 @@ public class NovoServicoFormularioFragment extends DialogFragment implements
 
             textViewTotal = rootView.findViewById(R.id.fragment_novo_servico_textview_total);
 
+            SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
+            Integer id_user = prefs.getInt("id_user", 0);
+
             mViewModel.getPetList().observe(this, resource -> {
                 if (resource != null && resource.status == Status.SUCCESS && resource.data != null) {
 
@@ -82,9 +95,87 @@ public class NovoServicoFormularioFragment extends DialogFragment implements
                 }
             });
 
+            EditText dataInicio = rootView.findViewById(R.id.fragment_novo_servico_edit_data_inicio);
+            EditText dataFim = rootView.findViewById(R.id.fragment_novo_servico_edit_data_final);
+
+            Calendar myCalendar = Calendar.getInstance();
+
+            DatePickerDialog.OnDateSetListener picker1 = (view, year, monthOfYear, dayOfMonth) -> {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+
+                dataInicio.setText(simpleDateFormat.format(myCalendar.getTime()));
+            };
+
+            DatePickerDialog.OnDateSetListener picker2 = (view, year, monthOfYear, dayOfMonth) -> {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+
+                dataFim.setText(simpleDateFormat.format(myCalendar.getTime()));
+            };
+
+            dataInicio.setOnClickListener((View v) -> {
+                new DatePickerDialog(context, picker1, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            });
+
+            dataFim.setOnClickListener((View v) -> {
+                new DatePickerDialog(context, picker2, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            });
+
             Button confirm = rootView.findViewById(R.id.fragment_novo_servico_button_confirm);
             confirm.setOnClickListener((View v) -> {
-                dismiss();
+                Hospedagem hospedagem = new Hospedagem();
+                Bundle bundle = getArguments();
+
+                if (bundle != null) {
+                    SparseArray<Integer> checkedPets = mAdapter.getCheckedPets();
+                    StringBuilder pets = new StringBuilder();
+
+                    for (int i = 0, nsize = checkedPets.size(); i < nsize; ++i) {
+                        if (pets.length() > 0)
+                            pets.append(";");
+
+                        pets.append(checkedPets.valueAt(i));
+                    }
+
+                    hospedagem.setDataInicio(dataInicio.getText().toString());
+                    hospedagem.setDataFim(dataFim.getText().toString());
+                    hospedagem.setId_user_pedinte(id_user);
+                    hospedagem.setId_user_hospedador(bundle.getInt("id_user"));
+                    hospedagem.setId_pets(pets.toString());
+
+                    Disposable disposable = mViewModel
+                            .novaHospedagem(hospedagem)
+                            .observeOn(Schedulers.newThread())
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .subscribe((Hospedagem hosp) -> {
+                                getActivity().runOnUiThread(() -> {
+                                Toast.makeText(context,
+                                        getResources().getString(R.string.novo_servico_sucesso),
+                                        Toast.LENGTH_SHORT).show();
+                                });
+                                dismiss();
+                            }, (Throwable e) -> {
+                                getActivity().runOnUiThread(() -> {
+                                    Toast.makeText(context,
+                                            "Erro",
+                                            Toast.LENGTH_SHORT).show();
+                                });
+                            });
+
+                    CompositeDisposable compositeDisposable = new CompositeDisposable();
+                    compositeDisposable.add(disposable);
+                }
             });
         }
 
@@ -94,22 +185,23 @@ public class NovoServicoFormularioFragment extends DialogFragment implements
         return rootView;
     }
 
+
+
     @Override
     public void onItemClick(View view, int position) {
         Pet pet = mAdapter.getItem(position);
     }
 
     @Override
-    public void onCheckClick(SparseArray<Double> sparseArray) {
+    public void onCheckClick(SparseArray<Integer> sparseArray) {
         FragmentActivity fragmentActivity = getActivity();
-        Double valorTotal = 0.0;
+        Integer valorTotal = 0;
 
         if (fragmentActivity != null) {
-            for(int i = 0, nsize = sparseArray.size(); i < nsize; i++)
-                valorTotal += sparseArray.valueAt(i);
+            valorTotal = sparseArray.size();
 
             String valorString = String.format(new Locale("pt", "BR"),
-                    "Preço total: R$ %.2f", valorTotal);
+                    "Selecionado: %d", valorTotal);
 
             textViewTotal.setText(valorString);
         }

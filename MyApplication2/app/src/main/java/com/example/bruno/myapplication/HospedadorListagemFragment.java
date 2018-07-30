@@ -33,8 +33,10 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -76,22 +78,12 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
             if (fragmentActivity != null) {
                 Disposable disposable = mViewModel
                         .searchUsers(null, null)
-                        .retry((retryCount, throwable) -> retryCount < 3 &&
-                                throwable instanceof SocketTimeoutException)
-                        .subscribe((List<Hospedador> hospedadors) -> {
-                            if (hospedadors != null) {
-                                fragmentActivity.runOnUiThread(() -> {
-                                    this.hospedadors = hospedadors;
-                                    mAdapter = new HospedadorListagemAdapter(this.hospedadors,
-                                            this.getContext(), this);
-                                    mRecyclerView.setAdapter(mAdapter);
-                                });
-                            }
-                        }, (Throwable e) -> {
-                            e.printStackTrace();
-                            Toast.makeText(context, "Não foi possivel carregar os hospedadores",
-                                Toast.LENGTH_LONG).show();
-                        });
+                        .retry((retryCount, throwable) -> throwable instanceof SocketTimeoutException)
+                        //.retry((retryCount, throwable) -> retryCount < 3 &&
+                        //        throwable instanceof SocketTimeoutException)
+                        .observeOn(Schedulers.io())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::setHospedadoresAdapter, this::handlerErrorHospedadores);
 
                 CompositeDisposable compositeDisposable = new CompositeDisposable();
                 compositeDisposable.add(disposable);
@@ -104,6 +96,27 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
         return rootView;
     }
 
+    public void setHospedadoresAdapter(List<Hospedador> hospedadores) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                this.hospedadors = hospedadores;
+
+                mAdapter = new HospedadorListagemAdapter(this.hospedadors,
+                        this.getContext(), this);
+
+                mRecyclerView.setAdapter(mAdapter);
+            });
+        }
+    }
+
+    public void handlerErrorHospedadores(Throwable e) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                Toast.makeText(getContext(), "Não foi possivel carregar os hospedadores",
+                        Toast.LENGTH_LONG).show();
+            });
+        }
+    }
 
     @Override
     public void onAttach(Context context) {

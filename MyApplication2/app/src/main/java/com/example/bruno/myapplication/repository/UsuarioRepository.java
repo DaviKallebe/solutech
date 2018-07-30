@@ -189,7 +189,6 @@ public class UsuarioRepository {
     //upate user information
     public void updateCurrentUser(Usuario user) {
         AsyncTask.execute(() -> appDatabase.getUsuarioDao().updateCurrentUser(user));
-        AsyncTask.execute(() -> appDatabase.getUsuarioDao().updateCadastrou());
     }
 
     //update image
@@ -203,7 +202,8 @@ public class UsuarioRepository {
                 .getObservableUsuarioService()
                 .updateUserProfile(map, body);
 
-        Disposable disposable = updateProfile.subscribeOn(Schedulers.newThread())
+        Disposable disposable = updateProfile
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(this::updateCurrentUser)
                 .subscribe();
@@ -237,13 +237,14 @@ public class UsuarioRepository {
 
     private void insertHospedadorRoom(Hospedador hospedador) {
         AsyncTask.execute(() -> appDatabase.getHospedadorDao().insertHospedador(hospedador));
+        AsyncTask.execute(() -> appDatabase.getUsuarioDao().updateCadastrou());
     }
 
     public Observable<Hospedador> createHospedador(Hospedador hospedador) {
         Observable<Hospedador> hospedadorObservable = new RetrofitConfig()
                 .getObservableUsuarioService()
                 .createHospedador(hospedador.generateRequestBody())
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .share();
 

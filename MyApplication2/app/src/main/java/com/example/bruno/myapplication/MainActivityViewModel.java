@@ -7,9 +7,11 @@ import android.arch.persistence.room.Room;
 import android.support.annotation.NonNull;
 
 import com.example.bruno.myapplication.commons.ResourceState;
+import com.example.bruno.myapplication.repository.HospedagemRepository;
 import com.example.bruno.myapplication.repository.UsuarioRepository;
 import com.example.bruno.myapplication.retrofit.Comentario;
 import com.example.bruno.myapplication.retrofit.Hospedador;
+import com.example.bruno.myapplication.retrofit.Hospedagem;
 import com.example.bruno.myapplication.retrofit.Pet;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.example.bruno.myapplication.room.AppDatabase;
@@ -24,6 +26,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     private AppDatabase appDatabase;
     private UsuarioRepository mUserRepository;
+    private HospedagemRepository mHospedagemRepository;
     private LiveData<ResourceState<Usuario>> currentUser;
     private LiveData<ResourceState<List<Pet>>> userPetList;
     private Integer id_user;
@@ -41,6 +44,7 @@ public class MainActivityViewModel extends AndroidViewModel {
                 .build();
 
         mUserRepository = new UsuarioRepository(appDatabase);
+        mHospedagemRepository = new HospedagemRepository(appDatabase);
     }
 
     public void loadCurrentUser(Integer id_user) {
@@ -105,5 +109,9 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public Flowable<List<Hospedador>> searchUsers(Integer id_user, String nome) {
         return mUserRepository.searchUsers(id_user, nome);
+    }
+
+    public Observable<Hospedagem> novaHospedagem(Hospedagem hospedagem) {
+        return mHospedagemRepository.novaHospedagem(hospedagem);
     }
 }

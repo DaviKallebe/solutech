@@ -109,6 +109,7 @@ public class HospedadorListagemDetalhePerfilFragment extends Fragment {
 
                     mViewModel.loadPetList(id_user);
 
+                    novoServicoFormularioFragment.setArguments(getArguments());
                     novoServicoFormularioFragment.show(getFragmentManager(), "Solicitar");
                 });
             }

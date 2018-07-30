@@ -42,6 +42,7 @@ export class UserRoutes {
                 this.userControler.updateUserProfile);
         //user pet
         app.post('/user/pet/create',
+                this.fileUploadHandler.single('imagem'),
                 this.userControler.createPet);
         app.put('/user/pet/update',
                 this.fileUploadHandler.single('imagem'),
@@ -56,10 +57,10 @@ export class UserRoutes {
                 this.fileUploadHandler.single('imagem'),
                 this.userControler.updateHospedador);
         app.post('/user/host/create',
+                this.fileUploadHandler.single('imagem'),
                 this.userControler.createHospedador);
 
         app.get('/search/user/all',
                 this.userControler.UserSearch);
-        
     }
 }

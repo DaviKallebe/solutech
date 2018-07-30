@@ -76,7 +76,7 @@ public class PetDetalheFragment extends Fragment {
             TextView tamamho = rootView.findViewById(R.id.fragment_pet_detalhe_peso);
             TextView raca = rootView.findViewById(R.id.fragment_pet_detalhe_raca);
             TextView especie = rootView.findViewById(R.id.fragment_pet_detalhe_especie);
-            EditText descricao = rootView.findViewById(R.id.fragment_pet_detalhe_descricao);
+            TextView descricao = rootView.findViewById(R.id.fragment_pet_detalhe_descricao);
 
             mViewModel.getPet(id_pet).observe(this, pet -> {
                 nome.setText(pet.getNome());

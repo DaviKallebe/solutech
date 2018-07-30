@@ -3,18 +3,21 @@ import * as bodyParser from "body-parser";
 import { Routes } from "./routes/sltRoutes";
 import { UserRoutes} from "./routes/User";
 import { config } from "../config";
+import { HospedagemRoutes } from './routes/Hospedagem';
 
 class App {
 
     public app: express.Application;
     public routePrv: Routes = new Routes();
     public userRoutes: UserRoutes = new UserRoutes();
+    public hospedagemRoutes: HospedagemRoutes = new HospedagemRoutes();
 
     constructor() {
         this.app = express();
         this.config();
         this.routePrv.routes(this.app);
         this.userRoutes.routes(this.app);
+        this.hospedagemRoutes.routes(this.app);
     }
 
     private config(): void{

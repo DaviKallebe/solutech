@@ -65,6 +65,7 @@
     <string name="data_inicio">Data de Início</string>
     <string name="data_final">Data de Término</string>
     <string name="preco_total">Preço total:</string>
+    <string name="novo_servico_sucesso">Serviço requisitado</string>
 
     <!-- out of order -->
     <string name="menu_perfil_pets">Meus Pets</string>

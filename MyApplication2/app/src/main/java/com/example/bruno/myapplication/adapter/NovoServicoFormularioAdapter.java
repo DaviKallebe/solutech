@@ -1,7 +1,5 @@
 package com.example.bruno.myapplication.adapter;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -19,21 +17,20 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.reactivex.Flowable;
 
 public class NovoServicoFormularioAdapter extends RecyclerView.Adapter<NovoServicoFormularioAdapter.CustomViewHolder> {
 
     private List<Pet> pets;
     private Context context;
     private OnItemClicked onClick;
-    private SparseArray<Double> valorTotal;
+    private SparseArray<Integer> checkedPets;
 
     public NovoServicoFormularioAdapter(List<Pet> pets, Context context, OnItemClicked onClick) {
         this.pets = pets;
         this.context = context;
         this.onClick = onClick;
 
-        valorTotal = new SparseArray<>();
+        checkedPets = new SparseArray<>();
     }
 
     @NonNull
@@ -57,13 +54,13 @@ public class NovoServicoFormularioAdapter extends RecyclerView.Adapter<NovoServi
         holder.checkBox.setChecked(false);
         holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                valorTotal.put(position, 1.0);
+                checkedPets.put(position, pet.getId_pet());
             }
             else
-                valorTotal.put(position, 0.0);
+                checkedPets.put(position, pet.getId_pet());
 
             if (onClick != null)
-                onClick.onCheckClick(valorTotal);
+                onClick.onCheckClick(checkedPets);
         });
     }
 
@@ -76,9 +73,13 @@ public class NovoServicoFormularioAdapter extends RecyclerView.Adapter<NovoServi
         return pets.get(position);
     }
 
+    public SparseArray<Integer> getCheckedPets() {
+        return checkedPets;
+    }
+
     public interface OnItemClicked {
         void onItemClick(View view, int position);
-        void onCheckClick(SparseArray<Double> sparseArray);
+        void onCheckClick(SparseArray<Integer> sparseArray);
     }
 
     public void setOnClick(OnItemClicked onClick) {
@@ -107,7 +108,7 @@ public class NovoServicoFormularioAdapter extends RecyclerView.Adapter<NovoServi
             if (onClick != null) {
                 checkBox.setChecked(!checkBox.isChecked());
 
-                onClick.onCheckClick(valorTotal);
+                onClick.onCheckClick(checkedPets);
 
                 //onClick.onItemClick(view, position);
             }
