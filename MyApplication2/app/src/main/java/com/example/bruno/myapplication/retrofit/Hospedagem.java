@@ -24,8 +24,14 @@ public class Hospedagem {
     private String dataInicio;
     private String dataFim;
     private String id_pets;
+    private Integer status;
     private String createdAt;
     private String updatedAt;
+
+
+    private String primeiroNome;
+    private String ultimoNome;
+    private String imagem;
 
     private List<Pet> pets;
 
@@ -77,6 +83,14 @@ public class Hospedagem {
         this.id_pets = id_pets;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -97,8 +111,36 @@ public class Hospedagem {
         return pets;
     }
 
+    public String getPrimeiroNome() {
+        return primeiroNome;
+    }
+
+    public void setPrimeiroNome(String primeiroNome) {
+        this.primeiroNome = primeiroNome;
+    }
+
+    public String getUltimoNome() {
+        return ultimoNome;
+    }
+
+    public void setUltimoNome(String ultimoNome) {
+        this.ultimoNome = ultimoNome;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+
+    public String getNomeCompleto() {
+        return primeiroNome + ' ' + ultimoNome;
     }
 
     public JSONObject getFieldsJson() throws IllegalAccessException, JSONException {

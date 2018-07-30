@@ -153,6 +153,7 @@ public class NovoServicoFormularioFragment extends DialogFragment implements
                     hospedagem.setId_user_pedinte(id_user);
                     hospedagem.setId_user_hospedador(bundle.getInt("id_user"));
                     hospedagem.setId_pets(pets.toString());
+                    hospedagem.setStatus(1);
 
                     Disposable disposable = mViewModel
                             .novaHospedagem(hospedagem)

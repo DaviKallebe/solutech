@@ -4,10 +4,10 @@ export class HospedagemRoutes {
     public hospedagemController: HospedagemController = new HospedagemController();
 
     public routes(app): void {
-        app.get("/hospedagem/:id_user_pedinte",
+        app.get("/hospedagem/pedinte/:id_user_pedinte",
             this.hospedagemController.selecionarHospedagemPedinte);
 
-        app.get("/hospedagem/:id_user_hospedador",
+        app.get("/hospedagem/hospedador/:id_user_hospedador",
             this.hospedagemController.selecionarHospedagemHospedador);
 
         app.post("/hospedagem/criar",

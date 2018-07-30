@@ -114,4 +114,12 @@ public class MainActivityViewModel extends AndroidViewModel {
     public Observable<Hospedagem> novaHospedagem(Hospedagem hospedagem) {
         return mHospedagemRepository.novaHospedagem(hospedagem);
     }
+
+    public Flowable<List<Hospedagem>> selecionarHospedagemHospedador(Integer id_user) {
+        return mHospedagemRepository.selecionarHospedagemHospedador(id_user);
+    }
+
+    public Flowable<List<Hospedagem>> selecionarHospedagemPedinte(Integer id_user) {
+        return mHospedagemRepository.selecionarHospedagemPedinte(id_user);
+    }
 }

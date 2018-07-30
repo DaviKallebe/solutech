@@ -21,6 +21,8 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements ListagemMensagemFragment.OnFragmentInteractionListener,
@@ -64,15 +66,20 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
             }
         });
 
+        List<FragmentOption> fragmentOptions = new ArrayList<>();
+
+        fragmentOptions.add(new FragmentOption(HospedadorListagemFragment.class,
+                getResources().getString(R.string.fragment_hospedador_listagem), null));
+        fragmentOptions.add(new FragmentOption(HospedadorServicoFragment.class,
+                getResources().getString(R.string.fragment_hospedador_servico), null));
+
+
         ViewPager mPager = findViewById(R.id.main_activity_viewPager);
-        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(fragmentManager);
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(fragmentManager, fragmentOptions);
         mPager.setAdapter(mPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.main_activity_tablayout);
         tabLayout.setupWithViewPager(mPager);
-
-        //setFragment(new MainFragment());
-        //goToFragment(new MainFragment(), null);
     }
 
     @Override
@@ -123,39 +130,6 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
                 .commit();
     }
 
-    public void goToFragment(Fragment fragment, String name) {
-        Fragment usuarioPerfil = new UsuarioPerfilFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
-                .replace(R.id.activity_logado,
-                        fragment,
-                        fragment.getClass().getSimpleName())
-                .commit();
-    }
-
-    /*
-    protected void setFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
-                .replace(R.id.fragment_container,
-                        fragment,
-                        fragment.getClass().getSimpleName())
-                .commit();
-    }
-
-    protected void replaceFragment(Fragment fragment, String name) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
-                .replace(R.id.fragment_container,
-                        fragment,
-                        fragment.getClass().getSimpleName())
-                .addToBackStack(name)
-                .commit();
-    }*/
-
     @Override
     public void startFragment(Fragment fragment, String name) {
         getSupportFragmentManager()
@@ -199,39 +173,63 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
             mViewModel.updateProfile(id_user, fieldName, fieldValue);
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class FragmentOption {
+        private Class classFragment;
+        private String fragmentName;
+        private Bundle bundle;
 
-        private ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
+        private <T extends Fragment> FragmentOption(Class<T> classFragment, String fragmentName) {
+            this.classFragment = classFragment;
+            this.fragmentName = fragmentName;
+        }
+
+        private <T extends Fragment> FragmentOption(Class<T> classFragment, String fragmentName, Bundle bundle) {
+            this.classFragment = classFragment;
+            this.fragmentName = fragmentName;
+            this.bundle = bundle;
+        }
+
+        public String getFragmentName() {
+            return fragmentName;
+        }
+
+        public Fragment getFragment() {
+            try {
+                Fragment fragment = (Fragment) classFragment.newInstance();
+                fragment.setArguments(bundle);
+
+                return fragment;
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        List<FragmentOption> fragmentOptions;
+
+        ScreenSlidePagerAdapter(FragmentManager fragmentManager, List<FragmentOption> fragmentOptions) {
+            super(fragmentManager);
+            this.fragmentOptions = fragmentOptions;
         }
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0)
-                return new HospedadorListagemFragment();
-            else if (position == 1) {
-                return new ListagemMensagemFragment();
-            } else
-                return new ListagemMensagemFragment();
+            return fragmentOptions.get(position).getFragment();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Hospedadores";
-                case 1:
-                    return "Mensagens";
-                case 2:
-                    return "Comentários";
-                default:
-                    return "Nada";
-            }
+            return fragmentOptions.get(position).getFragmentName();
         }
 
         @Override
         public int getCount() {
-            return NUM_PAGES;
+            return fragmentOptions.size();
         }
     }
 }
