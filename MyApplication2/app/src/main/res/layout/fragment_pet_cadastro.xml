@@ -149,25 +149,31 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center">
 
-                    <RadioButton
-                        android:id="@+id/fragment_pet_cadastro_macho"
+                    <RadioGroup
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:checked="true"
-                        android:text="Macho" />
+                        android:orientation="horizontal"
+                        android:layout_gravity="center">
 
-                    <RadioButton
-                        android:id="@+id/fragment_pet_cadastro_femea"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Fêmea" />
+                        <RadioButton
+                            android:id="@+id/fragment_pet_cadastro_macho"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:checked="true"
+                            android:text="Macho" />
 
+                        <RadioButton
+                            android:id="@+id/fragment_pet_cadastro_femea"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Fêmea" />
+                    </RadioGroup>
                 </LinearLayout>
 
 
-        </LinearLayout>
+            </LinearLayout>
 
 
         <LinearLayout
