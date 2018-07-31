@@ -141,8 +141,8 @@ export class UserController {
                     cpf: profile.orgaoEmissor,
                     telefone: profile.telefone,
                     descricao: profile.descricao,
-                    imagem: profile.imagem != null ? "http://" + res.connection.localAddress + ":" + 
-                            req.connection.localPort + "/" + profile.imagem.replace(/\\/gi, "/") : profile.imagem
+                    imagem: profile.imagem != null ? "http://" + config.serverIP + ":" + config.serverPort + 
+                                "/" + profile.imagem.replace(/\\/gi, "/") : profile.imagem
                 }
                 res.status(201).json(result);
             }, err => {
@@ -202,8 +202,8 @@ export class UserController {
                         cpf: profile.orgaoEmissor,
                         telefone: profile.telefone,
                         descricao: profile.descricao,
-                        imagem: profile.imagem != null ? "http://" + res.connection.localAddress + ":" + 
-                            req.connection.localPort + "/" + profile.imagem.replace(/\\/gi, "/") : profile.imagem
+                        imagem: profile.imagem != null ? "http://" + config.serverIP + ":" + config.serverPort + 
+                                    "/" + profile.imagem.replace(/\\/gi, "/") : profile.imagem
                     }
                     res.status(200).json(result);
                 }, err => {res.status(500).send(err)});
@@ -225,8 +225,8 @@ export class UserController {
                             cpf: profile.orgaoEmissor,
                             telefone: profile.telefone,
                             descricao: profile.descricao,
-                            imagem: profile.imagem != null ? "http://" + res.connection.localAddress + ":" + 
-                                    req.connection.localPort + "/" + profile.imagem.replace(/\\/gi, "/") : profile.imagem
+                            imagem: profile.imagem != null ? "http://" + config.serverIP + ":" + config.serverPort +
+                                    "/" + profile.imagem.replace(/\\/gi, "/") : profile.imagem
                         }
                         res.status(201).json(result);
                     }, err => {
@@ -263,7 +263,7 @@ export class UserController {
         UserProfile.findAll({
         }).then(profile => {
             if (profile.imagem != null)
-                profile.imagem = "http://" + res.connection.localAddress + ":" + req.connection.localPort + "/" + profile.imagem.replace(/\\/gi, "/");
+                profile.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + profile.imagem.replace(/\\/gi, "/");
 
             res.status(200).json(profile);
         }, err => {
@@ -337,7 +337,7 @@ export class UserController {
                 }
             }).then(newProfile => {
                 if (newProfile.imagem != null)
-                    newProfile.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + newProfile.imagem.replace(/\\/gi, "/");
+                    newProfile.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + newProfile.imagem.replace(/\\/gi, "/");
                 res.status(200).json(newProfile);
             });
         })
@@ -443,7 +443,7 @@ export class UserController {
             .then(userHospedador => {
                 let array_list = userHospedador[1].map(hosp => {
                     if (hosp.imagem != null)
-                        hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+                        hosp.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + hosp.imagem.replace(/\\/gi, "/");
 
                     return hosp;
                 });
@@ -466,7 +466,7 @@ export class UserController {
             .then(hospedadores => {
                 let array_list = hospedadores.map(hosp => {
                     if (hosp.imagem != null)
-                        hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+                        hosp.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + hosp.imagem.replace(/\\/gi, "/");
 
                     return hosp;
                 });

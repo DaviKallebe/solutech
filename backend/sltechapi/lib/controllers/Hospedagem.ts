@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Hospedagem } from "../models/Hospedagem";
 import { sequelize } from "../mysql";
+import { config } from '../../config';
 
 export class HospedagemController {
     public novaHospedagem(req: Request, res: Response) {
@@ -49,7 +50,7 @@ export class HospedagemController {
         .then(hospedagens =>{            
             let array_list = hospedagens.map(hosp => {
                 if (hosp.imagem != null)
-                    hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+                    hosp.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + hosp.imagem.replace(/\\/gi, "/");
 
                 return hosp;
             });
@@ -69,7 +70,7 @@ export class HospedagemController {
             
             let array_list = hospedagens.map(hosp => {
                 if (hosp.imagem != null)
-                    hosp.imagem = "http://" + req.connection.localAddress + ":" + req.connection.localPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+                    hosp.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + hosp.imagem.replace(/\\/gi, "/");
 
                 return hosp;
             });

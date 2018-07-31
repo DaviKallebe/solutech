@@ -1,12 +1,14 @@
 package com.example.bruno.myapplication;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -35,20 +37,36 @@ public class HospedadorServicoDetalhePetFragment extends Fragment {
             TextView raca = rootView.findViewById(R.id.servico_detalhe_raca);
             TextView altura = rootView.findViewById(R.id.servico_detalhe_altura);
             TextView peso = rootView.findViewById(R.id.servico_detalhe_peso);
+            ImageView proximo = rootView.findViewById(R.id.servico_detalhe_proximo);
+            ImageView anterior = rootView.findViewById(R.id.servico_detalhe_anterior);
 
             try {
-                JSONObject jsonObject = new JSONObject(bundle.getString("pet"));
+                if (bundle.getString("pet") != null) {
+                    JSONObject jsonObject = new JSONObject(bundle.getString("pet"));
 
-                nome.setText(jsonObject.getString("nome"));
-                raca.setText(String.format("Raça: %1$s - %2$s",
-                        jsonObject.getString("especie"),
-                        jsonObject.getString("raca")));
-                altura.setText(String.format(new Locale("pt", "BR"),
-                        "Altura: %.2f",
-                        jsonObject.getDouble("altura")));
-                peso.setText(String.format(new Locale("pt", "BR"),
-                        "Peso: %.2f kg",
-                        jsonObject.getDouble("peso")));
+                    if (jsonObject.has("nome"))
+                        nome.setText(jsonObject.getString("nome"));
+
+                    if (jsonObject.has("raca") && jsonObject.has("especie"))
+                        raca.setText(String.format("Raça: %1$s - %2$s",
+                                jsonObject.getString("especie"),
+                                jsonObject.getString("raca")));
+
+                    if (jsonObject.has("idade"))
+                        altura.setText(String.format(new Locale("pt", "BR"),
+                                "Idade: %d",
+                                jsonObject.getInt("idade")));
+
+                    if (jsonObject.has("peso"))
+                        peso.setText(String.format(new Locale("pt", "BR"),
+                                "Peso: %.2f kg",
+                                jsonObject.getDouble("peso")));
+
+                    proximo.setVisibility(bundle.getBoolean("proximo") ?
+                            View.VISIBLE : View.GONE);
+                    anterior.setVisibility(bundle.getBoolean("anterior") ?
+                            View.VISIBLE : View.GONE);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

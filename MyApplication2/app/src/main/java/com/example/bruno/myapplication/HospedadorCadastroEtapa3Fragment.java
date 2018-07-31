@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
@@ -24,6 +25,9 @@ import android.widget.Toast;
 
 import com.example.bruno.myapplication.retrofit.Hospedador;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -77,7 +81,8 @@ public class HospedadorCadastroEtapa3Fragment extends Fragment {
                 if (checkFields()) {
                     Hospedador hospedador = new Hospedador();
 
-                    hospedador.setQuantidadeAnimal((Integer)quantidadeAnimal.getSelectedItem());
+                    hospedador.setQuantidadeAnimal(Integer.valueOf(
+                            (String)quantidadeAnimal.getSelectedItem()));
                     hospedador.setCuidaCachorro(cuidaCachorro.isChecked());
                     hospedador.setCuidaGato(cuidaGato.isChecked());
                     hospedador.setCuidaMamifero(cuidaMamifero.isChecked());
@@ -128,6 +133,21 @@ public class HospedadorCadastroEtapa3Fragment extends Fragment {
                     }
                 }
             });
+
+            List<String> quantidade = new ArrayList<>();
+
+            quantidade.add("1");
+            quantidade.add("2");
+            quantidade.add("3");
+            quantidade.add("4");
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                    context, android.R.layout.simple_spinner_item, quantidade);
+
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            quantidadeAnimal.setAdapter(arrayAdapter);
+            quantidadeAnimal.setSelection(0);
         }
 
         return rootView;

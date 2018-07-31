@@ -23,6 +23,7 @@ public class Hospedador {
 
     private String primeiroNome;
     private String ultimoNome;
+    private String nomeCompleto;
     private String rg;
     private String orgaoEmissor;
     private String cpf;
@@ -362,6 +363,14 @@ public class Hospedador {
 
     public String getFullName() {
         return primeiroNome + ' ' + ultimoNome;
+    }
+
+    public String getNomeCompleto() {
+        return nomeCompleto;
+    }
+
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
     public JSONObject getFieldsJson() throws IllegalAccessException, JSONException {

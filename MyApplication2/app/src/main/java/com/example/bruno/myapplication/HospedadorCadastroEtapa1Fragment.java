@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +22,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bruno.myapplication.commons.BrDataFormatter;
+import com.example.bruno.myapplication.commons.BrPhoneNumberFormatter;
 import com.example.bruno.myapplication.retrofit.Hospedador;
+
+import java.lang.ref.WeakReference;
+import java.util.Calendar;
 
 public class HospedadorCadastroEtapa1Fragment extends Fragment {
 
@@ -85,6 +92,12 @@ public class HospedadorCadastroEtapa1Fragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
             });
         }
+
+        nascimento.addTextChangedListener(new BrDataFormatter(
+                new WeakReference<>(nascimento)));
+
+        telefone.addTextChangedListener(new BrPhoneNumberFormatter(
+                new WeakReference<>(telefone)));
 
         return rootView;
     }

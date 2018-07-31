@@ -107,13 +107,15 @@ public class MainActivity extends AppCompatActivity implements ListagemMensagemF
 
             return true;
         }
-        else if (id == R.id.action_search) {
-            return true;
-        }
         else if (id == android.R.id.home) {
             getSupportFragmentManager().popBackStackImmediate();
 
             return true;
+        }
+        else if (id == R.id.action_pedido) {
+            PedidoListagemFragment pedidoListagemFragment = new PedidoListagemFragment();
+
+            startFragment(pedidoListagemFragment, null);
         }
 
         return super.onOptionsItemSelected(item);

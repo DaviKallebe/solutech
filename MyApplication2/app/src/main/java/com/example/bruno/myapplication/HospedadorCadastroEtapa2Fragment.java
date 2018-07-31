@@ -16,11 +16,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.bruno.myapplication.retrofit.Hospedador;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HospedadorCadastroEtapa2Fragment extends Fragment {
 
@@ -94,6 +98,20 @@ public class HospedadorCadastroEtapa2Fragment extends Fragment {
                     Toast.makeText(context, getResources().getString(R.string.empty_fields),
                             Toast.LENGTH_LONG).show();
             });
+
+            List<String> supervisao = new ArrayList<>();
+
+            supervisao.add("A cada 12h");
+            supervisao.add("A cada 08h");
+            supervisao.add("A cada 04h");
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                    context, android.R.layout.simple_spinner_item, supervisao);
+
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            tipoSupervisao.setAdapter(arrayAdapter);
+            tipoSupervisao.setSelection(0);
         }
 
         return rootView;
