@@ -2,6 +2,7 @@ package com.example.bruno.myapplication.retrofit;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -27,4 +28,7 @@ public interface HospedagemService {
 
     @GET("hospedagem/pets/{id_pets}")
     Flowable<List<Pet>> selecionarPetHospedagem(@Path("id_pets") String id_pets);
+
+    @PUT("hospedagem/finalizar")
+    Completable finalizarHospedagem(@Body RequestBody body);
 }

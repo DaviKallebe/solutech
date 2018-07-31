@@ -19,6 +19,9 @@ export const Hospedagem = sequelize.define('hospedagems', {
     },
     status: {
         type: Sequelize.INTEGER
+    },
+    nota: {
+        type: Sequelize.DOUBLE
     }
 });
 

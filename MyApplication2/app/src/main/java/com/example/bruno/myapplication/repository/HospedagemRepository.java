@@ -7,6 +7,7 @@ import com.example.bruno.myapplication.room.AppDatabase;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -49,5 +50,11 @@ public class HospedagemRepository {
         return new RetrofitConfig()
                 .getHospedagemService()
                 .selecionarPetHospedagem(id_pets);
+    }
+
+    public Completable finalizarHospedagem(Hospedagem hospedagem) {
+        return new RetrofitConfig()
+                .getHospedagemService()
+                .finalizarHospedagem(hospedagem.generateRequestBody());
     }
 }

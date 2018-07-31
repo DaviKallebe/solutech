@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,36 +67,12 @@ public class PedidoDetalheFragment extends Fragment {
 
         if (context != null && bundle != null) {
             try {
-                JSONObject json = new JSONObject(bundle.getString("servico"));
+                JSONObject json = new JSONObject(bundle.getString("pedido"));
                 ViewPager pager = rootView.findViewById(R.id.hospedador_pedido_detalhe_pager);
                 TextView totalPets = rootView.findViewById(R.id.hospedador_pedido_detalhe_total);
 
-                if (json.has("id_pets") && !json.isNull("id_pets")) {
-                    Disposable disposable = new RetrofitConfig()
-                            .getHospedagemService()
-                            .selecionarPetHospedagem(json.getString("id_pets"))
-                            .observeOn(Schedulers.io())
-                            .subscribeOn(AndroidSchedulers.mainThread())
-                            .subscribe((List<Pet> pets) -> {
-                                if (getActivity() != null) {
-                                    getActivity().runOnUiThread(() -> {
-                                        PagerAdapter mPagerAdapter =
-                                                new ScreenSlidePagerAdapter(
-                                                        getFragmentManager(), pets);
-
-                                        totalPets.setText(String.format(
-                                                new Locale("pt", "BR"),
-                                                "Quantidade de pets: %d",
-                                                pets.size()));
-
-                                        pager.setAdapter(mPagerAdapter);
-                                    });
-                                }
-                            }, Throwable::printStackTrace);
-
-                    CompositeDisposable compositeDisposable = new CompositeDisposable();
-                    compositeDisposable.add(disposable);
-                }
+                if (json.has("id_pets") && !json.isNull("id_pets"))
+                    setPager(json.getString("id_pets"), pager, totalPets);
 
                 SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
                 Integer id_user = prefs.getInt("id_user", 0);
@@ -114,63 +92,114 @@ public class PedidoDetalheFragment extends Fragment {
                     Picasso.get().load(json.getString("imagem")).into(perfil);
 
                 Button cancelar = rootView.findViewById(R.id.hospedador_pedido_detalhe_rejeitar);
-                cancelar.setOnClickListener((View v) -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                    builder.setIcon(android.R.drawable.ic_dialog_alert)
-                            .setTitle("Confirmar a ação")
-                            .setMessage("Deseja cancelar esse pedido?")
-                            .setPositiveButton("Sim", (dialog, which) -> {
-                                try {
-                                    Hospedagem hospedagem = new Hospedagem();
-
-                                    hospedagem.setId(json.getInt("id"));
-                                    hospedagem.setStatus(4);
-
-                                    Disposable disposable = mViewModel
-                                            .atualizarHospedagem(hospedagem)
-                                            .observeOn(Schedulers.io())
-                                            .subscribeOn(AndroidSchedulers.mainThread())
-                                            .subscribe((Hospedagem hosp) -> {
-                                                if (getActivity() != null) {
-                                                    if (mListener != null)
-                                                        mListener.refreshAdpter(hospedagem.getId(),
-                                                                hospedagem.getStatus());
-
-                                                    getActivity().runOnUiThread(() -> {
-                                                        Toast.makeText(context,
-                                                                "Pedido cancelado com sucesso",
-                                                                Toast.LENGTH_LONG).show();
-
-                                                        if (getFragmentManager() != null)
-                                                            getFragmentManager().popBackStackImmediate();
-                                                    });
-                                                }
-                                            }, (Throwable e) -> {
-                                                e.printStackTrace();
-                                                if (getActivity() != null)
-                                                    getActivity().runOnUiThread(() -> Toast.makeText(context,
-                                                            "Erro, não foi possivel cancelar",
-                                                            Toast.LENGTH_LONG).show());
-                                            });
-
-                                    CompositeDisposable compositeDisposable = new CompositeDisposable();
-                                    compositeDisposable.add(disposable);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            })
-                            .setNegativeButton("Não", null);
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                });
+                if (json.getInt("status") == 1) {
+                    cancelar.setOnClickListener((View v) -> {
+                        try {
+                            this.showAlert(json.getInt("id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+                else
+                if (json.getInt("status") == 6) {
+                    cancelar.setVisibility(View.INVISIBLE);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
         return rootView;
+    }
+
+    public void setPager(String id_pets, ViewPager viewPager, TextView totalPets) {
+        WeakReference<ViewPager> viewPagerWeakReference = new WeakReference<>(viewPager);
+        WeakReference<TextView> editTextWeakReference = new WeakReference<>(totalPets);
+
+        Disposable disposable = new RetrofitConfig()
+                .getHospedagemService()
+                .selecionarPetHospedagem(id_pets)
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe((List<Pet> pets) -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            PagerAdapter mPagerAdapter =
+                                    new ScreenSlidePagerAdapter(
+                                            getFragmentManager(), pets);
+
+                            editTextWeakReference.get().setText(String.format(
+                                    new Locale("pt", "BR"),
+                                    "Quantidade de pets: %d",
+                                    pets.size()));
+
+                            viewPagerWeakReference.get().setAdapter(mPagerAdapter);
+                        });
+                    }
+                }, Throwable::printStackTrace);
+
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(disposable);
+    }
+
+    public void atualizarHospedagemErro(Throwable e) {
+        if (getActivity() != null)
+            getActivity().runOnUiThread(() ->
+                    Toast.makeText(getContext(),
+                            "Erro, não foi possivel cancelar",
+                            Toast.LENGTH_LONG).show());
+    }
+
+    public void atualizarHospedagem(Hospedagem hospedagem)  {
+        if (getContext() == null || getActivity() == null)
+            return;
+
+        if (mListener != null)
+            mListener.refreshAdpter(hospedagem.getId(),
+                    hospedagem.getStatus());
+
+        getActivity().runOnUiThread(() -> {
+            Toast.makeText(getContext(),
+                    "Pedido cancelado com sucesso",
+                    Toast.LENGTH_LONG).show();
+
+            if (getFragmentManager() != null)
+                getFragmentManager().popBackStackImmediate();
+
+        });
+    }
+
+    public void showAlert(Integer id) {
+        if (getActivity() == null)
+            return ;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Confirmar a ação")
+                .setMessage("Deseja cancelar esse pedido?")
+                .setPositiveButton("Sim", (dialog, which) -> {
+                    Hospedagem hospedagem = new Hospedagem();
+
+                    hospedagem.setId(id);
+                    hospedagem.setStatus(4);
+
+                    Disposable disposable = mViewModel
+                            .atualizarHospedagem(hospedagem)
+                            .observeOn(Schedulers.io())
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .subscribe(this::atualizarHospedagem,
+                                    this::atualizarHospedagemErro);
+
+                    CompositeDisposable compositeDisposable = new CompositeDisposable();
+                    compositeDisposable.add(disposable);
+                })
+                .setNegativeButton("Não", null);
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void setListener(OnFragmentInteractionListener listener) {

@@ -26,6 +26,8 @@ public class Hospedagem {
     private String dataFim;
     private String id_pets;
     private Integer status;
+    private Double nota;
+    private String comentario;
     private String createdAt;
     private String updatedAt;
 
@@ -35,6 +37,14 @@ public class Hospedagem {
     private String imagem;
 
     private List<Pet> pets;
+
+    public Double getNota() {
+        return nota;
+    }
+
+    public void setNota(Double nota) {
+        this.nota = nota;
+    }
 
     public Integer getId() {
         return id;
@@ -144,6 +154,14 @@ public class Hospedagem {
         return primeiroNome + ' ' + ultimoNome;
     }
 
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
     public JSONObject getFieldsJson() throws IllegalAccessException, JSONException {
         JSONObject json = new JSONObject();
         Field[] fields = this.getClass().getDeclaredFields();
@@ -162,28 +180,23 @@ public class Hospedagem {
     }
 
     public void setFieldsByJson(JSONObject json) {
-        Iterator<String> itr = json.keys();
+        if (json == null)
+            return;
 
-        while (itr.hasNext()) {
-            String key = itr.next();
+        try {
+            Field[] fields = this.getClass().getDeclaredFields();
 
-            try {
-                Object value = json.get(key);
-
-                Field field = this.getClass().getField(key);
-
-                if (field != null)
-                    field.set(this, value);
+            for (Field field : fields) {
+                if (Modifier.isPrivate(field.getModifiers())) {
+                    if (json.has(field.getName()) && !json.isNull(field.getName()))
+                        field.set(this, json.get(field.getName()));
+                }
             }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
-            catch (IllegalAccessException e2) {
-                e2.printStackTrace();
-            }
-            catch (NoSuchFieldException e3) {
-                e3.printStackTrace();
-            }
+        }catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        catch (IllegalAccessException e2) {
+            e2.printStackTrace();
         }
     }
 

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Hospedagem } from "../models/Hospedagem";
+import { Comment } from "../models/Comment";
 import { sequelize } from "../mysql";
 import { config } from '../../config';
 
@@ -84,6 +85,28 @@ export class HospedagemController {
         {type: sequelize.QueryTypes.SELECT})
         .then(pets => {
             res.status(200).json(pets);
+        }, error => res.status(500).send(error));
+    }
+
+    public finalizarHospedagem(req: Request, res: Response) {
+        Hospedagem.update(req.body, {
+            where: {
+                id: req.body.id
+            }
+        })
+        .then(hosp => {
+            if (req.body.comentario != null && req.body.comentario.trim() != "") {
+                let data = {
+                    comentario: req.body.comentario ,
+                    remetente: req.body.id_user_pedinte,
+                    destinatario: req.body.id_user_hospedador
+                }
+
+                Comment.create(data).then(comment => {
+                    res.status(200).end();
+
+                }, error => res.status(500).send(error));
+            }
         }, error => res.status(500).send(error));
     }
 }

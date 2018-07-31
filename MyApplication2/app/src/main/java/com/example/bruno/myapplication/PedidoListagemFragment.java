@@ -36,7 +36,8 @@ import io.reactivex.schedulers.Schedulers;
 import static android.content.Context.MODE_PRIVATE;
 
 public class PedidoListagemFragment extends Fragment implements PedidoListagemAdapter.OnItemClicked,
-        PedidoDetalheFragment.OnFragmentInteractionListener {
+        PedidoDetalheFragment.OnFragmentInteractionListener,
+        PedidoFinalizarFragment.OnFragmentInteractionListener {
 
     MainActivityViewModel mViewModel;
     PedidoListagemAdapter mAdapter;
@@ -94,15 +95,28 @@ public class PedidoListagemFragment extends Fragment implements PedidoListagemAd
         Hospedagem hospedagem = mAdapter.getItem(position);
 
         try {
-            if (hospedagem.getStatus() == 1) {
+            if (hospedagem.getStatus() == 1 || hospedagem.getStatus() == 6) {
                 PedidoDetalheFragment pedidoDetalheFragment = new PedidoDetalheFragment();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("servico", hospedagem.getFieldsJson().toString());
+                bundle.putString("pedido", hospedagem.getFieldsJson().toString());
 
                 pedidoDetalheFragment.setArguments(bundle);
                 pedidoDetalheFragment.setListener(this);
                 goToFragment(pedidoDetalheFragment);
+            }
+            else
+            if (hospedagem.getStatus() == 2) {
+                PedidoFinalizarFragment pedidoFinalizarFragment = new PedidoFinalizarFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("pedido", hospedagem.getFieldsJson().toString());
+
+                pedidoFinalizarFragment.setArguments(bundle);
+                pedidoFinalizarFragment.setListener(this);
+
+                if (getFragmentManager() != null)
+                    pedidoFinalizarFragment.show(getFragmentManager(), "Finalizar");
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
