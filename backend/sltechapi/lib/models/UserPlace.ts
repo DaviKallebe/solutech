@@ -40,10 +40,9 @@ export const UserPlace = sequelize.define('logradouros', {
         type: Sequelize.DECIMAL(11, 8)
     },
     descricao: {
-        type: Sequelize.TEXT("medium"),
-        allowNull: false
+        type: Sequelize.TEXT("medium")
     },
     imagem: {
-        type: Sequelize.TEXT("long"),
+        type: Sequelize.TEXT("long")
     }
 });

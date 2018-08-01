@@ -4,6 +4,7 @@ import { Routes } from "./routes/sltRoutes";
 import { UserRoutes} from "./routes/User";
 import { config } from "../config";
 import { HospedagemRoutes } from './routes/Hospedagem';
+import { UserPlaceRoutes } from './routes/UserPlace';
 
 class App {
 
@@ -11,6 +12,7 @@ class App {
     public routePrv: Routes = new Routes();
     public userRoutes: UserRoutes = new UserRoutes();
     public hospedagemRoutes: HospedagemRoutes = new HospedagemRoutes();
+    public userPlaceRoutes: UserPlaceRoutes = new UserPlaceRoutes();
 
     constructor() {
         this.app = express();
@@ -18,6 +20,7 @@ class App {
         this.routePrv.routes(this.app);
         this.userRoutes.routes(this.app);
         this.hospedagemRoutes.routes(this.app);
+        this.userPlaceRoutes.routes(this.app);
     }
 
     private config(): void{
@@ -27,6 +30,7 @@ class App {
         this.app.use(bodyParser.urlencoded({ extended: false }));
         //images folder public
         this.app.use('/images', express.static(config.image_upload_folder));
+        this.app.use('/lugar', express.static(config.image_upload_folder));
         //suport fireadmin-base
         //nothing for while
     }

@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,13 +27,19 @@ import com.example.bruno.myapplication.adapter.UsuarioPerfilAdapter;
 import com.example.bruno.myapplication.commons.PerfilOpcoes;
 import com.example.bruno.myapplication.commons.Status;
 import com.example.bruno.myapplication.retrofit.Hospedador;
+import com.example.bruno.myapplication.retrofit.Logradouro;
 import com.example.bruno.myapplication.retrofit.Usuario;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -197,6 +204,28 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                 goToFragment(petListagemFragment);
                 break;
             case R.id.action_perfil_local:
+                CadastrarLogradouroEtapa1 cadastrarLogradouroEtapa1 =
+                        new CadastrarLogradouroEtapa1();
+
+                Disposable disposable = mViewModel
+                        .selecionarLogradouro(id_user)
+                        .observeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe((Logradouro logradouro) -> {
+
+                        }, (Throwable e) -> {
+                            e.printStackTrace();
+                            if (e instanceof HttpException) {
+
+                                if (((HttpException) e).code() == 404)
+                                    goToFragment(cadastrarLogradouroEtapa1,
+                                            getResources().getString(R.string.fragment_logradouro));
+                            }
+                        });
+
+                CompositeDisposable compositeDisposable = new CompositeDisposable();
+                compositeDisposable.add(disposable);
+
                 break;
             case R.id.action_perfil_hospedador:
                 HospedadorPerfilFragment hospedadorPerfilFragment = new HospedadorPerfilFragment();
@@ -257,6 +286,24 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                                 fragmentDestination,
                                 fragmentDestination.getClass().getSimpleName())
                         .addToBackStack(null)
+                        .commit();
+            }
+        }
+    }
+
+    public void goToFragment(Fragment fragmentDestination, String name) {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+
+        if (activity != null) {
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+
+            if (fragmentManager != null) {
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fate_out)
+                        .replace(R.id.fragment_usuario_perfil,
+                                fragmentDestination,
+                                fragmentDestination.getClass().getSimpleName())
+                        .addToBackStack(name)
                         .commit();
             }
         }

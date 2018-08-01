@@ -8,11 +8,14 @@ import android.support.annotation.NonNull;
 
 import com.example.bruno.myapplication.commons.ResourceState;
 import com.example.bruno.myapplication.repository.HospedagemRepository;
+import com.example.bruno.myapplication.repository.LogradouroRepository;
 import com.example.bruno.myapplication.repository.UsuarioRepository;
 import com.example.bruno.myapplication.retrofit.Comentario;
 import com.example.bruno.myapplication.retrofit.Hospedador;
 import com.example.bruno.myapplication.retrofit.Hospedagem;
+import com.example.bruno.myapplication.retrofit.Logradouro;
 import com.example.bruno.myapplication.retrofit.Pet;
+import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
 import com.example.bruno.myapplication.room.AppDatabase;
 
@@ -23,12 +26,14 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public class MainActivityViewModel extends AndroidViewModel {
 
     private AppDatabase appDatabase;
     private UsuarioRepository mUserRepository;
     private HospedagemRepository mHospedagemRepository;
+    private LogradouroRepository mLogradouroRepository;
     private LiveData<ResourceState<Usuario>> currentUser;
     private LiveData<ResourceState<List<Pet>>> userPetList;
     private Integer id_user;
@@ -47,6 +52,7 @@ public class MainActivityViewModel extends AndroidViewModel {
 
         mUserRepository = new UsuarioRepository(appDatabase);
         mHospedagemRepository = new HospedagemRepository(appDatabase);
+        mLogradouroRepository = new LogradouroRepository();
     }
 
     public void loadCurrentUser(Integer id_user) {
@@ -135,5 +141,17 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public Completable finalizarHospedagem(Hospedagem hospedagem) {
         return mHospedagemRepository.finalizarHospedagem(hospedagem);
+    }
+
+    public Observable<Logradouro> selecionarLogradouro(Integer id_user) {
+        return mLogradouroRepository.selecionarLogradouro(id_user);
+    }
+
+    public Observable<Logradouro> atualizarLogradouro(Logradouro logradouro, ByteArrayOutputStream image) {
+        return mLogradouroRepository.atualizarLogradouro(logradouro, image);
+    }
+
+    public Observable<Logradouro> criarLogradouro(Logradouro logradouro, ByteArrayOutputStream image) {
+        return mLogradouroRepository.criarLogradouro(logradouro, image);
     }
 }

@@ -41,4 +41,8 @@ public class RetrofitConfig {
     public HospedagemService getHospedagemService() {
         return this.ObsRetrofit.create(HospedagemService.class);
     }
+
+    public LogradouroService getLogradouroService() {
+        return this.ObsRetrofit.create(LogradouroService.class);
+    }
 }
