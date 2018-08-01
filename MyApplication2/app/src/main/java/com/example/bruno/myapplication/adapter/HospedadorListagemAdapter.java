@@ -14,6 +14,7 @@ import com.example.bruno.myapplication.retrofit.Hospedador;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,6 +65,16 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
         holder.textViewNome.setText(hospedador.getFullName());
         holder.textViewDesc.setText(hospedador.getDescricao());
 
+        if (hospedador.getUsuarioNota() != null) {
+            holder.textViewNota.setText(String.format(new Locale("pt", "BR"),
+                    "%.1f", hospedador.getUsuarioNota()));
+        }
+        else {
+            holder.textViewNota.setVisibility(View.GONE);
+            holder.star.setVisibility(View.GONE);
+        }
+
+
         if (hospedador.getImagem() != null)
             Picasso.get().load(hospedador.getImagem()).into(holder.circleImagemPerfil);
     }
@@ -72,6 +83,8 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
         CircleImageView circleImagemPerfil;
         TextView textViewNome;
         TextView textViewDesc;
+        ImageView star;
+        TextView textViewNota;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
@@ -79,6 +92,8 @@ public class HospedadorListagemAdapter extends RecyclerView.Adapter<HospedadorLi
             circleImagemPerfil = itemView.findViewById(R.id.fragment_hospedador_listagem_imagemperfil);
             textViewNome = itemView.findViewById(R.id.textViewNomeH);
             textViewDesc = itemView.findViewById(R.id.textViewDescricaoH);
+            star = itemView.findViewById(R.id.imageViewStar);
+            textViewNota = itemView.findViewById(R.id.textViewNota);
 
             itemView.setOnClickListener(this);
         }

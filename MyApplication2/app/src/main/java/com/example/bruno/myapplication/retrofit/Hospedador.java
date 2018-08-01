@@ -58,6 +58,7 @@ public class Hospedador {
 
     private Double preco;
     private Double precoExotico;
+    private Double usuarioNota;
 
     private String descricao;
     private String imagem;
@@ -371,6 +372,14 @@ public class Hospedador {
 
     public void setNomeCompleto(String nomeCompleto) {
         this.nomeCompleto = nomeCompleto;
+    }
+
+    public Double getUsuarioNota() {
+        return usuarioNota;
+    }
+
+    public void setUsuarioNota(Double usuarioNota) {
+        this.usuarioNota = usuarioNota;
     }
 
     public JSONObject getFieldsJson() throws IllegalAccessException, JSONException {

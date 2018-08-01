@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,9 @@ import com.example.bruno.myapplication.adapter.HospedadorListagemDetalhePefilAda
 import com.example.bruno.myapplication.retrofit.Comentario;
 import com.squareup.picasso.Picasso;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Flowable;
@@ -57,11 +61,8 @@ public class HospedadorListagemDetalhePerfilFragment extends Fragment {
 
         if (context != null) {
             RecyclerView recyclerView = rootView.findViewById(R.id.fragment_hospedador_listagem_detalhe_perfil_recycler);
-            ArrayList<Comentario> comentarios = new ArrayList<>();
-            HospedadorListagemDetalhePefilAdapter hospedadorListagemDetalhePefilAdapter =
-                    new HospedadorListagemDetalhePefilAdapter(comentarios, context, null);
-
-            recyclerView.setAdapter(hospedadorListagemDetalhePefilAdapter);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+            recyclerView.setLayoutManager(layoutManager);
 
             SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
             Integer id_user = prefs.getInt("id_user", 0);
@@ -71,12 +72,18 @@ public class HospedadorListagemDetalhePerfilFragment extends Fragment {
             if (bundle != null) {
                 Disposable disposable = mViewModel
                         .getComments(bundle.getInt("id_user"))
-                        .subscribeOn(Schedulers.newThread())
+                        .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .flatMap(comentariosList ->
-                                Flowable.fromIterable(comentariosList)
-                                        .doOnNext(comentarios::add))
-                        .subscribe();
+                        .retry((retryCount, throwable) -> throwable instanceof SocketTimeoutException)
+                        .subscribe((List<Comentario> comentarios) -> {
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> {
+                                    recyclerView.setAdapter(
+                                            new HospedadorListagemDetalhePefilAdapter(
+                                                    comentarios, context,null));
+                                });
+                            }
+                        }, Throwable::printStackTrace);
 
                 CompositeDisposable compositeDisposable = new CompositeDisposable();
                 compositeDisposable.add(disposable);

@@ -18,6 +18,7 @@ import com.example.bruno.myapplication.retrofit.Mensagem;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -58,6 +59,10 @@ public class HospedadorListagemDetalhePefilAdapter extends RecyclerView.Adapter<
         comment.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0,
                 comentario.getFullName().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.textComentario.setText(comment, TextView.BufferType.SPANNABLE);
+
+        if (comentario.getPonto() != null)
+            holder.nota.setText(String.format(new Locale("pt", "BR"),
+                    "Nota: %f", comentario.getPonto()));
     }
 
     @Override
@@ -68,12 +73,14 @@ public class HospedadorListagemDetalhePefilAdapter extends RecyclerView.Adapter<
     public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CircleImageView imagePerfil;
         TextView textComentario;
+        TextView nota;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
 
             imagePerfil = itemView.findViewById(R.id.imageViewUsuarioDetalhadoPerfilComentario);
             textComentario = itemView.findViewById(R.id.textViewUsuarioDetalhadoComentario);
+            nota = itemView.findViewById(R.id.textViewUsuarioDetalhadoNota);
 
             itemView.setOnClickListener(this);
         }

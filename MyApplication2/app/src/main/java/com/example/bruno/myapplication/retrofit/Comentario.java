@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"createdAt", "updatedAt"})
 public class Comentario {
-    Integer destinatario;
-    Integer remetente;
-    String imagem;
-    String primeiroNome;
-    String ultimoNome;
-    String comentario;
+    private Integer destinatario;
+    private Integer remetente;
+    private String imagem;
+    private String primeiroNome;
+    private String ultimoNome;
+    private String comentario;
+    private Double ponto;
 
     public Integer getDestinatario() {
         return destinatario;
@@ -61,5 +62,13 @@ public class Comentario {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public Double getPonto() {
+        return ponto;
+    }
+
+    public void setPonto(Double ponto) {
+        this.ponto = ponto;
     }
 }

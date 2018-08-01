@@ -438,8 +438,8 @@ export class UserController {
             \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
             \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
             \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
-            \n`usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` FROM `hospedadores` AS `hospedadores` \
-            \nLEFT OUTER JOIN `perfis` AS `usuario` ON `hospedadores`.`id_user` = `usuario`.`id_user`;")
+            \n`hospedadores`.`usuarioNota`, `usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` \
+            \nFROM `hospedadores` AS `hospedadores` LEFT OUTER JOIN `perfis` AS `usuario` ON `hospedadores`.`id_user` = `usuario`.`id_user`;")
             .then(userHospedador => {
                 let array_list = userHospedador[1].map(hosp => {
                     if (hosp.imagem != null)
@@ -460,8 +460,8 @@ export class UserController {
             \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
             \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
             \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
-            \n`usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` FROM `hospedadores` AS `hospedadores`, `perfis` AS `usuario` \
-            \nWHERE `hospedadores`.`id_user` = `usuario`.`id_user` AND MATCH(`usuario`.`nomeCompleto`) AGAINST(? IN BOOLEAN MODE);",
+            \n`hospedadores`.`usuarioNota`, `usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` \
+            \nFROM `hospedadores` AS `hospedadores`, `perfis` AS `usuario` WHERE `hospedadores`.`id_user` = `usuario`.`id_user` AND MATCH(`usuario`.`nomeCompleto`) AGAINST(? IN BOOLEAN MODE);",
             {type: sequelize.QueryTypes.SELECT, replacements: ['+*' + req.query.nome + '*']})
             .then(hospedadores => {
                 let array_list = hospedadores.map(hosp => {

@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/fragment_hospedador_listagem_detalhe_perfil_recycler">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewUsuarioDetalhadoPerfilComentario"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
         android:src="@drawable/mob_user_175"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewUsuarioDetalhadoComentario"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imageViewUsuarioDetalhadoPerfilComentario"
-        android:layout_toEndOf="@+id/imageViewUsuarioDetalhadoPerfilComentario"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginRight="2dp"
-        android:paddingLeft="2dp"
-        android:paddingStart="2dp"
-        android:paddingRight="2dp"
-        android:paddingEnd="2dp"
-        android:text="Mensagem"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/round_corner"
-        android:textSize="14sp" />
-</RelativeLayout>
+        android:paddingEnd="2dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingStart="2dp"
+        android:text="Mensagem"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageViewUsuarioDetalhadoPerfilComentario"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUsuarioDetalhadoNota" />
+
+    <TextView
+        android:id="@+id/textViewUsuarioDetalhadoNota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Nota: "
+        app:layout_constraintStart_toEndOf="@+id/imageViewUsuarioDetalhadoPerfilComentario"
+        app:layout_constraintTop_toTopOf="@+id/imageViewUsuarioDetalhadoPerfilComentario" />
+</android.support.constraint.ConstraintLayout>

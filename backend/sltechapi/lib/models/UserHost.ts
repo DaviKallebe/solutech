@@ -103,6 +103,9 @@ export const UserHost = sequelize.define('hospedadores', {
     },
     descricao: {
         type: Sequelize.TEXT('medium')
+    },
+    usuarioNota: {
+        type: Sequelize.DOUBLE
     }
 }, {
     indexes: [
