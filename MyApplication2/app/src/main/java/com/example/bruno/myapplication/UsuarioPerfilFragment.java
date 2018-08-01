@@ -212,7 +212,13 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
                         .observeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe((Logradouro logradouro) -> {
+                            DetalheLocal detalheLocal = new DetalheLocal();
 
+                            Bundle bundle = new Bundle();
+                            bundle.putString("logradouro", logradouro.getFieldsJson().toString());
+
+                            detalheLocal.setArguments(bundle);
+                            goToFragment(detalheLocal);
                         }, (Throwable e) -> {
                             e.printStackTrace();
                             if (e instanceof HttpException) {

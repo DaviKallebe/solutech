@@ -5,104 +5,87 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.bruno.myapplication.retrofit.Logradouro;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DetalheLocal.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DetalheLocal#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DetalheLocal extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public DetalheLocal() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DetalheLocal.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetalheLocal newInstance(String param1, String param2) {
-        DetalheLocal fragment = new DetalheLocal();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detalhe_local, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_detalhe_local, container, false);
+
+        //TextView cep = rootView.findViewById(R.id.localDetalhecep);
+        TextView rua = rootView.findViewById(R.id.localDetalheRua);
+        TextView numero = rootView.findViewById(R.id.localDetalheNumero);
+        TextView bairro = rootView.findViewById(R.id.localDetalheBairro);
+        TextView cidade = rootView.findViewById(R.id.localDetalheCidade);
+        TextView estado = rootView.findViewById(R.id.localDetalheEstado);
+        TextView complemento = rootView.findViewById(R.id.localDetalheComp);
+        TextView tipo = rootView.findViewById(R.id.localDetalheTipoResidencia);
+        TextView descricao = rootView.findViewById(R.id.localDetalheDescricao);
+
+        Bundle bundle = getArguments();
+        Context context = getContext();
+        Logradouro logradouro = new Logradouro();
+        JSONObject json = null;
+
+        if (bundle != null) {
+            try {
+                json = new JSONObject(bundle.getString("logradouro"));
+                logradouro.setFieldsByJson(json);
+
+                rua.setText(logradouro.getRua());
+                numero.setText(String.valueOf(logradouro.getNumero()));
+                bairro.setText(logradouro.getBairro());
+                cidade.setText(logradouro.getCidade());
+                estado.setText(logradouro.getEstado());
+                complemento.setText(logradouro.getComplemento());
+                tipo.setText(logradouro.getTipo());
+                descricao.setText(logradouro.getDescricao());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        setHasOptionsMenu(true);
+
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
