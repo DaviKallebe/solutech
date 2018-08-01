@@ -35,16 +35,6 @@
                     android:layout_alignParentTop="true"
                     android:src="@drawable/mob_user_175" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/image_perfil_camera"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/ic_image_camera"
-                    app:civ_fill_color="@color/colorCameraBackground"/>
             </RelativeLayout>
 
             <View
@@ -240,7 +230,7 @@
                             android:textSize="16dp" />
 
 
-                        <EditText
+                        <TextView
                             android:id="@+id/localDetalheTipoResidencia"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -286,7 +276,7 @@
                         android:orientation="horizontal"
                         android:padding="12dp">
 
-                        <EditText
+                        <TextView
                             android:id="@+id/localDetalheDescricao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
