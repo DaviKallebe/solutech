@@ -120,6 +120,7 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
     }
 
     public void handlerErrorHospedadores(Throwable e) {
+        e.printStackTrace();
         if (getActivity() != null) {
             getActivity().runOnUiThread(() -> {
                 Toast.makeText(getContext(), "Não foi possivel carregar os hospedadores",
