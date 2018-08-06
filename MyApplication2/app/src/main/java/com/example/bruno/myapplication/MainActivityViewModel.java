@@ -175,4 +175,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     public Flowable<List<Hospedador>> procurarHospedadorComFiltro(Hospedador filtro) {
         return mUserRepository.procurarHospedadorComFiltro(filtro);
     }
+
+    public Flowable<Hospedador> getHospedador(Integer id_user) {
+        return mUserRepository.getHospedador(id_user);
+    }
 }

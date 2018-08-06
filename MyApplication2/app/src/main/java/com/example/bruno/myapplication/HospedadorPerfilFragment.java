@@ -45,9 +45,9 @@ public class HospedadorPerfilFragment extends Fragment {
         List<FragmentOption> fragmentOptions = new ArrayList<>();
 
         fragmentOptions.add(new FragmentOption(DetalheHospedador1.class,
-                "Perfil", null));
+                "Perfil", getArguments()));
         fragmentOptions.add(new FragmentOption(DetalheHospedador2.class,
-                "Informações", null));
+                "Informações", getArguments()));
 
 
         ViewPager mPager = rootView.findViewById(R.id.fragmento_hospedador_pefil_viewpager);

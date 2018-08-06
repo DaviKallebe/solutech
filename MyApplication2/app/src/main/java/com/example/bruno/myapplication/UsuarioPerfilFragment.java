@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bruno.myapplication.adapter.UsuarioPerfilAdapter;
 import com.example.bruno.myapplication.commons.PerfilOpcoes;
@@ -209,7 +210,6 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
                 Disposable disposable = mViewModel
                         .selecionarLogradouro(id_user)
-                        .observeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe((Logradouro logradouro) -> {
                             DetalheLocal detalheLocal = new DetalheLocal();
@@ -234,9 +234,19 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
 
                 break;
             case R.id.action_perfil_hospedador:
-                HospedadorPerfilFragment hospedadorPerfilFragment = new HospedadorPerfilFragment();
+                Disposable disposable1 = mViewModel
+                        .getHospedador(id_user)
+                        .subscribe((Hospedador hospedador) -> {
+                            HospedadorPerfilFragment hospedadorPerfilFragment = new HospedadorPerfilFragment();
 
-                goToFragment(hospedadorPerfilFragment);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("hospedador", hospedador.getFieldsJson().toString());
+
+                            hospedadorPerfilFragment.setArguments(bundle);
+                            goToFragment(hospedadorPerfilFragment);
+                        }, (Throwable e) -> {
+                            Toast.makeText(getContext(), "Erro, verifique sua conexão", Toast.LENGTH_SHORT).show();
+                        });
                 break;
             default:
                 return super.onOptionsItemSelected(item);

@@ -39,6 +39,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
+import retrofit2.http.Path;
 
 
 public class UsuarioRepository {
@@ -307,6 +308,13 @@ public class UsuarioRepository {
         return new RetrofitConfig()
                 .getObservableUsuarioService()
                 .procurarHospedadorComFiltro(filtro.getHashMapStringString())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Flowable<Hospedador> getHospedador(Integer id_user) {
+        return new RetrofitConfig()
+                .getObservableUsuarioService()
+                .getHospedador(id_user)
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

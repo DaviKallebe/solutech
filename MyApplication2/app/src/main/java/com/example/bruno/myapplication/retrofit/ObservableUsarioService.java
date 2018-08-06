@@ -70,8 +70,8 @@ public interface ObservableUsarioService {
     @GET("user/get/{nome}")
     Flowable<List<Usuario>> getUserByName(@Path("nome") String nome);
 
-    @GET("user/host/get/:id_user")
-    Flowable<Usuario> getHospedador(@Path("id_user") Integer id_user);
+    @GET("user/host/get/{id_user}")
+    Flowable<Hospedador> getHospedador(@Path("id_user") Integer id_user);
 
     @POST("/user/host/create")
     Observable<Hospedador> createHospedador(@Body RequestBody body);

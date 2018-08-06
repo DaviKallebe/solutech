@@ -150,10 +150,15 @@ public class HospedadorServicoFragment extends Fragment implements
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
+        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        MenuItem itemFilter = menu.findItem(R.id.action_filter);
 
-        if (item != null)
-            item.setVisible(false);
+
+        if (itemSearch != null)
+            itemSearch.setVisible(false);
+
+        if (itemFilter != null)
+            itemFilter.setVisible(false);
 
         super.onCreateOptionsMenu(menu, inflater);
     }
