@@ -1,6 +1,7 @@
 package com.example.bruno.myapplication;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,8 +15,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,12 +31,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements ListagemMensagemFragment.OnFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements
         EditarValorFragment.OnFragmentInteractionListener,
         HospedadorListagemFragment.OnFragmentInteractionListener,
         HospedadorServicoFragment.OnFragmentInteractionListener {
 
-    private static final int NUM_PAGES = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PET_PICK_IMAGE = 2;
 

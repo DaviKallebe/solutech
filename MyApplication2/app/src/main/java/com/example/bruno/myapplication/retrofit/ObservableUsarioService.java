@@ -21,6 +21,7 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ObservableUsarioService {
     @GET("firebaselogin?")
@@ -32,13 +33,10 @@ public interface ObservableUsarioService {
 
     @GET("/search/user/all")
     Flowable<List<Hospedador>> searchUsers(@Query("id_user") Integer id_user,
-                                        @Query("nome") String name);
+                                           @Query("nome") String name);
 
     @GET("user/get_comments/{id_user}")
     Flowable<List<Comentario>> getComments(@Path("id_user") Integer id_user);
-
-    @GET("user/get_messages/{id_user}")
-    Observable<List<Mensagem>> getMessages(@Path("id_user") Integer id_user);
 
     @GET("user/profile/get/{id_user}")
     Observable<Usuario> getProfile(@Path("id_user") Integer id_user,
@@ -67,10 +65,6 @@ public interface ObservableUsarioService {
     @PUT("user/pet/update/")
     Observable<Pet> updateUserPet(@Body RequestBody object);
 
-    /*
-    @POST("user/pet/create/")
-    Observable<Pet> createUserPet(@Body RequestBody body);*/
-
     @Multipart
     @POST("user/pet/create/")
     Observable<Pet> createUserPet(@PartMap Map<String, RequestBody> partMapBody,
@@ -87,4 +81,7 @@ public interface ObservableUsarioService {
 
     @PUT("/user/host/update")
     Observable<Hospedador> updateHospedador(@Body RequestBody body);
+
+    @GET("/user/host/procurarHospedador")
+    Flowable<List<Hospedador>> procurarHospedadorComFiltro(@QueryMap Map<String, String> queries);
 }

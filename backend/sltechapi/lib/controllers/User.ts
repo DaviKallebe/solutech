@@ -474,4 +474,39 @@ export class UserController {
             }, err => res.status(500).json(err));
         }
     }
+
+    public procurarHospedadorFiltro(req: Request, res: Response) {
+        let keys = Object.keys(req.query).map(key => {
+            if (key != "nomeCompleto" && key != "id_user")
+                return "`hospedadores`.`" + key + "` = 1";
+            if (key == "nomeCompleto")
+                return "MATCH(`usuario`.`nomeCompleto`) AGAINST('+*" + req.query[key] + "*' IN BOOLEAN MODE)";
+            if (key == "id_user")    
+                return "`hospedadores`.`id_user` != " + req.query[key];
+            return '';
+        });
+
+        sequelize.query("SELECT `hospedadores`.`id`, `usuario`.`primeiroNome`, `usuario`.`ultimoNome`, `hospedadores`.`rg`, \
+        \n`hospedadores`.`orgaoEmissor`, `hospedadores`.`nascimento`, `hospedadores`.`cpf`, `usuario`.`telefone`, \
+        \n`hospedadores`.`cuidaIdoso`, `hospedadores`.`cuidaFilhote`, `hospedadores`.`cuidaFemea`, `hospedadores`.`cuidaMacho`, \
+        \n`hospedadores`.`cuidaCastrado`, `hospedadores`.`cuidaPequeno`, `hospedadores`.`cuidaGrande`, `hospedadores`.`cuidaExotico`, \
+        \n`hospedadores`.`cuidaCachorro`, `hospedadores`.`cuidaGato`, `hospedadores`.`cuidaMamifero`, `hospedadores`.`cuidaReptil`, \
+        \n`hospedadores`.`cuidaAve`, `hospedadores`.`cuidaPeixe`, `hospedadores`.`likes`, `hospedadores`.`dislikes`, \
+        \n`hospedadores`.`preferenciaAnimal`, `hospedadores`.`quantidadeAnimal`, `hospedadores`.`tipoSupervisao`, \
+        \n`hospedadores`.`numeroComentario`, `hospedadores`.`totalLike`, `hospedadores`.`totalPLN`, `hospedadores`.`preco`, \
+        \n`hospedadores`.`precoExotico`, `hospedadores`.`createdAt`, `hospedadores`.`updatedAt`, `hospedadores`.`id_user`,  \
+        \n`hospedadores`.`usuarioNota`, `usuario`.`imagem` AS `imagem`, `usuario`.`descricao` AS `descricao` \
+        \nFROM `hospedadores` AS `hospedadores`, `perfis` AS `usuario` \
+        \nWHERE `hospedadores`.`id_user` = `usuario`.`id_user` AND "+ keys.join(" AND ") +";",
+        {type: sequelize.QueryTypes.SELECT})
+        .then(hospedadores => {
+            let array_list = hospedadores.map(hosp => {
+                if (hosp.imagem != null)
+                    hosp.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + hosp.imagem.replace(/\\/gi, "/");
+
+                return hosp;
+            });
+            res.status(200).json(array_list);
+        }, err => res.status(500).json(err));
+    }
 }

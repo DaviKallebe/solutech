@@ -154,4 +154,8 @@ public class MainActivityViewModel extends AndroidViewModel {
     public Observable<Logradouro> criarLogradouro(Logradouro logradouro, ByteArrayOutputStream image) {
         return mLogradouroRepository.criarLogradouro(logradouro, image);
     }
+
+    public Flowable<List<Hospedador>> procurarHospedadorComFiltro(Hospedador filtro) {
+        return mUserRepository.procurarHospedadorComFiltro(filtro);
+    }
 }

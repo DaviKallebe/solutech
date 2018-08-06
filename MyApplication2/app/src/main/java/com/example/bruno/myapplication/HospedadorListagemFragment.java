@@ -32,6 +32,8 @@ import com.example.bruno.myapplication.retrofit.Hospedador;
 import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.example.bruno.myapplication.retrofit.Usuario;
 
+import org.json.JSONException;
+
 import java.net.SocketTimeoutException;
 import java.util.List;
 
@@ -48,13 +50,27 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class HospedadorListagemFragment extends Fragment implements HospedadorListagemAdapter.OnItemClicked {
+public class HospedadorListagemFragment extends Fragment implements
+        HospedadorListagemAdapter.OnItemClicked,
+        SearchView.OnQueryTextListener,
+        MenuItem.OnMenuItemClickListener,
+        PopupFiltro.PopUpInterface {
+
     private RecyclerView mRecyclerView;
     private HospedadorListagemAdapter mAdapter;
     private List<Hospedador> hospedadors;
     private MainActivityViewModel mViewModel;
     private OnFragmentInteractionListener mListener;
     private Integer id_user;
+    private Hospedador hospedadorFiltro;
+    private CompositeDisposable compositeDisposable;
+
+    //
+    private Long beforeTime;
+    private Long afterTime;
+    private Handler handler;
+    private String beforeTypeText = "";
+    private String afterTypeText = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +92,7 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
         Context context = getContext();
 
         if (context != null) {
+            compositeDisposable = new CompositeDisposable();
             mRecyclerView = rootView.findViewById(R.id.hospedador_listagem_recycler);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
             mRecyclerView.setLayoutManager(mLayoutManager);
@@ -83,7 +100,10 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
             SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
             id_user = prefs.getInt("id_user", 0);
 
-            CallQuery(id_user, null);
+            hospedadorFiltro = new Hospedador();
+            hospedadorFiltro.setId_user(id_user);
+
+            CallQueryWithFilter(hospedadorFiltro);
         }
 
         setHasOptionsMenu(true);
@@ -92,18 +112,47 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
         return rootView;
     }
 
+    public void CallQueryWithFilter(Hospedador filtro) {
+        if (compositeDisposable != null && !compositeDisposable.isDisposed())
+            compositeDisposable.clear();
+
+        Disposable disposable = mViewModel
+                .procurarHospedadorComFiltro(filtro)
+                .retry((retryCount, throwable) -> throwable instanceof SocketTimeoutException)
+                .subscribe(this::setHospedadoresAdapter, this::handlerErrorHospedadores);
+
+        compositeDisposable.add(disposable);
+    }
+
     public void CallQuery(Integer id_user, String query) {
         Disposable disposable = mViewModel
                 .searchUsers(id_user, query)
                 .retry((retryCount, throwable) -> throwable instanceof SocketTimeoutException)
                 //.retry((retryCount, throwable) -> retryCount < 3 &&
                 //        throwable instanceof SocketTimeoutException)
-                .observeOn(Schedulers.io())
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::setHospedadoresAdapter, this::handlerErrorHospedadores);
 
         CompositeDisposable compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void filtroResult(Hospedador filtro) {
+        if (filtro != null) {
+            if (handler != null)
+                handler.removeCallbacksAndMessages(null);
+
+            hospedadorFiltro = filtro;
+            hospedadorFiltro.setId_user(id_user);
+
+            if (afterTypeText != null && !afterTypeText.equals(""))
+                hospedadorFiltro.setNomeCompleto(afterTypeText);
+            else
+                hospedadorFiltro.setNomeCompleto(null);
+
+            CallQueryWithFilter(filtro);
+        }
     }
 
     public void setHospedadoresAdapter(List<Hospedador> hospedadores) {
@@ -154,58 +203,85 @@ public class HospedadorListagemFragment extends Fragment implements HospedadorLi
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
 
+        MenuItem filterItem = menu.findItem(R.id.action_filter);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        if (filterItem != null)
+            filterItem.setOnMenuItemClickListener(this);
+
         FragmentActivity fragmentActivity = getActivity();
 
         if (fragmentActivity != null) {
-            MenuItem searchItem = menu.findItem(R.id.action_search);
-
             SearchManager searchManager = (SearchManager)
                     fragmentActivity.getSystemService(Context.SEARCH_SERVICE);
-
             SearchView searchView = null;
 
-            if (searchItem != null) {
+            if (searchItem != null)
                 searchView = (SearchView) searchItem.getActionView();
-            }
+
             if (searchView != null && searchManager != null) {
                 searchView.setSearchableInfo(searchManager.getSearchableInfo(fragmentActivity.getComponentName()));
-
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    Long beforeTime;
-                    Long afterTime;
-                    Handler handler;
-
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        //CallQuery(id_user, query);
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        if (handler != null)
-                            handler.removeCallbacksAndMessages(null);
-
-                        beforeTime = SystemClock.uptimeMillis();
-                        handler = new Handler();
-
-                        handler.postDelayed(() -> {
-                            afterTime = SystemClock.uptimeMillis();
-
-                            if (getContext() != null && afterTime - beforeTime >= 500)
-                                CallQuery(id_user, newText);
-
-                            handler.removeCallbacksAndMessages(null);
-                        }, 700);
-                        return true;
-                    }
-                });
+                searchView.setOnQueryTextListener(this);
             }
 
             fragmentActivity.setTitle(getResources().getString(R.string.app_label));
         }
 
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId() == R.id.action_filter) {
+            PopupFiltro popupFiltro = new PopupFiltro();
+            Bundle bundle = new Bundle();
+
+            try {
+                bundle.putString("filtro", hospedadorFiltro.getFieldsJson().toString());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            popupFiltro.setListener(this);
+            popupFiltro.setArguments(bundle);
+
+            if (getFragmentManager() != null)
+                popupFiltro.show(getFragmentManager(), "filtro");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        //CallQuery(id_user, query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (handler != null)
+            handler.removeCallbacksAndMessages(null);
+
+        afterTypeText = newText;
+        beforeTime = SystemClock.uptimeMillis();
+        handler = new Handler();
+
+        handler.postDelayed(() -> {
+            afterTime = SystemClock.uptimeMillis();
+            Long passedTime = afterTime - beforeTime;
+
+            if (getContext() != null && !newText.equals(beforeTypeText) && passedTime >= 500) {
+                afterTypeText = newText;
+                hospedadorFiltro.setNomeCompleto(newText);
+                CallQueryWithFilter(hospedadorFiltro);
+            }
+
+            handler.removeCallbacksAndMessages(null);
+        }, 700);
+
+        return true;
     }
 
     @Override

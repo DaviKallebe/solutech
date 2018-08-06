@@ -63,5 +63,8 @@ export class UserRoutes {
 
         app.get('/search/user/all',
                 this.userControler.UserSearch);
+
+        app.get('/user/host/procurarHospedador',
+                this.userControler.procurarHospedadorFiltro);
     }
 }

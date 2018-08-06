@@ -117,7 +117,6 @@ public class UsuarioRepository {
                 return LiveDataReactiveStreams.fromPublisher(new RetrofitConfig()
                         .getObservableUsuarioService()
                         .getResponseProfile(id_user, null)
-                        .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .onExceptionResumeNext(next -> UsuarioRepository.handleError("FALHOU")));
             }
@@ -149,8 +148,7 @@ public class UsuarioRepository {
                 return LiveDataReactiveStreams.fromPublisher(new RetrofitConfig()
                         .getObservableUsuarioService()
                         .getPetList(id_user)
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.io())
                         .onExceptionResumeNext(next -> UsuarioRepository.handleError("FALHOU")));
             }
         }.getAsLiveData();
@@ -198,14 +196,12 @@ public class UsuarioRepository {
 
         map.put("id_user", createPart(id_user));
 
-        Observable<Usuario> updateProfile = new RetrofitConfig()
+        Disposable disposable = new RetrofitConfig()
                 .getObservableUsuarioService()
-                .updateUserProfile(map, body);
-
-        Disposable disposable = updateProfile
-                .subscribeOn(Schedulers.io())
+                .updateUserProfile(map, body)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(this::updateCurrentUser)
+                .doOnError(this::handleInternalError)
                 .subscribe();
 
         compositeDisposable.add(disposable);
@@ -230,7 +226,7 @@ public class UsuarioRepository {
 
         Disposable disposable = updateProfile.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateCurrentUser);
+                .subscribe(this::updateCurrentUser, this::handleInternalError);
 
         compositeDisposable.add(disposable);
     }
@@ -244,7 +240,6 @@ public class UsuarioRepository {
         Observable<Hospedador> hospedadorObservable = new RetrofitConfig()
                 .getObservableUsuarioService()
                 .createHospedador(hospedador.generateRequestBody())
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .share();
 
@@ -258,9 +253,14 @@ public class UsuarioRepository {
     public Flowable<List<Hospedador>> searchUsers(Integer id_user, String nome) {
         return new RetrofitConfig()
                 .getObservableUsuarioService()
-                .searchUsers(id_user, nome)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.newThread());
+                .searchUsers(id_user, nome);
+    }
+
+    public Flowable<List<Hospedador>> procurarHospedadorComFiltro(Hospedador filtro) {
+        return new RetrofitConfig()
+                .getObservableUsuarioService()
+                .procurarHospedadorComFiltro(filtro.getHashMapStringString())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     //handle error in general

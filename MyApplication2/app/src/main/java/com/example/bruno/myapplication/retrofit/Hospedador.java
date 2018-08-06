@@ -9,8 +9,13 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 @Entity
@@ -414,20 +419,139 @@ public class Hospedador {
         return null;
     }
 
-    public void updateFields(Hospedador hospedador) {
+    public <T extends Object> void updateFields(T object) {
+        if (this.getClass().equals(object.getClass())){
+            try {
+                Field[] fields = object.getClass().getDeclaredFields();
+
+                for (Field field : fields) {
+                    if (Modifier.isPrivate(field.getModifiers())) {
+                        Object fieldValue = field.get(object);
+
+                        if (fieldValue != null)
+                            field.set(this, fieldValue);
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private RequestBody createPartFromObject(Object object) {
+        if (object instanceof String)
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, (String)object);
+        if (object instanceof Integer)
+            return RequestBody.create(
+                    MultipartBody.FORM, Integer.toString((Integer)object));
+        if (object instanceof Date) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, df.format((Date)object));
+        }
+        if (object instanceof Double)
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, Double.toString((Double)object));
+        if (object instanceof Boolean)
+            return RequestBody.create(
+                    okhttp3.MultipartBody.FORM, Boolean.toString((Boolean)object));
+
+        return null;
+    }
+
+    public HashMap<String, RequestBody> getHashMapStringRequestBody() {
         try {
-            Field[] fields = hospedador.getClass().getDeclaredFields();
+            Field[] fields = this.getClass().getDeclaredFields();
+            HashMap<String, RequestBody> hashMap = new HashMap<>();
 
             for (Field field : fields) {
                 if (Modifier.isPrivate(field.getModifiers())) {
-                    Object fieldValue = field.get(hospedador);
+                    Object fieldValue = field.get(this);
 
-                    if (fieldValue != null)
-                        field.set(this, fieldValue);
+                    if (fieldValue != null) {
+                        RequestBody requestBody = createPartFromObject(fieldValue);
+
+                        if (requestBody != null)
+                            hashMap.put(field.getName(), requestBody);
+                    }
                 }
             }
+
+            return hashMap;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+
+            return new HashMap<>();
         }
+    }
+
+    public HashMap<String, String> getHashMapStringString() {
+        try {
+            Field[] fields = this.getClass().getDeclaredFields();
+            HashMap<String, String> hashMap = new HashMap<>();
+
+            for (Field field : fields) {
+                if (Modifier.isPrivate(field.getModifiers())) {
+                    Object fieldValue = field.get(this);
+
+                    if (fieldValue != null)
+                        hashMap.put(field.getName(), String.valueOf(fieldValue));
+                }
+            }
+
+            return hashMap;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+
+            return new HashMap<>();
+        }
+    }
+
+    public void setFieldsByJson(JSONObject json) {
+        if (json == null)
+            return;
+
+        try {
+            Field[] fields = this.getClass().getDeclaredFields();
+
+            for (Field field : fields) {
+                if (Modifier.isPrivate(field.getModifiers())) {
+                    if (json.has(field.getName()) && !json.isNull(field.getName()))
+                        field.set(this, json.get(field.getName()));
+                }
+            }
+        }catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        catch (IllegalAccessException e2) {
+            e2.printStackTrace();
+        }
+    }
+
+    public <T extends Object> Boolean isEqual(T object) {
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field: fields) {
+            if (Modifier.isPrivate(field.getModifiers())) {
+                try {
+                    String name = field.getName();
+                    Object value = field.get(this);
+                    Field cmp = object.getClass().getField(name);
+
+                    if (cmp == null || !cmp.get(object).equals(value))
+                        return false;
+
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    return false;
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -54,8 +54,6 @@
                 android:resource="@layout/searchable" />
         </activity>
 
-        <activity android:name=".Perfil" />
-        <activity android:name=".EditarPerfil" />
         <activity
             android:name=".NovoUsuarioActivity"
             android:noHistory="true"
@@ -83,9 +81,6 @@
         </activity>
 
 
-        <activity
-            android:name=".UsuarioDetalheActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
