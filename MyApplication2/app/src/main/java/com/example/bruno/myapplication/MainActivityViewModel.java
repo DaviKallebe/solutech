@@ -37,6 +37,7 @@ public class MainActivityViewModel extends AndroidViewModel {
     private LiveData<ResourceState<Usuario>> currentUser;
     private LiveData<ResourceState<List<Pet>>> userPetList;
     private Integer id_user;
+    private Pet preparePetUpdate;
 
     private Hospedador hospedador;
 
@@ -77,6 +78,22 @@ public class MainActivityViewModel extends AndroidViewModel {
 
     public void inserPet(Pet pet) {
         mUserRepository.createNewPet(pet);
+    }
+
+    public void preparePet(Integer id_user, Integer id_pet) {
+        preparePetUpdate = new Pet();
+
+        preparePetUpdate.setId_user(id_user);
+        preparePetUpdate.setId_pet(id_pet);
+    }
+
+    public void updateUserPet(Pet pet, String fileName, ByteArrayOutputStream image) {
+        if (preparePetUpdate != null) {
+            pet.setId_pet(preparePetUpdate.getId_pet());
+            pet.setId_user(preparePetUpdate.getId_user());
+        }
+
+        mUserRepository.updateUserPet(pet, fileName, image);
     }
 
     public Flowable<List<Usuario>> getUsersByName(String nome) {

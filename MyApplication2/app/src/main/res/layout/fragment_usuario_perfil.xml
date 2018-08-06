@@ -11,32 +11,35 @@
     android:id="@+id/fragment_usuario_perfil"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/layout_image_perfil"
-        android:layout_width="wrap_content"
-        android:layout_height="128dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" >
+
+        android:background="@color/colorPrimary">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_perfil"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/mob_user_175" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/mob_user_175"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_perfil_camera"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"
             android:src="@drawable/ic_image_camera"
-            app:civ_fill_color="@color/colorCameraBackground"/>
-    </RelativeLayout>
+            app:civ_fill_color="@color/colorCameraBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/image_perfil"
+            app:layout_constraintStart_toStartOf="@+id/image_perfil" />
+    </android.support.constraint.ConstraintLayout>
 
     <View
         android:id="@+id/line_one"

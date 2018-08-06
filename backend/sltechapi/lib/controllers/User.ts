@@ -348,20 +348,45 @@ export class UserController {
     }
 
     public createPet = (req: Request, res: Response) => {
+        let data = req.body;
+
+        if (req.file)
+            data.imagem = req.file.path;
+
         Pet.create(req.body).then(pet => {
+            if (pet != null && pet.imagem != null)
+                pet.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + pet.imagem.replace(/\\/gi, "/");
+                
             res.status(200).json(pet);
         })
-        .catch(error => this.errorHandler(error, req, res));
+        .catch(error => {
+            console.log(error);
+            res.status(500).send(error);
+        });
     }
 
     public updatePet(req: Request, res: Response) {
-        Pet.update(req.body, {
+        let data = req.body;
+
+        if (req.file)
+            data.imagem = req.file.path;
+
+        Pet.update(data, {
             where: {
                 id_user: req.body.id_user
             }
         })
         .then(pet => {
-            res.status(200).json(pet);
+            Pet.findOne({
+                where: {
+                    id_pet: req.body.id_pet
+                }
+            }).then(newPet => {
+                if (newPet != null && newPet.imagem != null)
+                    newPet.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + newPet.imagem.replace(/\\/gi, "/");
+
+                res.status(200).json(newPet);
+            }, error => res.status(500).send(error));
         })
         .catch(error => this.errorHandler(error, req, res));
     }
@@ -373,9 +398,12 @@ export class UserController {
             }
         })
         .then(pet => {
-            if (pet)
+            if (pet){
+                if (pet.imagem != null)
+                    pet.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + pet.imagem.replace(/\\/gi, "/");
+
                 res.status(200).json(pet);
-            else
+            } else
                 res.status(404).end();
         })
         .catch(error => this.errorHandler(error, req, res));
@@ -388,7 +416,14 @@ export class UserController {
             }
         })
         .then(pets => {
-            res.status(200).json(pets);
+            let pet_list = pets.map(pet => {
+                if (pet.imagem != null)
+                    pet.imagem = "http://" + config.serverIP + ":" + config.serverPort + "/" + pet.imagem.replace(/\\/gi, "/");
+
+                return pet;    
+            });
+
+            res.status(200).json(pet_list);
         })
         .catch(error => this.errorHandler(error, req, res));
     } 

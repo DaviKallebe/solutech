@@ -14,7 +14,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="@color/colorPrimary"
             android:clickable="true"
             android:focusable="true"
             tools:context=".UsuarioPerfilFragment"
@@ -59,7 +59,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -71,13 +71,14 @@
                         android:layout_width="250dp"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:background="@drawable/bottom_border">
 
                         <TextView
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:text="Rua:"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
 
                         <TextView
@@ -87,7 +88,7 @@
                             android:hint="Ex: Rua do Comércio"
                             android:padding="12dp"
                             android:singleLine="true"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
 
@@ -95,13 +96,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="10dp"
+                        android:background="@drawable/bottom_border">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="N°:"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
 
                         <TextView
@@ -111,7 +113,7 @@
                             android:hint="1090"
                             android:padding="12dp"
                             android:singleLine="true"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -126,13 +128,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:background="@drawable/bottom_border">
 
                         <TextView
                             android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:text="Bairro:"
-                            android:textSize="16dp"/>
+                            android:textSize="16sp"/>
 
 
                         <TextView
@@ -141,7 +144,7 @@
                             android:layout_width="match_parent"
                             android:singleLine="true"
                             android:padding="12dp"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:hint="Ex: Novo Aleixo/Cidade de Deus/etc"/>
 
                     </LinearLayout>
@@ -152,13 +155,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:background="@drawable/bottom_border">
 
                     <TextView
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:text="Comp:"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
 
                     <TextView
@@ -168,7 +172,7 @@
                         android:hint="Ex: Cond. Aristocrata"
                         android:padding="12dp"
                         android:singleLine="true"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
                     
                 </LinearLayout>
 
@@ -176,13 +180,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:background="@drawable/bottom_border">
 
                     <TextView
                         android:layout_width="52dp"
                         android:layout_height="wrap_content"
                         android:text="Cidade:"
-                        android:textSize="16dp"/>
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:id="@+id/localDetalheCidade"
@@ -191,14 +196,14 @@
                         android:hint="Ex: Manaus/Sao Paulo/etc"
                         android:singleLine="true"
                         android:padding="12dp"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:text="Estado:"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
 
                     <TextView
@@ -208,7 +213,7 @@
                         android:hint="Ex: AM"
                         android:singleLine="true"
                         android:padding="12dp"
-                        android:textSize="16dp" />
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>
@@ -222,13 +227,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:padding="12dp"
+                        android:background="@drawable/bottom_border">
 
                         <TextView
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:text="Tipo de Residência:"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
 
                         <TextView
@@ -238,7 +244,7 @@
                             android:padding="12dp"
                             android:singleLine="true"
                             android:hint="Ex: Casa/Apt/etc"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
 
                     </LinearLayout>
@@ -261,7 +267,7 @@
                             android:layout_gravity="center"
                             android:textAlignment="center"
                             android:text="Descrição e Observações:"
-                            android:textSize="16dp" />
+                            android:textSize="16sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -284,7 +290,7 @@
                             android:hint="Ex: Ampla área externa, Residencia Cimentada, etc"
                             android:inputType="textMultiLine"
                             android:padding="12dp"
-                            android:textSize="16dp"
+                            android:textSize="16sp"
                             android:background="@drawable/edittext_border"/>
 
                     </LinearLayout>

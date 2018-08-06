@@ -93,6 +93,7 @@ public class PetDetalheFragment extends Fragment {
                 if (pet.getImagem() != null)
                     Picasso.get().load(pet.getImagem()).into(imagem);
 
+                mViewModel.preparePet(pet.getId_user(), pet.getId_pet());
             });
 
             imagem.setOnClickListener(this::openImageSelector);
@@ -102,12 +103,13 @@ public class PetDetalheFragment extends Fragment {
     }
 
     public void openImageSelector(View v) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,
-                "Selecione uma image"),
-                PET_PICK_IMAGE);
+        if (getActivity() != null) {
+            Intent petImageGallery = new Intent(Intent.ACTION_PICK);
+            petImageGallery.setType("image/*");
+
+            if (petImageGallery.resolveActivity(getActivity().getPackageManager()) != null)
+                getActivity().startActivityForResult(petImageGallery, PET_PICK_IMAGE);
+        }
     }
 
     @Override

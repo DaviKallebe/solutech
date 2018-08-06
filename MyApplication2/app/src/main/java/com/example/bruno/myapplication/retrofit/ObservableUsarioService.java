@@ -62,9 +62,6 @@ public interface ObservableUsarioService {
     Observable<Pet> updateUserPet(@PartMap Map<String, RequestBody> object,
                                   @Part MultipartBody.Part image);
 
-    @PUT("user/pet/update/")
-    Observable<Pet> updateUserPet(@Body RequestBody object);
-
     @Multipart
     @POST("user/pet/create/")
     Observable<Pet> createUserPet(@PartMap Map<String, RequestBody> partMapBody,

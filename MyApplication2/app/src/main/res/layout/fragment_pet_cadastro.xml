@@ -16,7 +16,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@color/colorPrimary"
         android:clickable="true"
         android:focusable="true"
         tools:context=".UsuarioPerfilFragment"
@@ -46,7 +46,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_image_camera"
+                android:src="@android:drawable/ic_menu_gallery"
                 app:civ_fill_color="@color/colorCameraBackground"/>
         </RelativeLayout>
 

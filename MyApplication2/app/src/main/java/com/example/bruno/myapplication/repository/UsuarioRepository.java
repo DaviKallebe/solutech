@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -41,6 +42,8 @@ import retrofit2.Response;
 
 
 public class UsuarioRepository {
+
+    private static final Integer MAX_LENGTH = 20;
 
     private AppDatabase appDatabase;
     private CompositeDisposable compositeDisposable;
@@ -91,6 +94,34 @@ public class UsuarioRepository {
                 );
 
         return MultipartBody.Part.createFormData(formName, "camera.jpg", requestFile);
+    }
+
+    @NonNull
+    private MultipartBody.Part prepareFilePartGallery(String formName, String fileName, ByteArrayOutputStream file) {
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("image/jpeg"),
+                        file.toByteArray()
+                );
+
+        if (fileName == null)
+            return MultipartBody.Part.createFormData(formName, random(), requestFile);
+
+        return MultipartBody.Part.createFormData(formName, fileName, requestFile);
+    }
+
+    public static String random() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(MAX_LENGTH);
+        char tempChar;
+
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+
+        return randomStringBuilder.toString();
     }
 
     public LiveData<ResourceState<Usuario>> getCurrentUser(int id_user) {
@@ -160,19 +191,35 @@ public class UsuarioRepository {
 
     //upate user information
     private void insertPetRoom(Pet pet) {
-        AsyncTask.execute(() -> appDatabase.getPetDao().inserPets(pet));
+        if (pet != null)
+            AsyncTask.execute(() -> appDatabase.getPetDao().inserPets(pet));
     }
 
     public void createNewPet(Pet pet) {
         HashMap<String, RequestBody> map = pet.getHashMapStringRequestBody();
 
-        Observable<Pet> createPet = new RetrofitConfig()
+        Disposable disposable = new RetrofitConfig()
                 .getObservableUsuarioService()
-                .createUserPet(pet.getHashMapStringRequestBody(), null);
-
-        Disposable disposable = createPet.subscribeOn(Schedulers.newThread())
+                .createUserPet(pet.getHashMapStringRequestBody(), null)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::insertPetRoom, this::handleInternalError);
+
+        compositeDisposable.add(disposable);
+    }
+
+    public void updateUserPet(Pet pet, String fileName, ByteArrayOutputStream image) {
+        MultipartBody.Part imagemPart = null;
+
+        if (image != null)
+            imagemPart = prepareFilePartGallery("imagem", fileName, image);
+
+        Disposable disposable = new RetrofitConfig()
+                .getObservableUsuarioService()
+                .updateUserPet(pet.getHashMapStringRequestBody(), imagemPart)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(this::insertPetRoom)
+                .onErrorResumeNext(this::handleOnErrorResumeNext)
+                .subscribe();
 
         compositeDisposable.add(disposable);
     }
@@ -201,7 +248,7 @@ public class UsuarioRepository {
                 .updateUserProfile(map, body)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(this::updateCurrentUser)
-                .doOnError(this::handleInternalError)
+                .onErrorResumeNext(this::handleOnErrorResumeNext)
                 .subscribe();
 
         compositeDisposable.add(disposable);
@@ -273,6 +320,19 @@ public class UsuarioRepository {
 
             httpException.printStackTrace();
         }
+    }
+
+    private Observable handleOnErrorResumeNext(Throwable e) {
+        if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
+
+            Log.d("URLRetro", httpException.response().raw().request().url().toString());
+            Log.d("CODERetro", Integer.toString(httpException.code()));
+
+            httpException.printStackTrace();
+        }
+
+        return Observable.empty();
     }
 
     public static void handleError(String msg) {
