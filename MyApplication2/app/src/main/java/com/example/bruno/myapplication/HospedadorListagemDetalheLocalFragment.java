@@ -68,10 +68,10 @@ public class HospedadorListagemDetalheLocalFragment extends Fragment {
         ImageView local = rootView.findViewById(R.id.fragmento_hospedador_local_image);
 
         Context context = getContext();
+        Bundle bundle = getArguments();
 
-        if (context != null) {
-            SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
-            Integer id_user = prefs.getInt("id_user", 0);
+        if (context != null && bundle != null) {
+            Integer id_user = bundle.getInt("id_user");
 
             Disposable disposable = mViewModel
                     .selecionarLogradouro(id_user)
@@ -93,7 +93,7 @@ public class HospedadorListagemDetalheLocalFragment extends Fragment {
                         local.setOnClickListener(v -> {
                             local.setAnimation(AnimationUtils.loadAnimation(context, R.anim.scale));
                         });
-                    });
+                    }, Throwable::printStackTrace);
 
             compositeDisposable = new CompositeDisposable();
             compositeDisposable.add(disposable);
