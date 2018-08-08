@@ -29,13 +29,38 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.example.bruno.myapplication.commons.Status;
 import com.example.bruno.myapplication.retrofit.Pet;
+import com.example.bruno.myapplication.retrofit.Usuario;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import co.chatsdk.core.dao.Message;
+import co.chatsdk.core.events.EventType;
+import co.chatsdk.core.events.NetworkEvent;
+import co.chatsdk.core.interfaces.ThreadType;
+import co.chatsdk.core.session.ChatSDK;
+import co.chatsdk.core.session.Configuration;
+import co.chatsdk.core.session.NM;
+import co.chatsdk.core.types.ReadStatus;
+import co.chatsdk.core.utils.CrashReportingCompletableObserver;
+import co.chatsdk.core.utils.DisposableList;
+import co.chatsdk.core.utils.PermissionRequestHandler;
+import co.chatsdk.firebase.FirebaseModule;
+import co.chatsdk.firebase.file_storage.FirebaseFileStorageModule;
+import co.chatsdk.ui.helpers.NotificationUtils;
+import co.chatsdk.ui.login.LoginActivity;
+import co.chatsdk.ui.manager.InterfaceManager;
+import co.chatsdk.ui.manager.UserInterfaceModule;
+import co.chatsdk.ui.threads.PrivateThreadsFragment;
+import io.reactivex.Completable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -49,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private MainActivityViewModel mViewModel;
     private Integer id_user;
+    private FirebaseAuth mAuth;
+    private DisposableList disposables = new DisposableList();
+    private List<FragmentOption> fragmentOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +108,41 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
 
-        List<FragmentOption> fragmentOptions = new ArrayList<>();
+        fragmentOptions = new ArrayList<>();
 
         fragmentOptions.add(new FragmentOption(HospedadorListagemFragment.class,
                 getResources().getString(R.string.fragment_hospedador_listagem), null));
+        fragmentOptions.add(new FragmentOption(PrivateThreadsFragment.class,
+                getResources().getString(R.string.fragment_hospedador_mensagem), null));
         fragmentOptions.add(new FragmentOption(HospedadorServicoFragment.class,
                 getResources().getString(R.string.fragment_hospedador_servico), null));
 
+        //
+        Context context = getApplicationContext();
+        mAuth = FirebaseAuth.getInstance();
+        Configuration.Builder builder = new Configuration.Builder(context);
+
+        builder.firebaseRootPath("nossochat");
+        ChatSDK.initialize(builder.build());
+        UserInterfaceModule.activate(context);
+
+        FirebaseModule.activate();
+        FirebaseFileStorageModule.activate();
+
+        mViewModel.getCurrentUser().observe(this, resource -> {
+            if (resource != null && resource.status == Status.SUCCESS) {
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                Usuario user = resource.data;
+                LoginActivity loginActivity = new LoginActivity();
+
+                loginActivity.authenticateWithAppUser(currentUser, this, user.getFullName(), user.getImagem());
+                ((PrivateThreadsFragment)fragmentOptions.get(1).getFragment()).setTabVisibility(true);
+
+                requestPermissionSafely(requestExternalStorage().doFinally(() -> requestPermissionSafely(requestMicrophoneAccess().doFinally(() -> requestPermissionSafely(requestReadContacts().doFinally(() -> {
+                    //requestVideoAccess().subscribe();
+                }))))));
+            }
+        });
 
         ViewPager mPager = findViewById(R.id.main_activity_viewPager);
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(fragmentManager, fragmentOptions);
@@ -94,6 +150,23 @@ public class MainActivity extends AppCompatActivity implements
 
         TabLayout tabLayout = findViewById(R.id.main_activity_tablayout);
         tabLayout.setupWithViewPager(mPager);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mPager.setCurrentItem(tab.getPosition());
+                ((PrivateThreadsFragment)fragmentOptions.get(1).getFragment()).setTabVisibility(1 == tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -110,13 +183,19 @@ public class MainActivity extends AppCompatActivity implements
 
             return true;
         } else if (id == R.id.action_deslogar) {
-            FirebaseAuth.getInstance().signOut();
-            LoginManager.getInstance().logOut();
+            Disposable disposable = NM.auth().logout()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                        FirebaseAuth.getInstance().signOut();
+                        LoginManager.getInstance().logOut();
 
-            Intent it = new Intent(MainActivity.this, Login.class);
-            it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Intent it = new Intent(MainActivity.this, Login.class);
+                        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-            startActivity(it);
+                        startActivity(it);
+                    }, throwable -> {
+                        Toast.makeText(MainActivity.this, throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    });
 
             return true;
         }
@@ -129,6 +208,9 @@ public class MainActivity extends AppCompatActivity implements
             PedidoListagemFragment pedidoListagemFragment = new PedidoListagemFragment();
 
             startFragment(pedidoListagemFragment, null);
+        }
+        else if (id == R.id.action_mensagem) {
+            InterfaceManager.shared().a.startMainActivity(this);
         }
 
         return super.onOptionsItemSelected(item);
@@ -267,6 +349,10 @@ public class MainActivity extends AppCompatActivity implements
         public Fragment getFragment() {
             try {
                 Fragment fragment = (Fragment) classFragment.newInstance();
+
+                if (fragment instanceof  PrivateThreadsFragment)
+                    ((PrivateThreadsFragment) fragment).setTabVisibility(true);
+
                 fragment.setArguments(bundle);
 
                 return fragment;
@@ -280,6 +366,86 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        disposables.add(NM.events().sourceOnMain()
+                .filter(NetworkEvent.filterType(EventType.MessageAdded))
+                .filter(NetworkEvent.filterThreadType(ThreadType.Private))
+                .subscribe(networkEvent -> {
+                    Message message = networkEvent.message;
+                    if(message != null) {
+                        if(!message.getSender().isMe() && InterfaceManager.shared().a.showLocalNotifications()) {
+                            ReadStatus status = message.readStatusForUser(NM.currentUser());
+                            if (!message.isRead() && !status.is(ReadStatus.delivered())) {
+                                // Only show the alert if we'recyclerView not on the private threads tab
+                                NotificationUtils.createMessageNotification(MainActivity.this, networkEvent.message);
+                            }
+                        }
+                    }
+                }));
+
+        disposables.add(NM.events().sourceOnMain()
+                .filter(NetworkEvent.filterType(EventType.Logout))
+                .subscribe(networkEvent -> clearData()));
+
+
+        reloadData();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        disposables.dispose();
+    }
+
+    public void clearData () {
+        ((PrivateThreadsFragment)fragmentOptions.get(1).getFragment()).clearData();
+    }
+
+    public void reloadData () {
+        ((PrivateThreadsFragment)fragmentOptions.get(1).getFragment()).safeReloadData();
+    }
+
+    public void requestPermissionSafely (Completable c) {
+        c.subscribe(new CrashReportingCompletableObserver());
+    }
+
+    public Completable requestMicrophoneAccess () {
+        if(NM.audioMessage() != null) {
+            return PermissionRequestHandler.shared().requestRecordAudio(this);
+        }
+        return Completable.complete();
+    }
+
+    public Completable requestExternalStorage () {
+//        if(NM.audioMessage() != null) {
+        return PermissionRequestHandler.shared().requestReadExternalStorage(this);
+//        }
+//        return Completable.complete();
+    }
+
+    public Completable requestVideoAccess () {
+        if(NM.videoMessage() != null) {
+            return PermissionRequestHandler.shared().requestVideoAccess(this);
+        }
+        return Completable.complete();
+    }
+
+    public Completable requestReadContacts () {
+        if(NM.contact() != null) {
+            return PermissionRequestHandler.shared().requestReadContact(this);
+        }
+        return Completable.complete();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        PermissionRequestHandler.shared().onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         List<FragmentOption> fragmentOptions;
 
@@ -290,6 +456,8 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public Fragment getItem(int position) {
+
+
             return fragmentOptions.get(position).getFragment();
         }
 

@@ -90,4 +90,5 @@
     <string name="fragment_pet_detalhe_menu_editar">Editar</string>
     <string name="aceita_servico">Eu concordo e aceito o serviço</string>
     <string name="popup_filtro_escolha">Escolha os seus filtros</string>
+    <string name="fragment_hospedador_mensagem">Conversa</string>
 </resources>

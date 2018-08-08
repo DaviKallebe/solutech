@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.example.bruno.myapplication"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -55,8 +55,8 @@ dependencies {
 
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    implementation 'com.google.firebase:firebase-auth:16.0.2'
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-core:11.8.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     def room_version = "1.1.1"
@@ -75,6 +75,11 @@ dependencies {
     implementation "android.arch.lifecycle:reactivestreams:$lifecycle_version"
 
     testImplementation "android.arch.core:core-testing:$lifecycle_version"
+
+    compile project(path: ':chat-sdk-core')
+    compile project(path: ':chat-sdk-ui')
+    compile project(path: ':chat-sdk-firebase-adapter')
+    compile project(path: ':chat-sdk-firebase-file-storage')
 }
 
 apply plugin: 'com.google.gms.google-services'

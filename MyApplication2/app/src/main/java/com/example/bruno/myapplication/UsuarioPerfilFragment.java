@@ -355,4 +355,6 @@ public class UsuarioPerfilFragment extends Fragment implements UsuarioPerfilAdap
             }
         }
     }
+
+
 }
