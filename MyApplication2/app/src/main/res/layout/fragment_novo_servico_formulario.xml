@@ -2,27 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".NovoServicoFormularioFragment">
 
     <LinearLayout
         android:id="@+id/fragment_novo_servico_linear1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/fragment_novo_servico_edit_data_inicio"
             android:layout_width="0dp"
-            android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:hint="@string/data_inicio"
+            android:layout_weight="0.8"
             android:ems="10"
+            android:hint="@string/data_inicio"
             android:inputType="number" />
 
         <Button
@@ -37,21 +37,21 @@
         android:id="@+id/fragment_novo_servico_linear2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/fragment_novo_servico_linear1"
         android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/fragment_novo_servico_linear1">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/fragment_novo_servico_edit_data_final"
             android:layout_width="0dp"
-            android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:hint="@string/data_final"
+            android:layout_weight="0.8"
             android:ems="10"
+            android:hint="@string/data_final"
             android:inputType="number" />
 
         <Button
@@ -65,53 +65,53 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_novo_servico_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fragment_novo_servico_textview_total"
         android:layout_below="@+id/fragment_novo_servico_linear2"
-        android:layout_above="@id/fragment_novo_servico_textview_total"/>
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/fragment_novo_servico_textview_total"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/fragment_novo_servico_linear3"
         android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:text="@string/preco_total"
-        android:textSize="16sp"
-        android:layout_above="@+id/fragment_novo_servico_linear3"/>
+        android:textSize="16sp" />
 
     <LinearLayout
         android:id="@+id/fragment_novo_servico_linear3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/fragment_novo_servico_button_cancel"
             android:layout_width="0dp"
-            android:layout_weight="0.35"
             android:layout_height="50dp"
-            android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
-            android:text="@string/fragment_cancel_action"/>
+            android:layout_marginStart="5dp"
+            android:layout_weight="0.35"
+            android:text="@string/fragment_cancel_action" />
 
         <Button
             android:id="@+id/fragment_novo_servico_button_confirm"
             android:layout_width="0dp"
-            android:layout_weight="0.35"
             android:layout_height="50dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:text="@string/fragment_confirm_action"/>
+            android:layout_weight="0.35"
+            android:text="@string/fragment_confirm_action" />
     </LinearLayout>
 
 </RelativeLayout>

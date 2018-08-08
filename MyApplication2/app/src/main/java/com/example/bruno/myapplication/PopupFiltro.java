@@ -95,7 +95,7 @@ public class PopupFiltro extends DialogFragment implements View.OnClickListener 
                     filtro.getCuidaMamifero() : false);
             cuidaReptil.setChecked(filtro.getCuidaReptil() != null ?
                     filtro.getCuidaReptil() : false);
-            cuidaAve.setChecked(filtro.getCuidaReptil() != null ?
+            cuidaAve.setChecked(filtro.getCuidaAve() != null ?
                     filtro.getCuidaAve() : false);
             cuidaPeixe.setChecked(filtro.getCuidaPeixe() != null ?
                     filtro.getCuidaPeixe() : false);
