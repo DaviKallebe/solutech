@@ -36,6 +36,7 @@ import org.json.JSONException;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -310,6 +311,12 @@ public class HospedadorListagemFragment extends Fragment implements
             bundle.putString("primeiroNome", user.getPrimeiroNome());
             bundle.putString("ultimoNome", user.getUltimoNome());
             bundle.putString("imagem", user.getImagem());
+
+            if (user.getUsuarioNota() != null)
+                bundle.putString("usuarioNota",
+                        String.format(new Locale("pt", "BR"), "%.1f", user.getUsuarioNota()));
+            else
+                bundle.putString("usuarioNota", "∞");
 
             hospedadorListagemDetalheFragment.setArguments(bundle);
 

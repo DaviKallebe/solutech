@@ -80,7 +80,6 @@
         android:paddingStart="5dp"
         android:text="Descrição"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_header" />
 
@@ -109,42 +108,6 @@
 
 
     <TextView
-        android:id="@+id/textViewImageLike"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:drawableLeft="@drawable/heart"
-        android:drawableStart="@drawable/heart"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewImageDislike"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDescricaoUsuario" />
-
-    <TextView
-        android:id="@+id/textViewImageDislike"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
-        android:drawableLeft="@drawable/sad"
-        android:drawableStart="@drawable/sad"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewImageLike"
-        app:layout_constraintTop_toTopOf="@+id/textViewImageLike" />
-
-
-    <TextView
         android:id="@+id/listViewComentarioLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -155,9 +118,8 @@
         android:paddingStart="5dp"
         android:text="Comentários"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textViewImageLike"
-        app:layout_constraintStart_toEndOf="@+id/textViewImageLike"
-        app:layout_constraintTop_toBottomOf="@+id/textViewImageLike" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescricaoUsuario"
+        tools:layout_editor_absoluteX="131dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_hospedador_listagem_detalhe_perfil_recycler"
@@ -173,5 +135,25 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewComentarioLabel" />
+
+    <ImageView
+        android:id="@+id/imageViewStar3"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_hospedador_perfil_detalhe_nota"
+        app:layout_constraintTop_toBottomOf="@+id/layout_header"
+        app:srcCompat="@drawable/star" />
+
+    <TextView
+        android:id="@+id/fragment_hospedador_perfil_detalhe_nota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="TextView"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_header" />
 
 </android.support.constraint.ConstraintLayout>

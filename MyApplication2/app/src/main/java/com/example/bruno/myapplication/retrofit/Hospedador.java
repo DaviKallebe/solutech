@@ -517,8 +517,18 @@ public class Hospedador {
 
             for (Field field : fields) {
                 if (Modifier.isPrivate(field.getModifiers())) {
-                    if (json.has(field.getName()) && !json.isNull(field.getName()))
-                        field.set(this, json.get(field.getName()));
+                    if (json.has(field.getName()) && !json.isNull(field.getName())) {
+                        if (field.getType().equals(Double.class))
+                            field.set(this, json.getDouble(field.getName()));
+                        else
+                        if (field.getType().equals(Integer.class))
+                            field.set(this, json.getInt(field.getName()));
+                        else
+                        if (field.getType().equals(Long.class))
+                            field.set(this, json.getLong(field.getName()));
+                        else
+                            field.set(this, json.get(field.getName()));
+                    }
                 }
             }
         }catch (JSONException e1) {

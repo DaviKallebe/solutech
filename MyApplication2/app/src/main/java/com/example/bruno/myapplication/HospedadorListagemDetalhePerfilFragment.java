@@ -98,6 +98,9 @@ public class HospedadorListagemDetalhePerfilFragment extends Fragment {
                         viewTelefone.setText(bundle.getString("telefone"));
                         TextView viewDescricao = rootView.findViewById(R.id.textViewDescricaoUsuario);
                         viewDescricao.setText(bundle.getString("descricao"));
+                        TextView viewNota = rootView.findViewById(R.id.fragment_hospedador_perfil_detalhe_nota);
+                        viewNota.setText(bundle.getString("usuarioNota"));
+
 
                         CircleImageView circleImageView = rootView.findViewById(R.id.imagePerfil);
 
