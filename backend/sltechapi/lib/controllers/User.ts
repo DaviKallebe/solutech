@@ -373,6 +373,7 @@ export class UserController {
 
         Pet.update(data, {
             where: {
+                id_pet: req.body.id_pet,
                 id_user: req.body.id_user
             }
         })
@@ -388,7 +389,10 @@ export class UserController {
                 res.status(200).json(newPet);
             }, error => res.status(500).send(error));
         })
-        .catch(error => this.errorHandler(error, req, res));
+        .catch(error => {
+            console.log(error);
+            res.status(500).send(error);
+        });
     }
 
     public getPet(req: Request, res: Response) {
