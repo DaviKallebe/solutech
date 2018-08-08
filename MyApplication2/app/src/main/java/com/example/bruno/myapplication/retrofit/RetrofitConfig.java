@@ -7,8 +7,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class RetrofitConfig {
-    private static String IP = "192.168.1.15";//"52.67.64.207";
-    private static String PORT = "3000";
+    private static String IP = "52.67.64.207";
+    private static String PORT = "80";
     private static String URL = "http://" + RetrofitConfig.IP + ":" + RetrofitConfig.PORT;
 
     private Retrofit ObsRetrofit;

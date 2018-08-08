@@ -181,6 +181,12 @@ public class Login extends AppCompatActivity {
             json.put("primeiroNome", userName[0]);
             json.put("ultimoNome", userName[1]);
             json.put("firebaseUid", firebaseUser.getUid());
+
+            if (firebaseUser.getPhotoUrl() != null)
+                json.put("imagem", firebaseUser.getPhotoUrl().toString());
+
+            if (firebaseUser.getPhoneNumber() != null)
+                json.put("telefone", firebaseUser.getPhoneNumber());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -222,6 +228,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void handleNewUserError(Throwable e) {
+        e.printStackTrace();
         closeProgressBar();
 
         FirebaseAuth.getInstance().signOut();
@@ -236,13 +243,15 @@ public class Login extends AppCompatActivity {
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
 
+            try {
+                JSONObject jObjError = new JSONObject(httpException.response().raw().message());
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+
             Toast.makeText(Login.this,
                     "Opa! Aconteceu algo que não deveria.",
                     Toast.LENGTH_SHORT).show();
-
-            if (httpException.code() == 500) {
-                //
-            }
         }
     }
 
