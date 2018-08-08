@@ -25,11 +25,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bruno.myapplication.retrofit.Hospedagem;
+import com.example.bruno.myapplication.retrofit.Pet;
+import com.example.bruno.myapplication.retrofit.RetrofitConfig;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -65,6 +71,8 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
         if (context != null && bundle != null) {
             try {
                 JSONObject json = new JSONObject(bundle.getString("servico"));
+                ViewPager pager = rootView.findViewById(R.id.hospedador_servico_detalhe_pager);
+                TextView totalPets = rootView.findViewById(R.id.hospedador_servico_detalhe_total);
 
                 SharedPreferences prefs = context.getSharedPreferences("userfile", MODE_PRIVATE);
                 Integer id_user = prefs.getInt("id_user", 0);
@@ -73,7 +81,6 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
                 TextView nome = rootView.findViewById(R.id.hospedador_servico_detalhe_nome);
                 TextView dataInicio = rootView.findViewById(R.id.hospedador_servico_detalhe_datainicio);
                 TextView dataFim = rootView.findViewById(R.id.hospedador_servico_detalhe_datafim);
-                TextView totalPets = rootView.findViewById(R.id.hospedador_servico_detalhe_total);
 
                 nome.setText(String.format("%1$s %2$s",
                         json.getString("primeiroNome"),
@@ -87,7 +94,6 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
                 Button confirmar = rootView.findViewById(R.id.hospedador_servico_detalhe_confirmar);
                 Button rejeitar = rootView.findViewById(R.id.hospedador_servico_detalhe_rejeitar);
                 CheckBox aceito = rootView.findViewById(R.id.hospedador_servico_detalhe_aceitar);
-                ViewPager pager = rootView.findViewById(R.id.hospedador_servico_detalhe_pager);
 
                 aceito.setOnCheckedChangeListener((buttonView, isChecked) -> confirmar.setEnabled(isChecked));
 
@@ -174,12 +180,8 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
                     alert.show();
                 });
 
-                if (getFragmentManager() != null && json.has("pets") && !json.isNull("pets")) {
-                    ViewPager mPager = rootView.findViewById(R.id.main_activity_viewPager);
-                    PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getFragmentManager(),
-                            json.getJSONArray("pets"));
-                    mPager.setAdapter(mPagerAdapter);
-                }
+                if (json.has("id_pets") && !json.isNull("id_pets"))
+                    setPager(json.getString("id_pets"), pager, totalPets);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -188,6 +190,36 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
 
         setHasOptionsMenu(true);
         return rootView;
+    }
+
+    public void setPager(String id_pets, ViewPager viewPager, TextView totalPets) {
+        WeakReference<ViewPager> viewPagerWeakReference = new WeakReference<>(viewPager);
+        WeakReference<TextView> editTextWeakReference = new WeakReference<>(totalPets);
+
+        Disposable disposable = new RetrofitConfig()
+                .getHospedagemService()
+                .selecionarPetHospedagem(id_pets)
+                .observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe((List<Pet> pets) -> {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            PagerAdapter mPagerAdapter =
+                                    new ScreenSlidePagerAdapter(
+                                            getChildFragmentManager(), pets);
+
+                            editTextWeakReference.get().setText(String.format(
+                                    new Locale("pt", "BR"),
+                                    "Quantidade de pets: %d",
+                                    pets.size()));
+
+                            viewPagerWeakReference.get().setAdapter(mPagerAdapter);
+                        });
+                    }
+                }, Throwable::printStackTrace);
+
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(disposable);
     }
 
     public void setListener(OnFragmentInteractionListener listener) {
@@ -221,11 +253,11 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        JSONArray jsonArray;
+        List<Pet> pets;
 
-        ScreenSlidePagerAdapter(FragmentManager fragmentManager, JSONArray jsonArray) {
+        ScreenSlidePagerAdapter(FragmentManager fragmentManager, List<Pet> pets) {
             super(fragmentManager);
-            this.jsonArray = jsonArray;
+            this.pets = pets;
         }
 
         @Override
@@ -235,11 +267,14 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
 
             try {
                 Bundle bundle = new Bundle();
-                bundle.putString("pet", jsonArray.getJSONObject(position).toString());
+                bundle.putString("pet", pets.get(position).getFieldsJson().toString());
+                bundle.putBoolean("proximo", position < pets.size() - 1);
+                bundle.putBoolean("anterior", position > 0);
 
                 hospedadorServicoDetalhePetFragment.setArguments(bundle);
-                return hospedadorServicoDetalhePetFragment;
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
 
@@ -253,7 +288,7 @@ public class HospedadorServicoDetalheFragment extends DialogFragment {
 
         @Override
         public int getCount() {
-            return jsonArray.length();
+            return pets.size();
         }
     }
 
